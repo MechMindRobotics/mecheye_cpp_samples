@@ -6,7 +6,7 @@ This repository contains C++ samples for Mech-Eye SDK_1.5.0.
 
 1. Download and install [Mech-Eye SDK_1.5.0](https://www.mech-mind.com/download/CameraSDK.html)
 2. Clone this repository to a specific folder.
-3. Configure the sample solution with CMake, open it in Visual Studio, build it, run it.
+3. Configure the sample solution with CMake, open it in Visual Studio, build and run it.
 
 ## Sample list
 
@@ -19,11 +19,11 @@ This repository contains C++ samples for Mech-Eye SDK_1.5.0.
 - **[CaptureResultToOpenCV](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/captureResultToOpenCV)**
 
   Capture 2D and 3D data with OpenCV data structure from the Mech-Eye Camera.
-  > This sample requires [OpenCV 3.4.5](https://opencv.org/releases/) to be installed.
+  > This sample requires [OpenCV](https://opencv.org/releases/) to be installed.
 - **[CaptureResultToPLY](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/captureResultToPLY)**
 
   Capture 2D and 3D data with PCL data structure from the Mech-Eye Camera.
-  > This sample requires [PCL 1.12.1 AllInOne](https://github.com/PointCloudLibrary/pcl/releases) to be installed.
+  > This sample requires [PCL](https://github.com/PointCloudLibrary/pcl/releases) to be installed.
 
 ## License
 
