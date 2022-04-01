@@ -25,6 +25,11 @@ This repository contains C++ samples for Mech-Eye SDK_1.5.0.
   Capture 2D and 3D data with PCL data structure from the Mech-Eye Camera.
   > This sample requires [PCL](https://github.com/PointCloudLibrary/pcl/releases) to be installed.
 
+- **[CaptureCloudFromDepth](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/captureCloudFromDepth)**
+  
+  Construct point cloud and color point cloud from depth map and color map.
+  > This sample requires [PCL](https://github.com/PointCloudLibrary/pcl/releases) to be installed.
+
 ## License
 
 Mech-Eye Samples are distributed under the [BSD license](https://github.com/MechMindRobotics/mecheye_cpp_samples/blob/main/LICENSE)
