@@ -1,10 +1,10 @@
 # C++ Samples
 
-This repository contains C++ samples for Mech-Eye SDK_1.5.0.
+This repository contains C++ samples for Mech-Eye SDK.
 
 ## Installation
 
-1. Download and install [Mech-Eye SDK_1.5.0](https://www.mech-mind.com/download/CameraSDK.html)
+1. Download and install [Mech-Eye SDK](https://www.mech-mind.com/download/camera-sdk.html)
 2. Clone this repository to a specific folder.
 3. Configure the sample solution with CMake, open it in Visual Studio, build and run it.
 
