@@ -35,19 +35,14 @@ int main()
     while (1) {
         std::cout << "Please enter the device index you want to connect: " << std::endl;
         std::cout << "Enter a c to terminate adding devices" << std::endl;
-        unsigned inputIndex;
 
         std::cin >> str;
         if (str == "c")
             break;
         if (isNumber(str) && atoi(str.c_str()) < deviceInfoList.size())
-            inputIndex = atoi(str.c_str());
-        else {
+            indices.emplace(atoi(str.c_str()));
+        else
             std::cout << "Input invalid! Please enter the device index you want to connect: ";
-            continue;
-        }
-
-        indices.emplace(inputIndex);
     }
 
     mmind::api::MechEyeDevice* devices = new mmind::api::MechEyeDevice[indices.size()];

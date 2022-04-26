@@ -60,6 +60,10 @@ The samples marked with `(PCL)` require [PCL](https://github.com/PointCloudLibra
     Set the laser scan partition number for a laser camera.
   - [SetFrameRange](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Laser/setFrameRange)  
     Set the laser scan field of view for a laser camera.
+  - [SetFringeCodingMode](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Laser/setFringeCodingMode)  
+    Set the fringe coding mode for a laser camera.
+  - [SetPowerLevel](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Laser/setPowerLevel)  
+    Set the power level for a laser camera.
 
 ## License
 
