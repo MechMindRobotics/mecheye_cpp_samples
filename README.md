@@ -10,7 +10,7 @@ This repository contains C++ samples for Mech-Eye SDK.
 
 ## Sample list
 
-There are four categoires of samples: **Basic**, **Advanced**, **Util**, and **Laser**.  
+There are four categories of samples: **Basic**, **Advanced**, **Util**, and **Laser**.  
 
 The category **Basic** contains samples that are related to basic connecting and capturing.  
 The category **Advanced** contains samples that use advanced capturing tricks.  
