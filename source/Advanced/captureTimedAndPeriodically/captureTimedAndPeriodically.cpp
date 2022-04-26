@@ -2,11 +2,9 @@
 #include <iostream>
 #include <thread>
 
-#include <opencv2/highgui/highgui.hpp>
-
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
-#include "PclUtil.h"
+#include "CaptureUtil.h"
 
 int main()
 {
@@ -32,35 +30,7 @@ int main()
         ss << (std::chrono::duration_cast<std::chrono::seconds>(before - start)).count();
         std::string time = ss.str();
 
-        mmind::api::ColorMap color;
-        showError(device.captureColorMap(color));
-        const std::string colorFile = "colorMap_" + time + ".png";
-        cv::Mat color8UC3 = cv::Mat(color.height(), color.width(), CV_8UC3, color.data());
-        cv::imwrite(colorFile, color8UC3);
-        std::cout << "Capture and save color image : " << colorFile << std::endl;
-
-        mmind::api::DepthMap depth;
-        showError(device.captureDepthMap(depth));
-        const std::string depthFile = "depthMap_" + time + ".png";
-        cv::Mat depth8U;
-        cv::Mat depth32F = cv::Mat(depth.height(), depth.width(), CV_32FC1, depth.data());
-        double minDepth, maxDepth;
-        cv::minMaxLoc(depth32F, &minDepth, &maxDepth);
-        depth32F.convertTo(depth8U, CV_8UC1, 255.0 / (maxDepth));
-        cv::imwrite(depthFile, depth8U);
-        std::cout << "Capture and save depth image : " << depthFile << std::endl;
-
-        mmind::api::PointXYZMap pointXYZMap;
-        device.capturePointXYZMap(pointXYZMap);
-
-        mmind::api::PointXYZBGRMap pointXYZBGRMap;
-        device.capturePointXYZBGRMap(pointXYZBGRMap);
-
-        std::string pointCloudPath = "pointCloud_" + time + ".ply";
-        savePLY(pointXYZMap, pointCloudPath);
-
-        std::string pointCloudColorPath = "colorPointCloud_" + time + ".ply";
-        savePLY(pointXYZBGRMap, pointCloudColorPath);
+        capture(device, time);
 
         const auto after = std::chrono::high_resolution_clock::now();
         const auto timeUsed = after - before;

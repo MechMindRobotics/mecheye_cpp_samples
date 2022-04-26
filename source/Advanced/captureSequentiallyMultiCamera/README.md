@@ -18,18 +18,15 @@ How to build:
        Write permissions (using the name `source`)
   2. Install OpenCV 3.4.5 (example works and is tested with version 3.4.5)
   3. Install PCL 1.12.1 AllInOne (example works and is tested with version 1.12.1)
-  4. Edit CMakeLists.txt file to set up paths to your OpenCV folder
-      * replace "D:/opencv/opencv/build/x64/vc14/lib" with your correct
-        path (line 13 set(OpenCV_DIR "D:/opencv/opencv/build/x64/vc14/lib")
-  5. Open CMake
+  4. Open CMake
       * Set Source code to `source`
       * Set Binaries to `source`/_build or any other writable location
       * Click Configure and Generate
-  6. Open .sln file in Visual Studio
+  5. Open .sln file in Visual Studio
       * Build the solution by `Ctrl + Shift + B`
-  7. Run captureSequentiallyMultiCamera
+  6. Run captureSequentiallyMultiCamera
       * Connect to a device
-  8. Add your code to run your code from this sample
+  7. Add your code to run your code from this sample
 * Linux:
   1. Edit CMakeLists.txt file to set up paths to your OpenCV folder
   2. Configure the project with  

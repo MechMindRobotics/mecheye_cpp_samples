@@ -7,7 +7,8 @@
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
 
-void savePLY(const mmind::api::DepthMap& depth, const std::string& path, const mmind::api::DeviceIntri& intri);
+void savePLY(const mmind::api::DepthMap& depth, const std::string& path,
+             const mmind::api::DeviceIntri& intri);
 void savePLY(const mmind::api::DepthMap& depth, const mmind::api::ColorMap& color,
              const std::string& path, const mmind::api::DeviceIntri& intri);
 
@@ -17,9 +18,9 @@ int main()
     if (!findAndConnect(device))
         return -1;
 
-	mmind::api::MechEyeDeviceInfo deviceInfo;
-	showError(device.getDeviceInfo(deviceInfo));
-	printDeviceInfo(deviceInfo);
+    mmind::api::MechEyeDeviceInfo deviceInfo;
+    showError(device.getDeviceInfo(deviceInfo));
+    printDeviceInfo(deviceInfo);
 
     mmind::api::ColorMap color;
     showError(device.captureColorMap(color));
@@ -41,7 +42,8 @@ int main()
     return 0;
 }
 
-void savePLY(const mmind::api::DepthMap& depth, const std::string& path, const mmind::api::DeviceIntri& intri)
+void savePLY(const mmind::api::DepthMap& depth, const std::string& path,
+             const mmind::api::DeviceIntri& intri)
 {
     // write pointcloudXYZ data
     pcl::PointCloud<pcl::PointXYZ> pointCloud(depth.width(), depth.height());
@@ -51,9 +53,9 @@ void savePLY(const mmind::api::DepthMap& depth, const std::string& path, const m
     for (int m = 0; m < depth.height(); ++m)
         for (int n = 0; n < depth.width(); ++n) {
             float d;
-            try{
+            try {
                 d = depth.at(m, n).d;
-            } catch (const std::exception &e) {
+            } catch (const std::exception& e) {
                 std::cout << "Exception: " << e.what() << std::endl;
                 return;
             }
@@ -66,6 +68,7 @@ void savePLY(const mmind::api::DepthMap& depth, const std::string& path, const m
     writer.write(path, pointCloud, true);
     std::cout << "PointCloudXYZ has : " << pointCloud.width * pointCloud.height << " data points."
               << std::endl;
+    std::cout << "PointCloudXYZ saved to: " << path << std::endl;
 
     return;
 }
@@ -87,7 +90,7 @@ void savePLY(const mmind::api::DepthMap& depth, const mmind::api::ColorMap& colo
                 r = color.at(m, n).r;
                 g = color.at(m, n).g;
                 b = color.at(m, n).b;
-            } catch (const std::exception &e) {
+            } catch (const std::exception& e) {
                 std::cout << "Exception: " << e.what() << std::endl;
                 return;
             }
@@ -104,6 +107,7 @@ void savePLY(const mmind::api::DepthMap& depth, const mmind::api::ColorMap& colo
     writer.write(path, pointCloud, true);
     std::cout << "PointCloudXYZRGB has : " << pointCloud.width * pointCloud.height
               << " data points." << std::endl;
+    std::cout << "PointCloudXYZRGB saved to: " << path << std::endl;
 
     return;
 }

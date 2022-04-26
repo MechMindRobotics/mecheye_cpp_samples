@@ -10,32 +10,35 @@ You will learn how to:
 
 How to build:
 
-* Windows
-  1. Copy CaptureTimedAndPeriodically folder to a location with Read and
+* Windows:
+  1. Copy captureTimedAndPeriodically folder to a location with Read and
    Write permissions (using the name `source`)
-  2. Open CMake
+  2. Install OpenCV 3.4.5 (example works and is tested with version 3.4.5)
+  3. Install PCL 1.12.1 AllInOne (example works and is tested with version 1.12.1)
+  4. Open CMake
         * Set Source code to `source`
         * Set Binaries to `source`/_build or any other writable location
         * Click Configure and Generate
-  3. Open .sln file in Visual Studio
+  5. Open .sln file in Visual Studio
         * Build the solution by `Ctrl + Shift + B`
-  4. Run CaptureTimedAndPeriodically
+  6. Run captureTimedAndPeriodically
         * Connect to a device
-  5. Add your code to run your code from this sample
+  7. Add your code to run your code from this sample
 * Linux:
-  1. Configure the project with
+  1. Edit CMakeLists.txt file to set up paths to your OpenCV folder
+  2. Configure the project with
 
       ```bash
       cmake .
       ```
 
-  2. Build the project with
+  3. Build the project with
 
       ```bash
       make
       ```
 
-  3. Run the project with
+  4. Run the project with
 
       ```bash
       ./captureTimedAndPeriodically

@@ -1,42 +1,34 @@
 #include <iostream>
 #include <thread>
 
-#include <vtkOutputWindow.h>
-
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
 #include "PclUtil.h"
 
 int main()
 {
-    vtkOutputWindow::SetGlobalWarningDisplay(0);
     mmind::api::MechEyeDevice device;
     if (!findAndConnect(device))
         return -1;
 
     mmind::api::PointXYZMap pointXYZMap;
-    device.capturePointXYZMap(pointXYZMap);
+    showError(device.capturePointXYZMap(pointXYZMap));
 
     mmind::api::PointXYZBGRMap pointXYZBGRMap;
-    device.capturePointXYZBGRMap(pointXYZBGRMap);
+    showError(device.capturePointXYZBGRMap(pointXYZBGRMap));
 
     std::string pointCloudPath = "pointCloudXYZ.ply";
     pcl::PointCloud<pcl::PointXYZ> pointCloud(pointXYZMap.width(), pointXYZMap.height());
     toPCL(pointCloud, pointXYZMap);
     viewPCL(pointCloud);
-    pcl::PLYWriter writer;
-    writer.write(pointCloudPath, pointCloud, true);
-    std::cout << "PointCloud has : " << pointCloud.width * pointCloud.height << " data points."
-              << std::endl;
+    savePLY(pointXYZMap, pointCloudPath);
 
     std::string colorPointCloudPath = "pointCloudXYZRGB.ply";
     pcl::PointCloud<pcl::PointXYZRGB> colorPointCloud(pointXYZBGRMap.width(),
                                                       pointXYZBGRMap.height());
     toPCL(colorPointCloud, pointXYZBGRMap);
     viewPCL(colorPointCloud);
-    writer.write(colorPointCloudPath, colorPointCloud, true);
-    std::cout << "ColorPointCloud has : " << colorPointCloud.width * colorPointCloud.height
-              << " data points." << std::endl;
+    savePLY(pointXYZBGRMap, colorPointCloudPath);
 
     device.disconnect();
     std::cout << "Disconnect Mech-Eye Success." << std::endl;
