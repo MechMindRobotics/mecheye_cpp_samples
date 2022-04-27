@@ -9,39 +9,39 @@ option(USE_OPENCV "Enable samples which depend on OpenCV" ON)
 option(USE_PCL "Enable samples which depend on Point Cloud Library (PCL)" ON)
 
 set(SAMPLES
-    Basic/connectToCamera
-    Basic/connectAndCaptureImage
-    Basic/captureColorMap
-    Basic/captureDepthMap
-    Basic/captureHDRPointCloud
-    Basic/capturePointCloud
-    Basic/capturePointCloudROI
-    Advanced/captureCloudFromDepth
-    Advanced/captureSequentiallyMultiCamera
-    Advanced/captureSimultaneouslyMultiCamera
-    Advanced/captureTimedAndPeriodically
-    Util/getCameraIntri
-    Util/printDeviceInfo
-    Util/setAndGetParameter
-    Util/setDepthRange
-    Util/setUserSets
-    Laser/setFramePartitionCount
-    Laser/setFrameRange
-    Laser/setFringeCodingMode
-    Laser/setPowerLevel)
+    Basic/ConnectToCamera
+    Basic/ConnectAndCaptureImage
+    Basic/CaptureColorMap
+    Basic/CaptureDepthMap
+    Basic/CaptureHDRPointCloud
+    Basic/CapturePointCloud
+    Basic/CapturePointCloudROI
+    Advanced/CaptureCloudFromDepth
+    Advanced/CaptureSequentiallyMultiCamera
+    Advanced/CaptureSimultaneouslyMultiCamera
+    Advanced/CaptureTimedAndPeriodically
+    Util/GetCameraIntri
+    Util/PrintDeviceInfo
+    Util/SetParameters
+    Util/SetDepthRange
+    Util/SetUserSets
+    Laser/SetLaserFramePartitionCount
+    Laser/SetLaserFrameRange
+    Laser/SetLaserFringeCodingMode
+    Laser/SetLaserPowerLevel)
 
 set(PCL_DEPENDING
-    captureHDRPointCloud
-    capturePointCloud
-    capturePointCloudROI
-    captureCloudFromDepth
-    captureSequentiallyMultiCamera
-    captureSimultaneouslyMultiCamera
-    captureTimedAndPeriodically)
+    CaptureHDRPointCloud
+    CapturePointCloud
+    CapturePointCloudROI
+    CaptureCloudFromDepth
+    CaptureSequentiallyMultiCamera
+    CaptureSimultaneouslyMultiCamera
+    CaptureTimedAndPeriodically)
 
 set(OpenCV_DEPENDING
-    captureColorMap captureDepthMap captureSequentiallyMultiCamera
-    captureSimultaneouslyMultiCamera captureTimedAndPeriodically)
+    CaptureColorMap CaptureDepthMap CaptureSequentiallyMultiCamera
+    CaptureSimultaneouslyMultiCamera CaptureTimedAndPeriodically)
 
 macro(disable_samples DEPENDENCY_NAME)
   message("${DEPENDENCY_NAME} samples have been disabled:")
