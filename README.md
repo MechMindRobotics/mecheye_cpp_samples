@@ -67,4 +67,4 @@ The samples marked with `(PCL)` require [PCL](https://github.com/PointCloudLibra
 
 ## License
 
-Mech-Eye Samples are distributed under the [BSD license](https://github.com/MechMindRobotics/mecheye_cpp_samples/blob/main/LICENSE)
+Mech-Eye Samples are distributed under the [BSD license](https://github.com/MechMindRobotics/mecheye_cpp_samples/blob/main/LICENSE).
