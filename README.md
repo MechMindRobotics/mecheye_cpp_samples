@@ -4,13 +4,13 @@ This repository contains C++ samples for Mech-Eye SDK.
 
 ## Installation
 
-1. Download and install [Mech-Eye SDK](https://www.mech-mind.com/download/camera-sdk.html)
+1. Download and install [Mech-Eye SDK](https://www.mech-mind.com/download/camera-sdk.html).
 2. Clone this repository to a specific folder.
 3. Configure the sample solution with CMake, open it in Visual Studio, build and run it.
 
 ## Sample list
 
-There are four categoires of samples: **Basic**, **Advanced**, **Util**, and **Laser**.  
+There are four categories of samples: **Basic**, **Advanced**, **Util**, and **Laser**.  
 
 - The category **Basic** contains samples that are related to basic connecting and capturing.  
 - The category **Advanced** contains samples that use advanced capturing tricks.  
@@ -22,9 +22,9 @@ The samples marked with `(PCL)` require [PCL](https://github.com/PointCloudLibra
 
 - **Basic**
   - [ConnectToCamera](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/ConnectToCamera)  
-    Connects to a Mech-Eye Industrial 3D Camera.
+    Connect to a Mech-Eye Industrial 3D Camera.
   - [ConnectAndCaptureImage](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/ConnectAndCaptureImage)  
-    Connects to a Mech-Eye Industrial 3D Camera and capture 2D and 3D data.
+    Connect to a Mech-Eye Industrial 3D Camera and capture 2D and 3D data.
   - [CaptureColorMap](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/CaptureColorMap) `(OpenCV)`  
     Capture color image data with OpenCV data structure from a camera.
   - [CaptureDepthMap](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/CaptureDepthMap) `(OpenCV)`  
@@ -52,7 +52,7 @@ The samples marked with `(PCL)` require [PCL](https://github.com/PointCloudLibra
   - [SetDepthRange](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Util/SetDepthRange)  
     Set the depth range of a camera.
   - [SetParameters](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Util/SetParameters)  
-    Set a specified parameter to a camera and print it.
+    Set specified parameters to a camera.
   - [SetUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Util/SetUserSets)  
     Get the current userset name and available usersets of parameter settings, and save the settings to a specific userset. The User Set feature allows the user to customize and store the individual settings.
 - **Laser**
