@@ -21,50 +21,50 @@ The samples marked with `(OpenCV)` require [OpenCV](https://opencv.org/releases/
 The samples marked with `(PCL)` require [PCL](https://github.com/PointCloudLibrary/pcl/releases) to be installed.
 
 - **Basic**
-  - [ConnectToCamera](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/ConnectToCamera)  
+  - [ConnectToCamera](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Basic/ConnectToCamera)  
     Connect to a Mech-Eye Industrial 3D Camera.
-  - [ConnectAndCaptureImage](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/ConnectAndCaptureImage)  
+  - [ConnectAndCaptureImage](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Basic/ConnectAndCaptureImage)  
     Connect to a Mech-Eye Industrial 3D Camera and capture 2D and 3D data.
-  - [CaptureColorMap](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/CaptureColorMap) `(OpenCV)`  
+  - [CaptureColorMap](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Basic/CaptureColorMap) `(OpenCV)`  
     Capture color image data with OpenCV data structure from a camera.
-  - [CaptureDepthMap](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/CaptureDepthMap) `(OpenCV)`  
+  - [CaptureDepthMap](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Basic/CaptureDepthMap) `(OpenCV)`  
     Capture depth map data with OpenCV data structure from a camera.
-  - [CapturePointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/CapturePointCloud) `(PCL)`  
+  - [CapturePointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Basic/CapturePointCloud) `(PCL)`  
     Capture monochrome and color point clouds with PCL data structure from a camera.
-  - [CaptureHDRPointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/CaptureHDRPointCloud) `(PCL)`  
+  - [CaptureHDRPointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Basic/CaptureHDRPointCloud) `(PCL)`  
     Capture monochrome and color point clouds in HDR mode with PCL data structure from a camera.
-  - [CapturePointCloudROI](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Basic/CapturePointCloudROI) `(PCL)`  
+  - [CapturePointCloudROI](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Basic/CapturePointCloudROI) `(PCL)`  
     Capture monochrome and color point clouds in ROI with PCL data structure from a camera.
 - **Advanced**
-  - [CaptureCloudFromDepth](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Advanced/CaptureCloudFromDepth) `(PCL)`  
+  - [CaptureCloudFromDepth](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Advanced/CaptureCloudFromDepth) `(PCL)`  
     Construct point clouds from depth map and color image data captured from a camera.
-  - [CaptureSequentiallyMultiCamera](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Advanced/CaptureSequentiallyMultiCamera) `(OpenCV & PCL)`  
+  - [CaptureSequentiallyMultiCamera](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Advanced/CaptureSequentiallyMultiCamera) `(OpenCV & PCL)`  
     Capture sequentially from multiple cameras.
-  - [CaptureSimultaneouslyMultiCamera](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Advanced/CaptureSimultaneouslyMultiCamera) `(OpenCV & PCL)`  
+  - [CaptureSimultaneouslyMultiCamera](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Advanced/CaptureSimultaneouslyMultiCamera) `(OpenCV & PCL)`  
     Capture simultaneously from multiple cameras.
-  - [CaptureTimedAndPeriodically](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Advanced/CaptureTimedAndPeriodically) `(OpenCV & PCL)`  
+  - [CaptureTimedAndPeriodically](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Advanced/CaptureTimedAndPeriodically) `(OpenCV & PCL)`  
     Capture periodically for a specific time from a camera.
 - **Util**
-  - [GetCameraIntri](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Util/GetCameraIntri)  
+  - [GetCameraIntri](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Util/GetCameraIntri)  
     Get and print a camera's intrinsic parameters.
-  - [PrintDeviceInfo](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Util/PrintDeviceInfo)  
+  - [PrintDeviceInfo](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Util/PrintDeviceInfo)  
     Get and print a camera's information.
-  - [SetDepthRange](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Util/SetDepthRange)  
+  - [SetDepthRange](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Util/SetDepthRange)  
     Set the depth range of a camera.
-  - [SetParameters](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Util/SetParameters)  
+  - [SetParameters](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Util/SetParameters)  
     Set specified parameters to a camera.
-  - [SetUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Util/SetUserSets)  
+  - [SetUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Util/SetUserSets)  
     Get the current userset name and available usersets of parameter settings, and save the settings to a specific userset. The User Set feature allows the user to customize and store the individual settings.
 - **Laser**
-  - [SetLaserFramePartitionCount](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Laser/SetLaserFramePartitionCount)  
+  - [SetLaserFramePartitionCount](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Laser/SetLaserFramePartitionCount)  
     Set the laser scan partition count for a Mech-Eye Laser camera.
-  - [SetLaserFrameRange](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Laser/SetLaserFrameRange)  
+  - [SetLaserFrameRange](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Laser/SetLaserFrameRange)  
     Set the laser scan range for a Mech-Eye Laser camera.
-  - [SetLaserFringeCodingMode](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Laser/SetLaserFringeCodingMode)  
+  - [SetLaserFringeCodingMode](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Laser/SetLaserFringeCodingMode)  
     Set the fringe coding mode for a Mech-Eye Laser camera.
-  - [SetLaserPowerLevel](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/main/source/Laser/SetLaserPowerLevel)  
+  - [SetLaserPowerLevel](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Laser/SetLaserPowerLevel)  
     Set the laser power level for a Mech-Eye Laser camera.
 
 ## License
 
-Mech-Eye Samples are distributed under the [BSD license](https://github.com/MechMindRobotics/mecheye_cpp_samples/blob/main/LICENSE).
+Mech-Eye Samples are distributed under the [BSD license](https://github.com/MechMindRobotics/mecheye_cpp_samples/blob/master/LICENSE).
