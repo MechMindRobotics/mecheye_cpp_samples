@@ -40,9 +40,9 @@ int main()
         return -1;
     }
 
-    std::cout << "Connect Mech-Eye Success." << std::endl;
+    std::cout << "Connected to the Mech-Eye device successfully." << std::endl;
 
     device.disconnect();
-    std::cout << "Disconnect Mech-Eye Success." << std::endl;
+    std::cout << "Disconnected from the Mech-Eye device successfully." << std::endl;
     return 0;
 }

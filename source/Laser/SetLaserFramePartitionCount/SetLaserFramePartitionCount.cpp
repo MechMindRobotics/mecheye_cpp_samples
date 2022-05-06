@@ -21,6 +21,6 @@ int main()
          << laserSettings.FramePartitionCount << std::endl;
 
     device.disconnect();
-    std::cout << "Disconnect Mech-Eye Success." << std::endl;
+    std::cout << "Disconnected from the Mech-Eye device successfully." << std::endl;
     return 0;
 }
