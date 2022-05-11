@@ -1,12 +1,13 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 
 project(MechEyeCppSamples)
 
 add_definitions("-fpermissive")
-add_definitions("-std=c++11")
+add_definitions("-std=c++14")
 
 option(USE_OPENCV "Enable samples which depend on OpenCV" ON)
 option(USE_PCL "Enable samples which depend on Point Cloud Library (PCL)" ON)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 set(SAMPLES
     Basic/ConnectToCamera
