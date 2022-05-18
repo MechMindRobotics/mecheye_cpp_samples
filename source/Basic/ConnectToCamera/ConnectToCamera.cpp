@@ -36,7 +36,7 @@
 
 int main()
 {
-    std::cout << "Find Mech-Eye device..." << std::endl;
+    std::cout << "Find Mech-Eye devices..." << std::endl;
     std::vector<mmind::api::MechEyeDeviceInfo> deviceInfoList =
         mmind::api::MechEyeDevice::enumerateMechEyeDeviceList();
 

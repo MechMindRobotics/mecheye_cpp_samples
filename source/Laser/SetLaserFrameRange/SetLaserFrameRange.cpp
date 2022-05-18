@@ -44,7 +44,7 @@ int main()
     mmind::api::LaserSettings laserSettings;
     mmind::api::ErrorStatus status;
     status = device.getLaserSettings(laserSettings);
-    if ((status.isOK()) {
+    if (status.isOK()) {
         laserSettings.FrameRangeStart = 51;
         laserSettings.FrameRangeEnd = 90;
         showError(device.setLaserSettings(laserSettings));

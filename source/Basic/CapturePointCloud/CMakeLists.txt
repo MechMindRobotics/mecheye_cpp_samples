@@ -1,9 +1,9 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.5)
 
 project (CapturePointCloud)
 
 add_definitions("-fpermissive")
-add_definitions("-std=c++11")
+add_definitions("-std=c++14")
 
 set(Files
     ${PROJECT_SOURCE_DIR}/CapturePointCloud.cpp
