@@ -91,9 +91,9 @@ void savePLY(const mmind::api::DepthMap& depth, const std::string& path,
                 std::cout << "Exception: " << e.what() << std::endl;
                 return;
             }
-            pointCloud.at(n, m).z = d;
-            pointCloud.at(n, m).x = (n - intri.cameraMatrix[2]) * d / intri.cameraMatrix[0];
-            pointCloud.at(n, m).y = (m - intri.cameraMatrix[3]) * d / intri.cameraMatrix[1];
+            pointCloud.at(n, m).z = 0.001 * d; // mm to m
+            pointCloud.at(n, m).x = (n - intri.cameraMatrix[2]) * 0.001 * d / intri.cameraMatrix[0]; // mm to m
+            pointCloud.at(n, m).y = (m - intri.cameraMatrix[3]) * 0.001 * d / intri.cameraMatrix[1]; // mm to m
         }
 
     pcl::PLYWriter writer;
@@ -126,9 +126,9 @@ void savePLY(const mmind::api::DepthMap& depth, const mmind::api::ColorMap& colo
                 std::cout << "Exception: " << e.what() << std::endl;
                 return;
             }
-            pointCloud.at(n, m).z = d;
-            pointCloud.at(n, m).x = (n - intri.cameraMatrix[2]) * d / intri.cameraMatrix[0];
-            pointCloud.at(n, m).y = (m - intri.cameraMatrix[3]) * d / intri.cameraMatrix[1];
+            pointCloud.at(n, m).z = 0.001 * d; // mm to m
+            pointCloud.at(n, m).x = (n - intri.cameraMatrix[2]) * 0.001 * d / intri.cameraMatrix[0]; // mm to m
+            pointCloud.at(n, m).y = (m - intri.cameraMatrix[3]) * 0.001 * d / intri.cameraMatrix[1]; // mm to m
 
             pointCloud.at(n, m).r = r;
             pointCloud.at(n, m).g = g;
