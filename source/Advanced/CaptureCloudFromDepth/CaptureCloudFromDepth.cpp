@@ -41,8 +41,6 @@
 
 void savePLY(const mmind::api::DepthMap& depth, const std::string& path,
              const mmind::api::DeviceIntri& intri);
-void savePLY(const mmind::api::DepthMap& depth, const mmind::api::ColorMap& color,
-             const std::string& path, const mmind::api::DeviceIntri& intri);
 
 int main()
 {
@@ -65,9 +63,6 @@ int main()
 
     std::string pointCloudPath = "PointCloudXYZ.ply";
     savePLY(depth, pointCloudPath, deviceIntri);
-
-    std::string pointCloudColorPath = "PointCloudXYZRGB.ply";
-    savePLY(depth, color, pointCloudColorPath, deviceIntri);
 
     device.disconnect();
     std::cout << "Disconnected from the Mech-Eye device successfully." << std::endl;
@@ -92,8 +87,10 @@ void savePLY(const mmind::api::DepthMap& depth, const std::string& path,
                 return;
             }
             pointCloud.at(n, m).z = 0.001 * d; // mm to m
-            pointCloud.at(n, m).x = (n - intri.cameraMatrix[2]) * 0.001 * d / intri.cameraMatrix[0]; // mm to m
-            pointCloud.at(n, m).y = (m - intri.cameraMatrix[3]) * 0.001 * d / intri.cameraMatrix[1]; // mm to m
+            pointCloud.at(n, m).x = (n - intri.depthCameraIntri.cameraMatrix[2]) * 0.001 * d /
+                                    intri.depthCameraIntri.cameraMatrix[0]; // mm to m
+            pointCloud.at(n, m).y = (m - intri.depthCameraIntri.cameraMatrix[3]) * 0.001 * d /
+                                    intri.depthCameraIntri.cameraMatrix[1]; // mm to m
         }
 
     pcl::PLYWriter writer;
@@ -101,45 +98,6 @@ void savePLY(const mmind::api::DepthMap& depth, const std::string& path,
     std::cout << "PointCloudXYZ has : " << pointCloud.width * pointCloud.height << " data points."
               << std::endl;
     std::cout << "PointCloudXYZ saved to: " << path << std::endl;
-
-    return;
-}
-
-void savePLY(const mmind::api::DepthMap& depth, const mmind::api::ColorMap& color,
-             const std::string& path, const mmind::api::DeviceIntri& intri)
-{
-    // write pointcloudXYZRGB data
-    pcl::PointCloud<pcl::PointXYZRGB> pointCloud(depth.width(), depth.height());
-    uint32_t size = depth.height() * depth.width();
-    pointCloud.resize(size);
-
-    for (int m = 0; m < depth.height(); ++m)
-        for (int n = 0; n < depth.width(); ++n) {
-            float d;
-            uint8_t r, g, b;
-            try {
-                d = depth.at(m, n).d;
-                r = color.at(m, n).r;
-                g = color.at(m, n).g;
-                b = color.at(m, n).b;
-            } catch (const std::exception& e) {
-                std::cout << "Exception: " << e.what() << std::endl;
-                return;
-            }
-            pointCloud.at(n, m).z = 0.001 * d; // mm to m
-            pointCloud.at(n, m).x = (n - intri.cameraMatrix[2]) * 0.001 * d / intri.cameraMatrix[0]; // mm to m
-            pointCloud.at(n, m).y = (m - intri.cameraMatrix[3]) * 0.001 * d / intri.cameraMatrix[1]; // mm to m
-
-            pointCloud.at(n, m).r = r;
-            pointCloud.at(n, m).g = g;
-            pointCloud.at(n, m).b = b;
-        }
-
-    pcl::PLYWriter writer;
-    writer.write(path, pointCloud, true);
-    std::cout << "PointCloudXYZRGB has : " << pointCloud.width * pointCloud.height
-              << " data points." << std::endl;
-    std::cout << "PointCloudXYZRGB saved to: " << path << std::endl;
 
     return;
 }

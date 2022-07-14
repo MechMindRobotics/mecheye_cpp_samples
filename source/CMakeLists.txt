@@ -29,7 +29,9 @@ set(SAMPLES
     Laser/SetLaserFramePartitionCount
     Laser/SetLaserFrameRange
     Laser/SetLaserFringeCodingMode
-    Laser/SetLaserPowerLevel)
+    Laser/SetLaserPowerLevel
+    UHP/SetUHPCaptureMode
+    UHP/SetUHPFringeCodingMode)
 
 set(PCL_DEPENDING
     CaptureHDRPointCloud

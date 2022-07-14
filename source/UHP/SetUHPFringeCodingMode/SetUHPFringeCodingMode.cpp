@@ -30,73 +30,37 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
-#include <chrono>
-#include <future>
 #include <iostream>
-#include <mutex>
-#include <set>
-#include <vector>
 
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
-#include "OpenCVUtil.h"
-#include "PclUtil.h"
-
-void captureAsync(mmind::api::MechEyeDevice& device, std::mutex& m);
 
 int main()
 {
-    std::pair<mmind::api::MechEyeDevice*, int> pair = findAndConnectMulti();
-    mmind::api::MechEyeDevice* devices = pair.first;
-    int size = pair.second;
-    if (!devices || size == 0)
+    mmind::api::MechEyeDevice device;
+    if (!findAndConnect(device))
         return -1;
 
-    std::vector<std::future<void>> container;
-    std::mutex m;
-    for (int i = 0; i < size; ++i) {
-        container.emplace_back(
-            std::async(std::launch::async, captureAsync, std::ref(devices[i]), std::ref(m)));
-    }
+    mmind::api::UhpSettings::UhpFringeCodingMode fringeCodingMode;
+    mmind::api::ErrorStatus status;
+    status = device.getUhpFringeCodingMode(fringeCodingMode);
+    if (status.isOK()) {
+        std::string mode = fringeCodingMode == mmind::api::UhpSettings::UhpFringeCodingMode::Fast
+                               ? "Fast"
+                               : "Accurate";
+        std::cout << "Fringe coding mode: " << mode << std::endl;
 
-    for (int i = 0; i < size; ++i) {
-        container[i].get();
-        devices[i].disconnect();
-    }
+        fringeCodingMode = mmind::api::UhpSettings::UhpFringeCodingMode::Fast;
+        showError(device.setUhpFringeCodingMode(fringeCodingMode));
 
-    delete[] devices;
+        showError(device.getUhpFringeCodingMode(fringeCodingMode));
+        mode = fringeCodingMode == mmind::api::UhpSettings::UhpFringeCodingMode::Fast ? "Fast"
+                                                                                      : "Accurate";
+        std::cout << "Fringe coding mode: " << mode << std::endl;
+    } else
+        showError(status);
+
+    device.disconnect();
+    std::cout << "Disconnected from the Mech-Eye device successfully." << std::endl;
     return 0;
-}
-
-void captureAsync(mmind::api::MechEyeDevice& device, std::mutex& m)
-{
-    mmind::api::MechEyeDeviceInfo info;
-    showError(device.getDeviceInfo(info));
-    std::string id = info.id;
-
-    mmind::api::ColorMap color;
-    showError(device.captureColorMap(color));
-
-    mmind::api::DepthMap depth;
-    showError(device.captureDepthMap(depth));
-
-    mmind::api::PointXYZMap pointXYZMap;
-    device.capturePointXYZMap(pointXYZMap);
-
-    mmind::api::PointXYZBGRMap pointXYZBGRMap;
-    device.capturePointXYZBGRMap(pointXYZBGRMap);
-
-    std::unique_lock<std::mutex> lock(m);
-
-    const std::string colorFile = "ColorMap_" + id + ".png";
-    saveMap(color, colorFile);
-
-    const std::string depthFile = "DepthMap_" + id + ".png";
-    saveMap(depth, depthFile);
-
-    std::string pointCloudPath = "PointCloud_" + id + ".ply";
-    savePLY(pointXYZMap, pointCloudPath);
-
-    std::string pointCloudColorPath = "ColorPointCloud_" + id + ".ply";
-    savePLY(pointXYZBGRMap, pointCloudColorPath);
 }
