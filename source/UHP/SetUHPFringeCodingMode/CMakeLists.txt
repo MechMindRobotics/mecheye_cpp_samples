@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
-project(SetLaserFringeCodingMode)
+project(SetUHPFringeCodingMode)
 
 add_definitions("-fpermissive")
-add_definitions("-std=c++14")
+add_definitions("-std=c++11")
 
-set(Files ${PROJECT_SOURCE_DIR}/SetLaserFringeCodingMode.cpp)
+set(Files ${PROJECT_SOURCE_DIR}/SetUHPFringeCodingMode.cpp)
 
 if(CMAKE_HOST_WIN32)
   find_package(MechEyeApi REQUIRED CONFIG PATHS "$ENV{MECHEYE_DIR}/API")

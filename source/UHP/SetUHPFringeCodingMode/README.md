@@ -1,18 +1,17 @@
-# SetUserSets Project Overview
+# SetUHPFringeCodingMode Project Overview
 
-This is a simple example of how to find and connect to an available Mech-Eye Device
-and then get and set the user sets in the Mech-Eye Device.
-The User Set feature allows the user to customize and store the individual settings.
+This is a simple example of how to find and connect an available Mech-Eye UHP Camera
+and then get and set fringe coding mode for the Mech-Eye Device(UHP camera).
 
 You will learn how to:
 
 * use Mech-Eye API,
-* get and set user sets.
+* set fringe coding mode for a UHP camera.
 
 How to build:
 
 * Windows:
-  1. Copy SetUserSets folder to a location with Read and
+  1. Copy SetUHPFringeCodingMode folder to a location with Read and
    Write permissions (using the name `source`)
   2. Open CMake
         * Set Source code to `source`
@@ -20,7 +19,7 @@ How to build:
         * Click Configure and Generate
   3. Open .sln file in Visual Studio
         * Build the solution by `Ctrl + Shift + B`
-  4. Run SetUserSets
+  4. Run SetUHPFringeCodingMode
         * Connect to a device
   5. Add your code to run your code from this sample
 * Linux:
@@ -39,7 +38,7 @@ How to build:
   3. Run the project with
 
       ```bash
-      ./SetUserSets
+      ./SetUHPFringeCodingMode
       ```
 
-The application will get and set the user sets in the Mech-Eye Device.
+The application will set fringe coding mode for a UHP camera.

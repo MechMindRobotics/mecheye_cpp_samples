@@ -52,7 +52,7 @@ int main()
         std::string mode =
             laserSettings.FringeCodingMode == mmind::api::LaserSettings::LaserFringeCodingMode::Fast
                 ? "Fast"
-                : "High";
+                : "Accurate";
         std::cout << "Fringe Coding Mode: " << mode << std::endl;
     } else
         showError(status);
