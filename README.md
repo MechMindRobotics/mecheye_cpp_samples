@@ -10,12 +10,13 @@ This repository contains C++ samples for Mech-Eye SDK.
 
 ## Sample list
 
-There are four categories of samples: **Basic**, **Advanced**, **Util**, and **Laser**.  
+There are four categories of samples: **Basic**, **Advanced**, **Util**, **Laser**, and **UHP**.  
 
 - The category **Basic** contains samples that are related to basic connecting and capturing.  
 - The category **Advanced** contains samples that use advanced capturing tricks.  
 - The category **Util** contains samples that get and print information and set parameters.  
-- The category **Laser** contains samples that can only be used on Mech-Eye Laser cameras.  
+- The category **Laser** contains samples that can only be used on Mech-Eye Laser cameras. 
+- The category **UHP** contains samples that can only be used on Mech-Eye UHP cameras. 
 
 The samples marked with `(OpenCV)` require [OpenCV](https://opencv.org/releases/) to be installed.  
 The samples marked with `(PCL)` require [PCL](https://github.com/PointCloudLibrary/pcl/releases) to be installed.
