@@ -64,6 +64,11 @@ The samples marked with `(PCL)` require [PCL](https://github.com/PointCloudLibra
     Set the fringe coding mode for a Mech-Eye Laser camera.
   - [SetLaserPowerLevel](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Laser/SetLaserPowerLevel)  
     Set the laser power level for a Mech-Eye Laser camera.
+- **UHP**
+  - [SetUHPCaptureMode](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/UHP/SetUHPCaptureMode)  
+    set capture mode for the Mech-Eye Device(UHP camera).
+  - [SetUHPFringeCodingMode](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/UHP/SetUHPFringeCodingMode)  
+    set fringe coding mode for the Mech-Eye Device(UHP camera).
 
 ## License
 
