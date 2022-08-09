@@ -43,7 +43,7 @@ int main()
 
     mmind::api::DepthMap depth;
     showError(device.captureDepthMap(depth));
-    const std::string depthFile = "DepthMap.png";
+    const std::string depthFile = "DepthMap.tiff";
     saveMap(depth, depthFile);
 
     device.disconnect();

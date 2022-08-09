@@ -1,7 +1,7 @@
 # SetLaserFringeCodingMode Project Overview
 
 This is a simple example of how to find and connect an available Mech-Eye Device
-and then get and set frame range with the Mech-Eye Device(laser camera).
+and then get and set fringe coding mode with the Mech-Eye Device(laser camera).
 
 You will learn how to:
 
