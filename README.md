@@ -9,6 +9,7 @@ This repository contains C++ samples for Mech-Eye SDK.
 3. Configure the sample solution with CMake, open it in Visual Studio, build it, and run it.
      For software requirements, please refer to [Mech-Eye API User Manual](https://docs.mech-mind.net/latest/en-GB/MechEye/MechEyeAPI/Samples/Samples.html)
 
+
 ## Sample List
 
 Samples are divided into five categories, **Basic**, **Advanced**, **Util**, **Laser** and **UHP**.
@@ -68,9 +69,9 @@ The samples marked with `(PCL)` require [PCL](https://github.com/PointCloudLibra
     Set the output power of the laser projector in percentage of max power. This affects the intensity of the laser light.
 - **UHP**
   - [SetUHPCaptureMode](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/UHP/SetUHPCaptureMode)  
-    set the capture mode (capture images with camera 1, with camera 2, or with both 2D cameras and compose the outputs).
+    Set the capture mode (capture images with camera 1, with camera 2, or with both 2D cameras and compose the outputs).
   - [SetUHPFringeCodingMode](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/UHP/SetUHPFringeCodingMode)  
-    set the coding mode of the structured light pattern.
+    Set the coding mode of the structured light pattern.
 
 ## License
 
