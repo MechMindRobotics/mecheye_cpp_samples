@@ -45,12 +45,12 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getLaserSettings(laserSettings);
     if (status.isOK()) {
-        std::cout << "Old FramePartitionCount:" << laserSettings.FramePartitionCount << std::endl;
-        laserSettings.FramePartitionCount = 2;
+        std::cout << "Old FramePartitionCount:" << laserSettings.framePartitionCount << std::endl;
+        laserSettings.framePartitionCount = 2;
         showError(device.setLaserSettings(laserSettings));
 
         showError(device.getLaserSettings(laserSettings));
-        std::cout << "New FramePartitionCount:" << laserSettings.FramePartitionCount << std::endl;
+        std::cout << "New FramePartitionCount:" << laserSettings.framePartitionCount << std::endl;
     } else
         showError(status);
 
