@@ -45,12 +45,12 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getLaserSettings(laserSettings);
     if (status.isOK()) {
-        laserSettings.FringeCodingMode = mmind::api::LaserSettings::LaserFringeCodingMode::Fast;
+        laserSettings.fringeCodingMode = mmind::api::LaserSettings::LaserFringeCodingMode::Fast;
         showError(device.setLaserSettings(laserSettings));
 
         showError(device.getLaserSettings(laserSettings));
         std::string mode =
-            laserSettings.FringeCodingMode == mmind::api::LaserSettings::LaserFringeCodingMode::Fast
+            laserSettings.fringeCodingMode == mmind::api::LaserSettings::LaserFringeCodingMode::Fast
                 ? "Fast"
                 : "Accurate";
         std::cout << "Fringe Coding Mode: " << mode << std::endl;

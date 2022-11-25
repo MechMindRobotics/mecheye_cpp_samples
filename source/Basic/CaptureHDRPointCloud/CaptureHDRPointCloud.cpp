@@ -48,7 +48,6 @@ int main()
 
     mmind::api::PointXYZMap pointXYZMap;
     showError(device.capturePointXYZMap(pointXYZMap));
-
     mmind::api::PointXYZBGRMap pointXYZBGRMap;
     showError(device.capturePointXYZBGRMap(pointXYZBGRMap));
 

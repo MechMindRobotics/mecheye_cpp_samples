@@ -45,11 +45,11 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getLaserSettings(laserSettings);
     if (status.isOK()) {
-        laserSettings.PowerLevel = 40;
+        laserSettings.powerLevel = 40;
         showError(device.setLaserSettings(laserSettings));
 
         showError(device.getLaserSettings(laserSettings));
-        std::cout << "PowerLevel:" << laserSettings.PowerLevel << std::endl;
+        std::cout << "PowerLevel:" << laserSettings.powerLevel << std::endl;
     } else
         showError(status);
 

@@ -3,6 +3,8 @@ cmake_minimum_required (VERSION 3.5)
 
 project (CaptureSimultaneouslyMultiCamera)
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pthread")
+
 add_definitions("-fpermissive")
 add_definitions("-std=c++14")
 

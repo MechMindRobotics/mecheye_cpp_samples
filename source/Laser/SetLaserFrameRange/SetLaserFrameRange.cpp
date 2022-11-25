@@ -45,13 +45,13 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getLaserSettings(laserSettings);
     if (status.isOK()) {
-        laserSettings.FrameRangeStart = 51;
-        laserSettings.FrameRangeEnd = 90;
+        laserSettings.frameRangeStart = 51;
+        laserSettings.frameRangeEnd = 90;
         showError(device.setLaserSettings(laserSettings));
 
         showError(device.getLaserSettings(laserSettings));
-        std::cout << "FrameRangeStart:" << laserSettings.FrameRangeStart << ","
-                  << "FrameRangeEnd:" << laserSettings.FrameRangeEnd << std::endl;
+        std::cout << "FrameRangeStart:" << laserSettings.frameRangeStart << ","
+                  << "FrameRangeEnd:" << laserSettings.frameRangeEnd << std::endl;
     } else
         showError(status);
 

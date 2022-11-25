@@ -57,7 +57,7 @@ int main()
               << std::endl;
 
     showError(device.saveAllSettingsToUserSets());
-    std::cout << "save all parammeters to current user set." << std::endl;
+    std::cout << "Save all parameters to current user set." << std::endl;
 
     device.disconnect();
     std::cout << "Disconnected from the Mech-Eye device successfully." << std::endl;
