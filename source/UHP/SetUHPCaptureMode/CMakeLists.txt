@@ -2,25 +2,31 @@ cmake_minimum_required(VERSION 3.10)
 
 project(SetUHPCaptureMode)
 
-add_definitions("-fpermissive")
-add_definitions("-std=c++11")
+add_definitions("-std=c++14" "-fpermissive")
 
 set(Files ${PROJECT_SOURCE_DIR}/SetUHPCaptureMode.cpp)
 
 if(CMAKE_HOST_WIN32)
   find_package(MechEyeApi REQUIRED CONFIG PATHS "$ENV{MECHEYE_DIR}/API")
-
-  include_directories(${MECHEYEAPI_INCLUDE_DIRS})
-  link_directories(${MECHEYEAPI_LIBRARY_DIRS})
-
-  add_executable(${PROJECT_NAME} ${Files})
-  target_link_libraries(${PROJECT_NAME} ${MECHEYEAPI_LIBRARIES})
+  if(NOT MechEyeApi_FOUND)
+    message(
+      FATAL_ERROR "MechEyeApi not found. Please install MechEyeApi first.")
+  endif()
 elseif(CMAKE_HOST_UNIX)
-  include(FindPkgConfig)
-  pkg_check_modules(PKGS REQUIRED MechEyeApi)
-  include_directories(${PKGS_INCLUDE_DIRS})
-  link_directories(${PKGS_LIBRARY_DIRS})
-
-  add_executable(${PROJECT_NAME} ${Files})
-  target_link_libraries(${PROJECT_NAME} MechEyeApi)
+  find_package(PkgConfig)
+  if(NOT PkgConfig_FOUND)
+    message(FATAL_ERROR "PkgConfig not found.")
+  else()
+    pkg_check_modules(MECHEYEAPI REQUIRED MechEyeApi)
+    if(NOT MECHEYEAPI_FOUND)
+      message(
+        FATAL_ERROR "MechEyeApi not found. Please install MechEyeApi first.")
+    endif()
+  endif()
 endif()
+
+include_directories(${MECHEYEAPI_INCLUDE_DIRS})
+link_directories(${MECHEYEAPI_LIBRARY_DIRS})
+
+add_executable(${PROJECT_NAME} ${Files})
+target_link_libraries(${PROJECT_NAME} ${MECHEYEAPI_LIBRARIES})

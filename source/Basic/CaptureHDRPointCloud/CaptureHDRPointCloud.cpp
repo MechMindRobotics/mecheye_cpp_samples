@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2022, Mech-Mind Robotics
+ *Copyright (c) 2016-2023, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -48,6 +48,7 @@ int main()
 
     mmind::api::PointXYZMap pointXYZMap;
     showError(device.capturePointXYZMap(pointXYZMap));
+
     mmind::api::PointXYZBGRMap pointXYZBGRMap;
     showError(device.capturePointXYZBGRMap(pointXYZBGRMap));
 
