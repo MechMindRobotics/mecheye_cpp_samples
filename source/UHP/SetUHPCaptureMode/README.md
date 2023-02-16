@@ -1,44 +1,81 @@
-# SetUHPCaptureMode Project Overview
+# SetUHPCaptureMode Sample Program
 
-This is a simple example of how to find and connect an available Mech-Eye UHP Camera
-and then get and set capture mode for the Mech-Eye Device(UHP camera).
+With this sample program, you can set the capture mode (capture images with 2D camera 1, with 2D camera 2, or with both 2D cameras and compose the outputs).
 
-You will learn how to:
+> Note: This sample program can only be used with UHP series cameras.
 
-* use Mech-Eye API,
-* set capture mode for a UHP camera.
 
-How to build:
+## Build the Sample Program
 
-* Windows:
-  1. Copy SetUHPCaptureMode folder to a location with Read and
-   Write permissions (using the name `source`)
-  2. Open CMake
-        * Set Source code to `source`
-        * Set Binaries to `source`/_build or any other writable location
-        * Click Configure and Generate
-  3. Open .sln file in Visual Studio
-        * Build the solution by `Ctrl + Shift + B`
-  4. Run SetUHPCaptureMode
-        * Connect to a device
-  5. Add your code to run your code from this sample
-* Linux:
-  1. Configure the project with
+Prerequisites and instructions for building the sample program on Windows and Ubuntu are provided.
 
-      ```bash
-      cmake .
-      ```
+### Windows
 
-  2. Build the project with
+#### Prerequisites
 
-      ```bash
-      make
-      ```
+The following software are required to build this sample program. Please download and install these software.
 
-  3. Run the project with
+* [Mech-Eye SDK (latest version)](https://www.mech-mind.com/download/softwaredownloading.html)
+* [Visual Studio (version 2015 or above)](https://visualstudio.microsoft.com/vs/community/)
+* [CMake (version 3.2 or above)](https://cmake.org/download/)
 
-      ```bash
-      ./SetUHPCaptureMode
-      ```
+#### Instructions
 
-The application will set capture mode for a UHP camera.
+1. Make sure the `SetUHPCaptureMode` folder is in a location with read and write permissions.
+2. Run Cmake and set the source and build paths:
+   
+   | Field                       | Path                        |
+   | :----                       | :----                       |
+   | Where is the source code    | xxx/SetUHPCaptureMode       |
+   | Where to build the binaries | xxx/SetUHPCaptureMode/build |
+
+3. Click the **Configure** button. In the pop-up window, set the generator and platform according to the actual situation, and then click the **Finish** button.
+4. When the log displays **Configuring done**, click the **Generate** button. When the log displays **Generating done**, click the **Open Project** button.
+5. In Visual Studio, change the Solution Configuration from **Debug** to **Release**.
+6. Right-click the sample in **Solution Explorer**, and select **Set as Startup Project**.
+7. Click **Local Windows Debugger** to build the solution.
+8. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to the `build` folder.
+
+### Ubuntu
+
+Ubuntu 18 or above is required.
+
+#### Prerequisites
+
+* Update the software source list.
+  
+  ```bash
+  sudo apt-get update
+  ```
+  
+* Install required tools.
+  
+  ```bash
+  sudo apt-get install -y build-essential pkg-config cmake
+  ```
+
+* Install [Mech-Eye API (latest version)](https://www.mech-mind.com/download/softwaredownloading.html).
+
+#### Instructions
+
+1. Navigate to the `SetUHPCaptureMode` folder. 
+   
+   ```bash
+   cd /opt/mech-mind/mech-eye-sdk/samples/UHP/SetUHPCaptureMode/
+   ```
+
+2. Configure and build the sample program.
+
+   ```bash
+   mkdir build && cd build
+   cmake ..
+   make
+   ```
+
+3. Run the sample program.
+
+   ```bash
+   ./SetUHPCaptureMode
+   ```
+   
+4. Enter the index of the camera to which you want to connect, and press the Enter key. 
