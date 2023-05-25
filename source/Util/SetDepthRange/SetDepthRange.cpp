@@ -30,6 +30,10 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can set the range of depth values to be retained by a camera.
+*/
+
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
 #include <iostream>
@@ -40,6 +44,7 @@ int main()
     if (!findAndConnect(device))
         return -1;
 
+    // Set the range of depth values to 100–1000 mm.
     showError(device.setDepthRange(mmind::api::DepthRange(100, 1000)));
     mmind::api::DepthRange depthRange;
     showError(device.getDepthRange(depthRange));

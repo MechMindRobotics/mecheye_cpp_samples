@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(CaptureHalconPointCloud)
 
-add_definitions("-std=c++14" "-fpermissive")
+set(CMAKE_CXX_STANDARD 14)
 
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
   message(FATAL_ERROR "This sample is not valid in ARM platform.")

@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can obtain and save 2D images, depth maps and point clouds
+periodically for the specified duration from a camera.
+*/
+
 #include <chrono>
 #include <iostream>
 #include <thread>
@@ -40,6 +45,7 @@
 
 int main()
 {
+    // Set the camera capture interval to 10 seconds and the total duration of image capturing to 5 minutes.
     const auto captureTime = std::chrono::minutes(5);
     const auto capturePeriod = std::chrono::seconds(10);
 
@@ -55,6 +61,7 @@ int main()
 
     const auto start = std::chrono::high_resolution_clock::now();
 
+    // Perform image capturing periodically according to the set interval for the set total duration.
     while (std::chrono::high_resolution_clock::now() - start < captureTime) {
         const auto before = std::chrono::high_resolution_clock::now();
 

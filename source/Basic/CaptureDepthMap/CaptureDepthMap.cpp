@@ -30,6 +30,10 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can obtain and save the depth map in OpenCV format from a camera.
+*/
+
 #include <iostream>
 #include "MechEyeApi.h"
 #include "SampleUtil.h"

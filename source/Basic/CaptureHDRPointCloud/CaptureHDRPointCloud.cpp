@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can obtain and save untextured and textured point clouds (PCL format)
+generated from images captured with multiple exposure times.
+*/
+
 #include <iostream>
 #include <thread>
 

@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can obtain and save 2D images, depth maps and point clouds
+simultaneously from multiple cameras.
+*/
+
 #include <chrono>
 #include <future>
 #include <iostream>
@@ -88,6 +93,7 @@ void captureAsync(mmind::api::MechEyeDevice& device, std::mutex& m)
 
     std::unique_lock<std::mutex> lock(m);
 
+    // Save the obtained data with the set filenames.
     const std::string colorFile = "ColorMap_" + id + ".png";
     saveMap(color, colorFile);
 

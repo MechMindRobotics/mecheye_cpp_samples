@@ -30,6 +30,10 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can get and print a camera's intrinsic parameters.
+*/
+
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
 #include <iostream>

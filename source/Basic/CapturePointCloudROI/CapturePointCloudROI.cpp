@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can obtain and save untextured and textured point clouds (PCL format)
+of the objects in the ROI from a camera.
+*/
+
 #include <iostream>
 #include <thread>
 
@@ -43,7 +48,7 @@ int main()
     if (!findAndConnect(device))
         return -1;
 
-    // Set 3D ROI
+    // Set 3D ROI, MechEye UHP serials in capture mode 'Merge' does not support this parameter.
     showError(device.setScan3DROI(mmind::api::ROI(0, 0, 500, 500)));
 
     mmind::api::PointXYZMap pointXYZMap;

@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can obtain point cloud data from a camera, and then transform and save
+the point clouds using HALCON C++ interface.
+*/
+
 #include <iostream>
 #include <thread>
 #include <algorithm>
@@ -40,7 +45,6 @@
 #include "SampleUtil.h"
 #include "halconcpp/HalconCpp.h"
 #include "HalconUtil.h"
-
 
 int main()
 {
@@ -60,13 +64,11 @@ int main()
     std::cout << "Saving point cloud to file: " << pointCloudFileXYZ << std::endl;
     savePointCloud(halconPointCloudXYZ, pointCloudFileXYZ);
 
-
     // Get color point cloud and convert the format to Halcon
     mmind::api::PointXYZBGRMap pointXYZBGRMap;
     showError(device.capturePointXYZBGRMap(pointXYZBGRMap));
 
     const auto halconPointCloudXYZRGB = mecheyeToHalconPointCloud(pointXYZBGRMap);
-
 
     // Save the color point cloud
     const auto pointCloudFileXYZRGB = "MechEyePointXYZBGRMap.ply";

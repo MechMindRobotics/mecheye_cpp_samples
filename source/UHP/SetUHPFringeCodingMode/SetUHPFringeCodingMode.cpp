@@ -30,10 +30,25 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can set the coding mode of the structured light pattern.
+*/
+
 #include <iostream>
 
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
+namespace {
+std::string codingModeName(mmind::api::UhpSettings::UhpFringeCodingMode fringeCodingMode)
+{
+    switch (fringeCodingMode) {
+    case mmind::api::UhpSettings::UhpFringeCodingMode::Fast:
+        return "Fast";
+    default:
+        return "Accurate";
+    }
+}
+} // namespace
 
 int main()
 {
@@ -45,18 +60,16 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getUhpFringeCodingMode(fringeCodingMode);
     if (status.isOK()) {
-        std::string mode = fringeCodingMode == mmind::api::UhpSettings::UhpFringeCodingMode::Fast
-                               ? "Fast"
-                               : "Accurate";
-        std::cout << "Fringe coding mode: " << mode << std::endl;
+        std::string mode = codingModeName(fringeCodingMode);
+        std::cout << "Fringe coding mode before setting: " << mode << std::endl;
 
+        // Set the coding mode of the structured light pattern to "Fast".
         fringeCodingMode = mmind::api::UhpSettings::UhpFringeCodingMode::Fast;
         showError(device.setUhpFringeCodingMode(fringeCodingMode));
 
         showError(device.getUhpFringeCodingMode(fringeCodingMode));
-        mode = fringeCodingMode == mmind::api::UhpSettings::UhpFringeCodingMode::Fast ? "Fast"
-                                                                                      : "Accurate";
-        std::cout << "Fringe coding mode: " << mode << std::endl;
+        mode = codingModeName(fringeCodingMode);
+        std::cout << "Fringe coding mode after setting: " << mode << std::endl;
     } else
         showError(status);
 

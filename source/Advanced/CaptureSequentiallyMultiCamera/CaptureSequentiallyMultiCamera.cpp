@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can obtain and save 2D images, depth maps and point clouds
+sequentially from multiple cameras.
+*/
+
 #include <iostream>
 
 #include "MechEyeApi.h"

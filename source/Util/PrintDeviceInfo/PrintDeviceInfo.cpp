@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can get and print a camera's information such as model, serial number
+and firmware version.
+*/
+
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
 #include <iostream>
@@ -43,6 +48,10 @@ int main()
     mmind::api::MechEyeDeviceInfo deviceInfo;
     showError(device.getDeviceInfo(deviceInfo));
     printDeviceInfo(deviceInfo);
+
+    mmind::api::DeviceTemperature devicetemperature;
+    showError(device.getDeviceTemperature(devicetemperature));
+    printDeviceTemperature(devicetemperature);
 
     device.disconnect();
     std::cout << "Disconnected from the Mech-Eye device successfully." << std::endl;

@@ -1,9 +1,16 @@
-cmake_minimum_required(VERSION 3.5)
+﻿if(CMAKE_HOST_WIN32 AND USE_PCL)
+  cmake_minimum_required(VERSION 3.19)
+else()
+  cmake_minimum_required(VERSION 3.5)
+endif()
 
 project(MechEyeCppSamples)
 
-add_definitions("-fpermissive")
-add_definitions("-std=c++14")
+set(CMAKE_CXX_STANDARD 14)
+
+if(CMAKE_HOST_UNIX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+endif()
 
 option(USE_OPENCV "Enable samples which depend on OpenCV" ON)
 option(USE_PCL "Enable samples which depend on Point Cloud Library (PCL)" ON)
@@ -12,7 +19,6 @@ if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
 else()
   option(USE_HALCON "Enable samples which depend on Halcon" ON)
 endif()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 set(SAMPLES
     Basic/ConnectToCamera
@@ -32,6 +38,7 @@ set(SAMPLES
     Util/SetParameters
     Util/SetDepthRange
     Util/SetUserSets
+    Calibration/HandEyeCalibration
     Laser/SetLaserFramePartitionCount
     Laser/SetLaserFrameRange
     Laser/SetLaserFringeCodingMode
@@ -51,8 +58,15 @@ set(PCL_DEPENDING
     CapturePointCloudFromTextureMask)
 
 set(OpenCV_DEPENDING
-    CaptureColorMap CaptureDepthMap CaptureSequentiallyMultiCamera
-    CaptureSimultaneouslyMultiCamera CaptureTimedAndPeriodically)
+    CaptureColorMap
+    CaptureDepthMap
+    CaptureSequentiallyMultiCamera
+    CaptureSimultaneouslyMultiCamera
+    CaptureTimedAndPeriodically
+    HandEyeCalibration
+    CaptureLineScanImage
+    CaptureLineDataBySoftware
+    CaptureLineDataByEncoder)
 
 set(Halcon_DEPENDING CaptureHalconPointCloud)
 
@@ -71,9 +85,9 @@ endmacro()
 if(CMAKE_HOST_WIN32)
   find_package(MechEyeApi REQUIRED CONFIG PATHS "$ENV{MECHEYE_DIR}/API")
   if(NOT MechEyeApi_FOUND)
-      message(
+    message(
       FATAL_ERROR "MechEyeApi not found. Please install MechEyeApi first.")
-    endif()
+  endif()
 elseif(CMAKE_HOST_UNIX)
   find_package(PkgConfig)
   if(NOT PkgConfig_FOUND)
@@ -85,39 +99,47 @@ elseif(CMAKE_HOST_UNIX)
         FATAL_ERROR "MechEyeApi not found. Please install MechEyeApi first.")
     endif()
   endif()
-  endif()
+endif()
 
-  if(USE_OPENCV)
+if(USE_OPENCV)
   # OpenCV_DIR: set as your OpenCV libraries directory; Uncomment next line to
   # set OpenCV_DIR manually
 
   # set(OpenCV_DIR  "path to OpenCV directory")
-    find_package(OpenCV REQUIRED)
-    if(NOT OpenCV_FOUND)
-      message(
-        FATAL_ERROR
-          "OpenCV not found. Please point OpenCV_DIR to the directory of your OpenCV installation (containing the file OpenCVConfig.cmake), or disable the OpenCV samples  with -DUSE_OPENCV=OFF."
-      )
-    endif()
-  else()
-    disable_samples("OpenCV")
+  find_package(OpenCV REQUIRED)
+  if(NOT OpenCV_FOUND)
+    message(
+      FATAL_ERROR
+        "OpenCV not found. Please point OpenCV_DIR to the directory of your OpenCV installation (containing the file OpenCVConfig.cmake), or disable the OpenCV samples  with -DUSE_OPENCV=OFF."
+    )
   endif()
+else()
+  disable_samples("OpenCV")
+endif()
 
 if(USE_PCL)
   if(CMAKE_HOST_WIN32)
-    find_package(PCL 1.12.1 REQUIRED)
-elseif(CMAKE_HOST_UNIX)
+    if(MSVC_VERSION LESS 1910)
+      message(FATAL_ERROR "Please use Visual Studio 2017 or higher.")
+    elseif(MSVC_VERSION LESS 1920)
+      find_package(PCL 1.8.1...1.9.1 REQUIRED)
+    elseif(MSVC_VERSION LESS 1930)
+      find_package(PCL 1.8.1...1.12.1 REQUIRED)
+    else()
+      find_package(PCL 1.8.1 REQUIRED)
+    endif()
+  elseif(CMAKE_HOST_UNIX)
     find_package(PCL REQUIRED)
   endif()
-    if(NOT PCL_FOUND)
-      message(
-        FATAL_ERROR
-          "Point Cloud Library (PCL) not found. Please point PCL_DIR to the directory of your PCL installation (containing the file PCLConfig.cmake), or disable the PCL samples with -DUSE_PCL=OFF."
-      )
-    endif()
-  else()
-    disable_samples("PCL")
+  if(NOT PCL_FOUND)
+    message(
+      FATAL_ERROR
+        "Point Cloud Library (PCL) not found. Please point PCL_DIR to the directory of your PCL installation (containing the file PCLConfig.cmake), or disable the PCL samples with -DUSE_PCL=OFF."
+    )
   endif()
+else()
+  disable_samples("PCL")
+endif()
 
 if(USE_HALCON)
   set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/Halcon/cmake;${CMAKE_MODULE_PATH}")
@@ -125,33 +147,33 @@ if(USE_HALCON)
   find_package(HDevEngine REQUIRED)
   if(NOT HALCON_FOUND)
     message(FATAL_ERROR "Halcon not found.")
-    endif()
-  else()
-  disable_samples("Halcon")
   endif()
+else()
+  disable_samples("Halcon")
+endif()
 
-  message(STATUS "All samples: ${SAMPLES}")
+message(STATUS "All samples: ${SAMPLES}")
 
-  foreach(SAMPLE ${SAMPLES})
-    get_filename_component(SAMPLE_NAME ${SAMPLE} NAME)
+foreach(SAMPLE ${SAMPLES})
+  get_filename_component(SAMPLE_NAME ${SAMPLE} NAME)
 
-    include_directories(${MECHEYEAPI_INCLUDE_DIRS})
-    link_directories(${MECHEYEAPI_LIBRARY_DIRS})
+  include_directories(${MECHEYEAPI_INCLUDE_DIRS})
+  link_directories(${MECHEYEAPI_LIBRARY_DIRS})
 
   set(EXCUTABLE_LIST ${SAMPLE}/${SAMPLE_NAME}.cpp)
   set(TARGETLINK_LIST ${MECHEYEAPI_LIBRARIES})
 
-    if(${SAMPLE_NAME} IN_LIST PCL_DEPENDING)
-      include_directories(${PCL_INCLUDE_DIRS})
-      link_directories(${PCL_LIBRARY_DIRS})
+  if(${SAMPLE_NAME} IN_LIST PCL_DEPENDING)
+    include_directories(${PCL_INCLUDE_DIRS})
+    link_directories(${PCL_LIBRARY_DIRS})
     list(APPEND TARGETLINK_LIST ${PCL_LIBRARIES})
-    endif()
+  endif()
 
-    if(${SAMPLE_NAME} IN_LIST OpenCV_DEPENDING)
-      include_directories(${OpenCV_INCLUDE_DIRS})
-      link_directories(${OPENCV_LIBRARY_DIRS})
+  if(${SAMPLE_NAME} IN_LIST OpenCV_DEPENDING)
+    include_directories(${OpenCV_INCLUDE_DIRS})
+    link_directories(${OPENCV_LIBRARY_DIRS})
     list(APPEND TARGETLINK_LIST ${OpenCV_LIBS})
-    endif()
+  endif()
 
   if(${SAMPLE_NAME} IN_LIST Halcon_DEPENDING)
     include_directories(${HALCON_INC_DIRS})
@@ -163,4 +185,4 @@ if(USE_HALCON)
   add_executable(${SAMPLE_NAME} ${EXCUTABLE_LIST})
   target_link_libraries(${SAMPLE_NAME} ${TARGETLINK_LIST})
 
-  endforeach()
+endforeach()
