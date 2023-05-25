@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can construct and save untextured and textured point clouds (PCL
+format) generated from a depth map and masked 2D image.
+*/
+
 #include <iostream>
 
 #include "MechEyeApi.h"

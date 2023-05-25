@@ -30,6 +30,10 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can connect to a Mech-Eye Industrial 3D Camera.
+*/
+
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
 #include <iostream>
@@ -45,6 +49,7 @@ int main()
         return -1;
     }
 
+    // Display the information of all available cameras.
     for (int i = 0; i < deviceInfoList.size(); i++) {
         std::cout << "Mech-Eye device index : " << i << std::endl;
         printDeviceInfo(deviceInfoList[i]);
@@ -53,6 +58,7 @@ int main()
     std::cout << "Please enter the device index you want to connect: ";
     unsigned inputIndex;
 
+    // Enter the device index of the camera to be connected and check if the index is valid.
     while (1) {
         std::string str;
         std::cin >> str;

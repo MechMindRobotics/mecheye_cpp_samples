@@ -30,10 +30,28 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can set the capture mode (capture images with 2D camera 1, with 2D
+camera 2, or with both 2D cameras and compose the outputs).
+*/
+
 #include <iostream>
 
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
+namespace {
+std::string modeName(mmind::api::UhpSettings::UhpCaptureMode captureMode)
+{
+    switch (captureMode) {
+    case mmind::api::UhpSettings::UhpCaptureMode::Camera1:
+        return "Camera1";
+    case mmind::api::UhpSettings::UhpCaptureMode::Camera2:
+        return "Camera2";
+    default:
+        return "Merge";
+    }
+}
+} // namespace
 
 int main()
 {
@@ -45,20 +63,16 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getUhpCaptureMode(captureMode);
     if (status.isOK()) {
-        std::string mode =
-            captureMode == mmind::api::UhpSettings::UhpCaptureMode::Camera1   ? "Camera1"
-            : captureMode == mmind::api::UhpSettings::UhpCaptureMode::Camera2 ? "Camera2"
-                                                                              : "Merge";
-        std::cout << "Capture mode: " << mode << std::endl;
+        std::string mode = modeName(captureMode);
+        std::cout << "Capture mode before setting: " << mode << std::endl;
 
+        // Set the capture mode to "Merge".
         captureMode = mmind::api::UhpSettings::UhpCaptureMode::Merge;
         showError(device.setUhpCaptureMode(captureMode));
 
         showError(device.getUhpCaptureMode(captureMode));
-        mode = captureMode == mmind::api::UhpSettings::UhpCaptureMode::Camera1   ? "Camera1"
-               : captureMode == mmind::api::UhpSettings::UhpCaptureMode::Camera2 ? "Camera2"
-                                                                                 : "Merge";
-        std::cout << "Capture mode: " << mode << std::endl;
+        mode = modeName(captureMode);
+        std::cout << "Capture mode after setting: " << mode << std::endl;
     } else
         showError(status);
 

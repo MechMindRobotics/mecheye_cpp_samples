@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can set the projection range of the structured light. The entire
+projector FOV is from 0 to 100.
+*/
+
 #include <iostream>
 
 #include "MechEyeApi.h"
@@ -45,6 +50,7 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getLaserSettings(laserSettings);
     if (status.isOK()) {
+        // Set the projection range of the structured light to 51–90.
         laserSettings.frameRangeStart = 51;
         laserSettings.frameRangeEnd = 90;
         showError(device.setLaserSettings(laserSettings));

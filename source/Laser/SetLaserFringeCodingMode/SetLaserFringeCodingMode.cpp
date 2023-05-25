@@ -30,6 +30,10 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can set the coding mode of the structured light pattern.
+*/
+
 #include <iostream>
 
 #include "MechEyeApi.h"
@@ -45,6 +49,7 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getLaserSettings(laserSettings);
     if (status.isOK()) {
+        // Set the coding mode of the structured light pattern to "Fast".
         laserSettings.fringeCodingMode = mmind::api::LaserSettings::LaserFringeCodingMode::Fast;
         showError(device.setLaserSettings(laserSettings));
 

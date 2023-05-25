@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(SetUHPFringeCodingMode)
 
-add_definitions("-std=c++14" "-fpermissive")
+set(CMAKE_CXX_STANDARD 14)
 
 set(Files ${PROJECT_SOURCE_DIR}/SetUHPFringeCodingMode.cpp)
 

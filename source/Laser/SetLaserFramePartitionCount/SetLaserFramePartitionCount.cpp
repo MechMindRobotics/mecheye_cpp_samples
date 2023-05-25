@@ -30,6 +30,12 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can divide the projector FOV into partitions and project structured
+light in one partition at a time. The output of the entire FOV is composed from images of all
+partitions.
+*/
+
 #include <iostream>
 
 #include "MechEyeApi.h"
@@ -45,12 +51,16 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getLaserSettings(laserSettings);
     if (status.isOK()) {
-        std::cout << "Old FramePartitionCount:" << laserSettings.framePartitionCount << std::endl;
+        std::cout << "FramePartitionCount before setting:" << laserSettings.framePartitionCount
+                  << std::endl;
+
+        // Set the frame partition count to 2.
         laserSettings.framePartitionCount = 2;
         showError(device.setLaserSettings(laserSettings));
 
         showError(device.getLaserSettings(laserSettings));
-        std::cout << "New FramePartitionCount:" << laserSettings.framePartitionCount << std::endl;
+        std::cout << "FramePartitionCount after setting:" << laserSettings.framePartitionCount
+                  << std::endl;
     } else
         showError(status);
 

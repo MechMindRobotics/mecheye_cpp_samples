@@ -1,8 +1,12 @@
-cmake_minimum_required(VERSION 3.5)
+if(CMAKE_HOST_WIN32)
+  cmake_minimum_required(VERSION 3.19)
+else()
+  cmake_minimum_required(VERSION 3.5)
+endif()
 
 project(CaptureHDRPointCloud)
 
-add_definitions("-std=c++14" "-fpermissive")
+set(CMAKE_CXX_STANDARD 14)
 
 set(Files ${PROJECT_SOURCE_DIR}/CaptureHDRPointCloud.cpp)
 
@@ -26,7 +30,15 @@ elseif(CMAKE_HOST_UNIX)
 endif()
 
 if(CMAKE_HOST_WIN32)
-  find_package(PCL 1.12.1 REQUIRED)
+  if(MSVC_VERSION LESS 1910)
+    message(FATAL_ERROR "Please use Visual Studio 2017 or higher.")
+  elseif(MSVC_VERSION LESS 1920)
+    find_package(PCL 1.8.1...1.9.1 REQUIRED)
+  elseif(MSVC_VERSION LESS 1930)
+    find_package(PCL 1.8.1...1.12.1 REQUIRED)
+  else()
+    find_package(PCL 1.8.1 REQUIRED)
+  endif()
 elseif(CMAKE_HOST_UNIX)
   find_package(PCL REQUIRED)
 endif()

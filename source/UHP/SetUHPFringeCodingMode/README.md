@@ -4,6 +4,7 @@ With this sample program, you can set the coding mode of the structured light pa
 
 > Note: This sample program can only be used with UHP series cameras.
 
+If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
 
 ## Build the Sample Program
 
@@ -15,8 +16,8 @@ Prerequisites and instructions for building the sample program on Windows and Ub
 
 The following software are required to build this sample program. Please download and install these software.
 
-* [Mech-Eye SDK (latest version)](https://www.mech-mind.com/download/softwaredownloading.html)
-* [Visual Studio (version 2015 or above)](https://visualstudio.microsoft.com/vs/community/)
+* [Mech-Eye SDK (latest version)](https://community.mech-mind.com/c/latest-product-downloads/10)
+* [Visual Studio (version 2017 or above)](https://visualstudio.microsoft.com/vs/community/)
 * [CMake (version 3.2 or above)](https://cmake.org/download/)
 
 #### Instructions
@@ -54,7 +55,7 @@ Ubuntu 18 or above is required.
   sudo apt-get install -y build-essential pkg-config cmake
   ```
 
-* Install [Mech-Eye API (latest version)](https://www.mech-mind.com/download/softwaredownloading.html).
+* Install [Mech-Eye API (latest version)](https://community.mech-mind.com/c/latest-product-downloads/10).
 
 #### Instructions
 

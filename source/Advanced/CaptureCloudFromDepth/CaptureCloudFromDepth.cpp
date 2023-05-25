@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can construct and save point clouds (PCL format) from the depth map
+and 2D image obtained from a camera.
+*/
+
 #include <iostream>
 
 #include <pcl/point_types.h>
@@ -77,6 +82,7 @@ void savePLY(const mmind::api::DepthMap& depth, const std::string& path,
     uint32_t size = depth.height() * depth.width();
     pointCloud.resize(size);
 
+    // Convert the unit of the coordinates of points in the point cloud from mm to m.
     for (int m = 0; m < depth.height(); ++m)
         for (int n = 0; n < depth.width(); ++n) {
             float d;

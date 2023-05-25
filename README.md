@@ -2,15 +2,18 @@
 
 This documentation provides descriptions of Mech-Eye API C++ samples and instructions for building all the samples at once.
 
+If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
+
 ## Sample List
 
-Samples are divided into six categories, **Basic**, **Advanced**, **Util**, **Laser**, **UHP** and **Halcon**.
+Samples are divided into the following categories: **Basic**, **Advanced**, **Util**, **Laser**, **UHP**, **Calibration** and **Halcon**.
 
 - **Basic**: camera connection and basic capturing functions.
 - **Advanced**: advanced capturing functions.
 - **Util**: obtain information from a camera and set camera parameters.
 - **Laser**: for Laser, LSR and DEEP series cameras only.
 - **UHP**: for UHP series cameras only. 
+- **Calibration**: for performing hand-eye calibration.
 - **Halcon**: obtain HALCON-readable point clouds via Mech-Eye API, not available on Arm-based platforms.
 
 The samples marked with `(OpenCV)` require [OpenCV](https://opencv.org/releases/) to be installed.  
@@ -68,9 +71,12 @@ The sample marked with `(HALCON)` requires [HALCON](https://www.mvtec.com/downlo
     Set the capture mode (capture images with 2D camera 1, with 2D camera 2, or with both 2D cameras and compose the outputs).
   - [SetUHPFringeCodingMode](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/UHP/SetUHPFringeCodingMode)  
     Set the coding mode of the structured light pattern.
+- **Calibration**
+  - [HandEyeCalibration](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Calibration/HandEyeCalibration)
+    Perform hand-eye calibration.
 - **Halcon**
   - [CaptureHalconPointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/source/Halcon/CaptureHalconPointCloud) `(PCL & HALCON)`  
-  Obtain point cloud data from a camera, and then transform and save the point clouds using HALCON C++ interface. Not available on Arm-based platforms.
+  Obtain point cloud data from a camera, and then transform and save the point clouds using HALCON C++ interface. Not available on ARM-based platforms.
 
 ## Build the Sample Programs
 
@@ -84,15 +90,26 @@ The instructions provided here allow you to build all the sample programs at onc
 
 The following software are required to build the sample programs. Please download and install these software.
 
-* [Mech-Eye SDK (latest version)](https://www.mech-mind.com/download/softwaredownloading.html)
-* [Visual Studio (version 2015 or above)](https://visualstudio.microsoft.com/vs/community/)
+* [Mech-Eye SDK (latest version)](https://community.mech-mind.com/c/latest-product-downloads/10)
+* [Visual Studio (version 2017 or above)](https://visualstudio.microsoft.com/vs/community/)
 * [CMake (version 3.2 or above)](https://cmake.org/download/)
 
 Optional software: If you need to build the sample programs dependent on third-party software (refer to the Sample List above), please install the corresponding software.
 
 * [HALCON (version 20.11 or above)](https://www.mvtec.com/downloads)
+  
+  > Note: HALCON versions below 20.11 are not fully tested.
+
 * [OpenCV (version 3.4.5 or above)](https://opencv.org/releases/)
-* [PCL (version 1.12.1)](https://github.com/PointCloudLibrary/pcl/releases): download the **PCL-1.12.1-AllInOne-msvc2019-win64.exe** file from the **Assets** section of **PCL 1.12.1**.
+* [PCL (version 1.8.1 or above)](https://github.com/PointCloudLibrary/pcl/releases): Refer to the following table and determine the version of PCL to install based on the version of Visual Studio. Download the EXE installer from the **Assets** section of the version that you want to install. 
+
+   | Visual Studio version       | Supported PCL versions         |
+   | :----                       | :----                          |
+   | 2017                        | 1.8.1–1.9.1                    |
+   | 2019                        | 1.8.1–1.12.1                   |
+   | 2022                        | 1.8.1 and above                |
+
+  > Note: PCL is not supported in Visual Studio 2017.
 
 #### Instructions
 
@@ -139,7 +156,7 @@ Ubuntu 18 or above is required.
   sudo apt-get install -y build-essential pkg-config cmake
   ```
 
-* Install [Mech-Eye API (latest version)](https://www.mech-mind.com/download/softwaredownloading.html).
+* Install [Mech-Eye API (latest version)](https://community.mech-mind.com/c/latest-product-downloads/10).
 * Install optional third-party libraries: If you need to build the sample programs dependent on third-party software (refer to the Sample List above), please install the corresponding software.
   
   * Install OpenCV (latest version):
@@ -154,13 +171,17 @@ Ubuntu 18 or above is required.
     sudo make install
     ```
   
-  * Install PCL (latest version): 
+  * Install PCL: 
     
     ```bash
     sudo apt-get install libpcl-dev
     ```
 
+    > Note: On different versions of Ubuntu, this command installs different versions of PCL. On Ubuntu 18.04, PCL 1.8.1 is installed; on Ubunt 20.04, PCL 1.10.0 is installed.
+
   * Install HALCON (20.11 or above)
+
+    > Note: HALCON versions below 20.11 are not fully tested.
 
     ```bash
     tar zxvf halcon-20.11.3.0-linux.tar.gz

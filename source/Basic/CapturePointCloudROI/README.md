@@ -2,6 +2,8 @@
 
 With this sample program, you can obtain and save untextured and textured point clouds (PCL format) of the objects in the ROI from a camera.
 
+If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
+
 ## Build the Sample Program
 
 Prerequisites and instructions for building the sample program on Windows and Ubuntu are provided.
@@ -12,10 +14,18 @@ Prerequisites and instructions for building the sample program on Windows and Ub
 
 The following software are required to build this sample program. Please download and install these software.
 
-* [Mech-Eye SDK (latest version)](https://www.mech-mind.com/download/softwaredownloading.html)
-* [Visual Studio (version 2015 or above)](https://visualstudio.microsoft.com/vs/community/)
+* [Mech-Eye SDK (latest version)](https://community.mech-mind.com/c/latest-product-downloads/10)
+* [Visual Studio (version 2017 or above)](https://visualstudio.microsoft.com/vs/community/)
 * [CMake (version 3.2 or above)](https://cmake.org/download/)
-* [PCL (version 1.12.1)](https://github.com/PointCloudLibrary/pcl/releases): download the **PCL-1.12.1-AllInOne-msvc2019-win64.exe** file from the **Assets** section of **PCL 1.12.1**.
+* [PCL (version 1.8.1 or above)](https://github.com/PointCloudLibrary/pcl/releases): Refer to the following table and determine the version of PCL to install based on the version of Visual Studio. Download the EXE installer from the **Assets** section of the version that you want to install. 
+
+   | Visual Studio version       | Supported PCL versions         |
+   | :----                       | :----                          |
+   | 2017                        | 1.8.1–1.9.1                    |
+   | 2019                        | 1.8.1–1.12.1                   |
+   | 2022                        | 1.8.1 and above                |
+
+  > Note: PCL is not supported in Visual Studio 2017.
 
 #### Instructions
 
@@ -56,15 +66,17 @@ Ubuntu 18 or above is required.
   sudo apt-get install -y build-essential pkg-config cmake
   ```
 
-* Install [Mech-Eye API (latest version)](https://www.mech-mind.com/download/softwaredownloading.html).
+* Install [Mech-Eye API (latest version)](https://community.mech-mind.com/c/latest-product-downloads/10).
 * Install third-party libraries: PCL is required.
     
-  * Install PCL (latest version): 
+  * Install PCL: 
     
     ```bash
     sudo apt-get install libpcl-dev
     ```
-    
+
+    > Note: On different versions of Ubuntu, this command installs different versions of PCL. On Ubuntu 18.04, PCL 1.8.1 is installed; on Ubunt 20.04, PCL 1.10.0 is installed.
+
 #### Instructions
 
 1. Navigate to the `CapturePointCloudROI` folder. 

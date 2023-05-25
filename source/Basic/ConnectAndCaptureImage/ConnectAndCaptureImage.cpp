@@ -30,20 +30,28 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can connect to a camera and obtain the 2D image, depth map and point
+cloud data.
+*/
+
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
 #include <iostream>
 
 int main()
 {
+    // List all available cameras and connect to a camera by the displayed index.
     mmind::api::MechEyeDevice device;
     if (!findAndConnect(device))
         return -1;
 
+    // Obtain the 2D image resolution and depth map resolution of the camera.
     mmind::api::DeviceResolution deviceResolution;
     showError(device.getDeviceResolution(deviceResolution));
     printDeviceResolution(deviceResolution);
 
+    // Obtain the 2D image.
     mmind::api::ColorMap colorMap;
     unsigned row = 0;
     unsigned col = 0;
@@ -61,6 +69,7 @@ int main()
         return 0;
     }
 
+    // Obtain the depth map.
     mmind::api::DepthMap depthMap;
     showError(device.captureDepthMap(depthMap));
     std::cout << "Depth map size is width: " << depthMap.width() << " height: " << depthMap.height()
@@ -75,6 +84,7 @@ int main()
         return 0;
     }
 
+    // Obtain the point cloud.
     mmind::api::PointXYZMap pointXYZMap;
     showError(device.capturePointXYZMap(pointXYZMap));
     std::cout << "Pointcloud map size is width: " << pointXYZMap.width()

@@ -30,6 +30,11 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can set the output power of the laser projector in percentage of max
+power. This affects the intensity of the laser light.
+*/
+
 #include <iostream>
 
 #include "MechEyeApi.h"
@@ -45,7 +50,9 @@ int main()
     mmind::api::ErrorStatus status;
     status = device.getLaserSettings(laserSettings);
     if (status.isOK()) {
-        laserSettings.powerLevel = 40;
+        // Set the output power of the laser projector to 80 percent of the maximum
+        // power.
+        laserSettings.powerLevel = 80;
         showError(device.setLaserSettings(laserSettings));
 
         showError(device.getLaserSettings(laserSettings));

@@ -30,6 +30,13 @@
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
+/*
+With this sample program, you can perform functions related to parameter groups, such as getting the
+names of available parameter groups, switching parameter group, and saving the current parameter
+values to a specific parameter group. The parameter group feature allows user to save and quickly
+apply a set of parameter values.
+*/
+
 #include "MechEyeApi.h"
 #include "SampleUtil.h"
 #include <iostream>
