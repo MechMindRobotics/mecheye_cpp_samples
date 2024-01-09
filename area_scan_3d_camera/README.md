@@ -51,6 +51,9 @@ The sample marked with `(HALCON)` requires [HALCON](https://www.mvtec.com/downlo
     Set the parameters specific to the UHP series.
   * [RegisterCameraEvent](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Advanced/RegisterCameraEvent)  
     Define and register the callback function for monitoring the camera connection status.
+  * [CaptureStereo2DImages](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Advanced/CaptureStereo2DImages) `(OpenCV)`  
+    Obtain and save the 2D images from both 2D cameras.
+    > Note: This sample is only applicable to the following models: Deep, Laser L Enhanced, PRO XS, LSR L, LSR S, and DEEP.
 * **Util**
   * [GetCameraIntrinsics](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Util/GetCameraIntrinsics)  
     Obtain and print the camera intrinsic parameters.
@@ -63,9 +66,9 @@ The sample marked with `(HALCON)` requires [HALCON](https://www.mvtec.com/downlo
   * [SetPointCloudProcessingParameters](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Util/SetPointCloudProcessingParameters)  
     Set the **Point Cloud Processing** parameters.
   * [ManageUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Util/ManageUserSets)  
-    Manage user sets, such as obtaining the names of all user sets, adding a user set, switching the user set, and saving parameter settings to the user set.
+    Manage parameter groups, such as obtaining the names of all parameter groups, adding a parameter group, switching the parameter group, and saveing parameter settings to the parameter group.
   * [SaveAndLoadUserSet](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Util/SaveAndLoadUserSet)  
-    Import and replace all user sets from a JSON file, and save all user sets to a JSON file.
+    Import and replace all parameter groups from a JSON file, and save all parameter groups to a JSON file.
 * **Calibration**
   * [HandEyeCalibration](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Calibration/HandEyeCalibration) `(OpenCV)`  
    Perform hand-eye calibration.
@@ -167,13 +170,13 @@ Ubuntu 18 or above is required.
   * If the system architecture is AMD64, execute the following command:
 
     ```bash
-    sudo dpkg -i 'MechEyeApi_x.x.x_amd64.deb'
+    sudo dpkg -i 'Mech-Eye_API_x.x.x_amd64.deb'
     ```
 
   * If the system architecture is ARM64, execute the following command:
 
     ```bash
-    sudo dpkg -i 'MechEyeApi_x.x.x_arm64.deb'
+    sudo dpkg -i 'Mech-Eye_API_x.x.x_arm64.deb'
     ```
 
 * Install optional third-party libraries: If you need to build the samples dependent on third-party software (refer to the Sample List above), please install the corresponding software.
