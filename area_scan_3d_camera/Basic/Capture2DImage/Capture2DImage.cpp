@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2023, Mech-Mind Robotics
+ *Copyright (c) 2016-2024, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ int main()
     }
     }
 
-    cv::imshow(imageFile, image2D);
+    // cv::imshow(imageFile, image2D);
     cv::imwrite(imageFile, image2D);
     std::cout << "Capture and save the 2D image: " << imageFile << std::endl;
     cv::waitKey(0);

@@ -1,12 +1,12 @@
-# CaptureDepthMap Sample
+# UseVirtualDevice Sample
 
-With this sample, you can obtain and save the depth map.
+With this sample, you can acquire the profile data stored in a virtual device, generate the intensity image and depth map, and save the images.
 
 If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
 
 ## Build the Sample
 
-Prerequisites and instructions for building the sample on Windows and Ubuntu are provided.
+Prerequisites and instructions for building the sample on Windows are provided.
 
 ### Windows
 
@@ -29,10 +29,10 @@ The following software are required to build this sample. Please download and in
 
 3. Run Cmake and set the source and build paths:
 
-   | Field                       | Path                      |
-   | :----                       | :----                     |
-   | Where is the source code    | xxx/CaptureDepthMap       |
-   | Where to build the binaries | xxx/CaptureDepthMap/build |
+   | Field                       | Path                         |
+   | :----                       | :----                        |
+   | Where is the source code    | xxx/UseVirtualDevice         |
+   | Where to build the binaries | xxx/UseVirtualDevice/build   |
 
 4. Click the **Configure** button. In the pop-up window, set the generator and platform according to the actual situation, and then click the **Finish** button.
 5. When the log displays **Configuring done**, click the **Generate** button. When the log displays **Generating done**, click the **Open Project** button.
@@ -80,7 +80,7 @@ Ubuntu 18 or above is required.
     ```
 
 * Install third-party libraries: OpenCV is required.
-  
+
   * Install OpenCV (latest version):
 
     ```bash
@@ -98,7 +98,7 @@ Ubuntu 18 or above is required.
 1. Navigate to the directory of the sample.
 
    ```bash
-   cd xxx/area_scan_3d_camera/Basic/CaptureDepthMap/
+   cd xxx/profiler/UseVirtualDevice/
    ```
 
 2. Configure and build the sample.
@@ -112,7 +112,7 @@ Ubuntu 18 or above is required.
 3. Run the sample.
 
    ```bash
-   sudo ./CaptureDepthMap
+   sudo ./UseVirtualDevice
    ```
 
-4. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to `/CaptureDepthMap/build`.
+4. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to `/UseVirtualDevice/build`.

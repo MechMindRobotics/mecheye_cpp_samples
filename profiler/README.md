@@ -12,14 +12,16 @@ The samples marked with `(OpenCV)` require [OpenCV](https://opencv.org/releases/
 
 * [AcquireProfileData](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/AcquireProfileData) `(OpenCV)`  
   Acquire the profile data, generate the intensity image and depth map, and save the images.
-* [AcquireProfileDataUsingCallback](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/AcquireProfileData)  `(OpenCV)`  
+* [AcquireProfileDataUsingCallback](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/AcquireProfileDataUsingCallback) `(OpenCV)`  
   Acquire the profile data using a callback function, generate the intensity image and depth map, and save the images.
-* [AcquirePointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/AcquireProfileData)  
+* [AcquirePointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/AcquirePointCloud)  
   Acquire the profile data, generate the point cloud, and save the point cloud in the CSV and PLY formats.
-* [ManageUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/AcquireProfileData)  
-  Manage user sets, such as obtaining the names of all user sets, adding a user set, switching the user set, and saving parameter settings to the user set.
+* [ManageUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/ManageUserSets)  
+  Manage parameter groups, such as obtaining the names of all parameter groups, adding a parameter group, switching the parameter group, and saving parameter settings to the parameter group.
 * [RegisterProfilerEvent](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/RegisterProfilerEvent)  
 Define and register the callback function for monitoring the laser profiler connection status.
+* [UseVirtualDevice](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/UseVirtualDevice) `(OpenCV)`  
+Acquire the profile data stored in a virtual device, generate the intensity image and depth map, and save the images.
 
 ## Build the Samples
 
@@ -95,13 +97,13 @@ Ubuntu 18 or above is required.
   * If the system architecture is AMD64, execute the following command:
 
     ```bash
-    sudo dpkg -i 'MechEyeApi_x.x.x_amd64.deb'
+    sudo dpkg -i 'Mech-Eye_API_x.x.x_amd64.deb'
     ```
 
   * If the system architecture is ARM64, execute the following command:
 
     ```bash
-    sudo dpkg -i 'MechEyeApi_x.x.x_arm64.deb'
+    sudo dpkg -i 'Mech-Eye_API_x.x.x_arm64.deb'
     ```
 
 * Install optional third-party libraries: If you need to build the samples dependent on third-party software (refer to the Sample List above), please install the corresponding software.
