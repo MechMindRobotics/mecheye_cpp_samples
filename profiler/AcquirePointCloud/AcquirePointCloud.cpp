@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2023, Mech-Mind Robotics
+ *Copyright (c) 2016-2024, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -162,7 +162,7 @@ int main()
     if (!findAndConnect(profiler))
         return -1;
 
-    std::cout << "Please enter the number of lines that you want to scan (min: 1, max: 60000): ";
+    std::cout << "Please enter the number of lines that you want to scan (min: 16, max: 60000): ";
     int captureLineCnt;
     while (true) {
         std::string str;
@@ -172,7 +172,7 @@ int main()
             break;
         }
         std::cout << "Input invalid! Please enter the number of lines that you want to scan (min: "
-                     "1, max: 60000): ";
+                     "16, max: 60000): ";
     }
     // Prompt to enter the desired encoder resolution, which is the travel distance corresponding to
     // one quadrature signal.

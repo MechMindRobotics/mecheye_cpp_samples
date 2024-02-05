@@ -29,21 +29,22 @@ set(SAMPLES
     Basic/CapturePointCloudHDR
     Basic/CapturePointCloud
     Basic/CapturePointCloudWithNormals
+    Advanced/CaptureStereo2DImages
     Advanced/ConvertDepthMapToPointCloud
     Advanced/MultipleCamerasCaptureSequentially
     Advanced/MultipleCamerasCaptureSimultaneously
     Advanced/CapturePeriodically
-	Advanced/Mapping2DImageToDepthMap
-	Advanced/RegisterCameraEvent
-	Advanced/SetParametersOfLaserCameras
-	Advanced/SetParametersOfUHPCameras   
+    Advanced/Mapping2DImageToDepthMap
+    Advanced/RegisterCameraEvent
+    Advanced/SetParametersOfLaserCameras
+    Advanced/SetParametersOfUHPCameras
     Util/GetCameraIntrinsics
     Util/PrintCameraInfo
-	Util/SetPointCloudProcessingParameters
+    Util/SetPointCloudProcessingParameters
     Util/SetScanningParameters
-	Util/SetDepthRange
+    Util/SetDepthRange
     Util/ManageUserSets
-	Util/SaveAndLoadUserSet
+    Util/SaveAndLoadUserSet
     Calibration/HandEyeCalibration
     Halcon/ConvertPointCloudToObjectModel3D
     Pcl/ConvertPointCloudToPcl
@@ -58,6 +59,7 @@ set(PCL_DEPENDING
 set(OpenCV_DEPENDING
     Capture2DImage
     CaptureDepthMap
+    CaptureStereo2DImages
     MultipleCamerasCaptureSequentially
     MultipleCamerasCaptureSimultaneously
     CapturePeriodically

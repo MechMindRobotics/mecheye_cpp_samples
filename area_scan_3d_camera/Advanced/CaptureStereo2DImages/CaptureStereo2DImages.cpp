@@ -31,10 +31,10 @@
  ******************************************************************************/
 
 /*
-With this sample, you can obtain and save the depth map.
+With this sample, you can obtain and save the stereo 2D images.
 */
 
-#include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
 #include "area_scan_3d_camera/Camera.h"
 #include "area_scan_3d_camera/api_util.h"
 
@@ -44,18 +44,52 @@ int main()
     if (!findAndConnect(camera))
         return -1;
 
-    if (!confirmCapture3D()) {
-        camera.disconnect();
-        return 0;
+    mmind::eye::Frame2D stereoLeft, stereoRight;
+    auto errorStatus = camera.captureStereo2D(stereoLeft, stereoRight, false);
+    if (!errorStatus.isOK()) {
+        showError(errorStatus);
+        return -1;
     }
-    mmind::eye::Frame3D frame3D;
-    showError(camera.capture3D(frame3D));
 
-    mmind::eye::DepthMap depthMap = frame3D.getDepthMap();
-    cv::Mat depth32F = cv::Mat(depthMap.height(), depthMap.width(), CV_32FC1, depthMap.data());
-    const std::string depthImgFile = "DepthMap.tiff";
-    cv::imwrite(depthImgFile, depth32F);
-    std::cout << "Capture and save depth map: " << depthImgFile << std::endl;
+    cv::Mat cvMatLeft, cvMatRight;
+
+    switch (stereoLeft.colorType()) {
+    case mmind::eye::ColorTypeOf2DCamera::Monochrome:
+    {
+        mmind::eye::GrayScale2DImage grayImageLeft = stereoLeft.getGrayScaleImage();
+        cvMatLeft =
+            cv::Mat(grayImageLeft.height(), grayImageLeft.width(), CV_8UC1, grayImageLeft.data());
+
+        mmind::eye::GrayScale2DImage grayImageRight = stereoRight.getGrayScaleImage();
+        cvMatRight = cv::Mat(grayImageRight.height(), grayImageRight.width(), CV_8UC1,
+                             grayImageRight.data());
+        break;
+    }
+    case mmind::eye::ColorTypeOf2DCamera::Color:
+    {
+        mmind::eye::Color2DImage colorImageLeft = stereoLeft.getColorImage();
+        cvMatLeft = cv::Mat(colorImageLeft.height(), colorImageLeft.width(), CV_8UC3,
+                            colorImageLeft.data());
+
+        mmind::eye::Color2DImage colorImageRight = stereoRight.getColorImage();
+        cvMatRight = cv::Mat(colorImageRight.height(), colorImageRight.width(), CV_8UC3,
+                             colorImageRight.data());
+        break;
+    }
+    default:
+        break;
+    }
+
+    const std::string imageFileLeft = "stereo2D_left.png";
+    const std::string imageFileRight = "stereo2D_right.png";
+    // cv::imshow(imageFileLeft, cvMatLeft);
+    // cv::imshow(imageFileRight, cvMatRight);
+
+    cv::imwrite(imageFileLeft, cvMatLeft);
+    cv::imwrite(imageFileRight, cvMatRight);
+    std::cout << "Capture and save the stereo 2D image: " << imageFileLeft << " and "
+              << imageFileRight << std::endl;
+    cv::waitKey(0);
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

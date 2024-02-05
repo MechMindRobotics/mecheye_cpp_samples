@@ -1,6 +1,6 @@
 # Mapping2DImageToDepthMap Sample
 
-With this sample, you can generate untextured and textured point clouds from a masked 2D image and a depth map.
+With this sample, you can construct and save untextured and textured point clouds (PCL format) generated from a depth map and masked 2D image.
 
 If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
 
@@ -23,8 +23,8 @@ The following software are required to build this sample. Please download and in
 1. Make sure that the sample is stored in a location with read and write permissions.
 2. Run Cmake and set the source and build paths:
 
-   | Field                       | Path                                       |
-   | :----                       | :----                                      |
+   | Field                       | Path                               |
+   | :----                       | :----                              |
    | Where is the source code    | xxx/Mapping2DImageToDepthMap       |
    | Where to build the binaries | xxx/Mapping2DImageToDepthMap/build |
 
@@ -64,13 +64,13 @@ Ubuntu 18 or above is required.
   * If the system architecture is AMD64, execute the following command:
 
     ```bash
-    sudo dpkg -i 'MechEyeApi_x.x.x_amd64.deb'
+    sudo dpkg -i 'Mech-Eye_API_x.x.x_amd64.deb'
     ```
 
   * If the system architecture is ARM64, execute the following command:
 
     ```bash
-    sudo dpkg -i 'MechEyeApi_x.x.x_arm64.deb'
+    sudo dpkg -i 'Mech-Eye_API_x.x.x_arm64.deb'
     ```
 
 #### Instructions
