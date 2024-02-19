@@ -182,7 +182,7 @@ int main()
         }
         std::cout << "Input invalid! Please enter the number of lines that you want to scan (min: "
                      "16, max: 60000): ";
-    }
+
 
     mmind::eye::UserSet currentUserSet = profiler.currentUserSet();
 
