@@ -20,11 +20,13 @@ set(SAMPLES
     AcquirePointCloud
     ManageUserSets
     RegisterProfilerEvent
+    UseVirtualDevice
     )
 
 set(OpenCV_DEPENDING
     AcquireProfileData
     AcquireProfileDataUsingCallback
+    UseVirtualDevice
     )
 
 macro(disable_samples DEPENDENCY_NAME)

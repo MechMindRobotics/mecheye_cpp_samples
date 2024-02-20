@@ -46,15 +46,16 @@ cloud in the CSV and PLY formats
 #include "profiler/parameters/ProfileExtractionParameters.h"
 
 constexpr double kPitch = 1e-3;
-constexpr int kInitEncoderValue = 0x0FFFFFFF;
+constexpr long long kInitEncoderValue = 0x0FFFFFFF;
 
-int shiftEncoderValsAroundZero(unsigned int oriVal, int initValue = kInitEncoderValue)
+int shiftEncoderValsAroundZero(unsigned int oriVal, long long initValue = kInitEncoderValue)
 {
     return static_cast<int>(oriVal - initValue);
 }
 
 bool saveDataToPly(float* data, int* encoderValues, int captureLineCount, int dataWidth,
-                   float xUnit, int yUnit, const std::string& fileName, bool isOrganized)
+                   float xUnit, float yUnit, const std::string& fileName, bool isOrganized,
+                   bool useEncoderValues = true)
 {
     FILE* fp = fopen(fileName.c_str(), "w");
 
@@ -85,9 +86,10 @@ bool saveDataToPly(float* data, int* encoderValues, int captureLineCount, int da
     for (int y = 0; y < captureLineCount; ++y) {
         for (int x = 0; x < dataWidth; ++x) {
             if (!std::isnan(data[y * dataWidth + x]))
-                fprintf(fp, "%f %f %f\n", static_cast<float>(x * xUnit * kPitch),
-                        static_cast<float>(encoderValues[y] * yUnit * kPitch),
-                        data[y * dataWidth + x]);
+                fprintf(
+                    fp, "%f %f %f\n", static_cast<float>(x * xUnit * kPitch),
+                    static_cast<float>((useEncoderValues ? encoderValues[y] : y) * yUnit * kPitch),
+                    data[y * dataWidth + x]);
             else if (isOrganized)
                 fprintf(fp, "nan nan nan\n");
         }
@@ -98,7 +100,8 @@ bool saveDataToPly(float* data, int* encoderValues, int captureLineCount, int da
 }
 
 bool saveDataToCsv(float* data, int* encoderValues, int captureLineCount, int dataWidth,
-                   float xUnit, int yUnit, const std::string& fileName, bool isOrganized)
+                   float xUnit, float yUnit, const std::string& fileName, bool isOrganized,
+                   bool useEncoderValues = true)
 {
     FILE* fp = fopen(fileName.c_str(), "w");
 
@@ -110,11 +113,12 @@ bool saveDataToCsv(float* data, int* encoderValues, int captureLineCount, int da
     for (int y = 0; y < captureLineCount; ++y) {
         for (int x = 0; x < dataWidth; ++x) {
             if (!std::isnan(data[y * dataWidth + x]))
-                fprintf(fp, "%f %f %f\n", static_cast<float>(x * xUnit * kPitch),
-                        static_cast<float>(encoderValues[y] * yUnit * kPitch),
-                        data[y * dataWidth + x]);
+                fprintf(
+                    fp, "%f,%f,%f\n", static_cast<float>(x * xUnit * kPitch),
+                    static_cast<float>((useEncoderValues ? encoderValues[y] : y) * yUnit * kPitch),
+                    data[y * dataWidth + x]);
             else if (isOrganized)
-                fprintf(fp, "nan nan nan\n");
+                fprintf(fp, "nan,nan,nan\n");
         }
     }
 
@@ -162,6 +166,11 @@ int main()
     if (!findAndConnect(profiler))
         return -1;
 
+    if (!confirmCapture()) {
+        profiler.disconnect();
+        return -1;
+    }
+
     std::cout << "Please enter the number of lines that you want to scan (min: 16, max: 60000): ";
     int captureLineCnt;
     while (true) {
@@ -173,27 +182,6 @@ int main()
         }
         std::cout << "Input invalid! Please enter the number of lines that you want to scan (min: "
                      "16, max: 60000): ";
-    }
-    // Prompt to enter the desired encoder resolution, which is the travel distance corresponding to
-    // one quadrature signal.
-    std::cout << "Please enter the desired encoder resolution (integer, unit: μm, min: "
-                 "1, max: 65535): ";
-    int yUnit;
-
-    while (true) {
-        std::string str;
-        std::cin >> str;
-        if (std::regex_match(str.begin(), str.end(), std::regex{"[0-9]+"})) {
-            yUnit = atoi(str.c_str());
-            break;
-        }
-        std::cout << "Input invalid! Please enter the desired encoder resolution (integer, unit: "
-                     "μm, min: 1, max: 65535): ";
-    }
-
-    if (!confirmCapture()) {
-        profiler.disconnect();
-        return -1;
     }
 
     mmind::eye::UserSet currentUserSet = profiler.currentUserSet();
@@ -212,6 +200,10 @@ int main()
     showError(currentUserSet.setEnumValue(
         mmind::eye::trigger_settings::LineScanTriggerSource::name,
         static_cast<int>(mmind::eye::trigger_settings::LineScanTriggerSource::Value::Encoder)));
+    // // Set the "Line Scan Trigger Source" parameter to "FixedRate"
+    // showError(currentUserSet.setEnumValue(
+    // mmind::eye::trigger_settings::LineScanTriggerSource::name,
+    // static_cast<int>(mmind::eye::trigger_settings::LineScanTriggerSource::Value::FixedRate)));
 
     // Set the "Scan Line Count" parameter (the number of lines to be scanned) to captureLineCnt
     showError(
@@ -230,6 +222,28 @@ int main()
     showError(currentUserSet.getFloatValue(
         mmind::eye::point_cloud_resolutions::XAxisResolution::name, xUnit));
 
+    // Ge the Y resolution
+    double yUnit;
+    showError(currentUserSet.getFloatValue(mmind::eye::point_cloud_resolutions::YResolution::name,
+                                           yUnit));
+    // Uncomment the following lines for custom Y Unit
+    // // Prompt to enter the desired encoder resolution, which is the travel distance corresponding
+    // to
+    // // one quadrature signal.
+    // std::cout << "Please enter the desired encoder resolution (integer, unit: μm, min: "
+    //  "1, max: 65535): ";
+    // while (true) {
+    //     std::string str;
+    //     std::cin >> str;
+    //     if (std::regex_match(str.begin(), str.end(), std::regex{"[0-9]+"})) {
+    //         yUnit = atoi(str.c_str());
+    //         break;
+    //     }
+    //     std::cout << "Input invalid! Please enter the desired encoder resolution (integer, unit:
+    //     "
+    //                  "μm, min: 1, max: 65535): ";
+    // }
+
     mmind::eye::ProfileBatch totalBatch(dataPoints);
     std::vector<int> encodersVals;
     encodersVals.reserve(captureLineCount);
@@ -240,6 +254,13 @@ int main()
                       dataPoints, xUnit, yUnit, "PointCloud.csv", true);
         saveDataToPly(totalBatch.getDepthMap().data(), encodersVals.data(), captureLineCount,
                       dataPoints, xUnit, yUnit, "PointCloud.ply", true);
+
+        // Comment the lines above and uncomment the lines below if you set "Line Scan Trigger
+        // Source" to "FixedRate". Source" to "FixedRate".
+        // saveDataToCsv(totalBatch.getDepthMap().data(), encodersVals.data(), captureLineCount,
+        //   dataPoints, xUnit, yUnit, "PointCloud.csv", true, false);
+        // saveDataToPly(totalBatch.getDepthMap().data(), encodersVals.data(), captureLineCount,
+        //               dataPoints, xUnit, yUnit, "PointCloud.ply", true, false);
     }
 
     // Disconnect from the laser profiler

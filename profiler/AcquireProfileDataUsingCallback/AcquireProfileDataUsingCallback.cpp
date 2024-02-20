@@ -62,7 +62,9 @@ void saveMap(const mmind::eye::ProfileBatch& batch, int lineCount, int width,
              const std::string& path)
 {
     if (batch.isEmpty()) {
-        std::cout << "The batch of profiles is empty." << std::endl;
+        std::cout
+            << "The depth map cannot be saved because the batch does not contain any profile data."
+            << std::endl;
         return;
     }
     cv::imwrite(path, cv::Mat(lineCount, width, CV_32FC1, batch.getDepthMap().data()));
@@ -72,7 +74,9 @@ void saveIntensity(const mmind::eye::ProfileBatch& batch, int lineCount, int wid
                    const std::string& path)
 {
     if (batch.isEmpty()) {
-        std::cout << "The batch of profiles is empty." << std::endl;
+        std::cout
+            << "The intensity cannot be saved because the batch does not contain any profile data."
+            << std::endl;
         return;
     }
     cv::imwrite(path, cv::Mat(lineCount, width, CV_8UC1, batch.getIntensityImage().data()));
@@ -161,21 +165,10 @@ int main()
     // Set the "Laser Power" parameter to 100
     showError(currentUserSet.setIntValue(mmind::eye::brightness_settings::LaserPower::name, 100));
 
-    mmind::eye::ProfilerInfo profilerInfo;
-    if (profiler.getProfilerInfo(profilerInfo).isOK()) {
-        if (profilerInfo.model == "Mech-Eye LNX 8030") {
-            // Set the "Analog Gain" parameter for LNX-8030 to "1.3×"
-            showError(currentUserSet.setEnumValue(
-                mmind::eye::brightness_settings::AnalogGainFor8030::name,
-                static_cast<int>(
-                    mmind::eye::brightness_settings::AnalogGainFor8030::Value::Gain_1_3)));
-        } else {
-            // Set the "Analog Gain" parameter for other models to "1.3×"
-            showError(currentUserSet.setEnumValue(
-                mmind::eye::brightness_settings::AnalogGain::name,
-                static_cast<int>(mmind::eye::brightness_settings::AnalogGain::Value::Gain_1_3)));
-        }
-    }
+    // Set the "Analog Gain" parameter to "Gain_2"
+    showError(currentUserSet.setEnumValue(
+        mmind::eye::brightness_settings::AnalogGain::name,
+        static_cast<int>(mmind::eye::brightness_settings::AnalogGain::Value::Gain_2)));
 
     // Set the "Digital Gain" parameter to 0
     showError(currentUserSet.setIntValue(mmind::eye::brightness_settings::DigitalGain::name, 0));
@@ -188,9 +181,13 @@ int main()
     // Set the "Maximum Laser Line Width" parameter to 20
     showError(
         currentUserSet.setIntValue(mmind::eye::profile_extraction::MaxLaserLineWidth::name, 20));
+    // This parameter is only effective for firmware 2.2.1 and below. For firmware 2.3.0 and above,
+    // adjustment of this parameter does not take effect.
     // Set the "Minimum Spot Intensity" parameter to 51
     showError(
         currentUserSet.setIntValue(mmind::eye::profile_extraction::MinSpotIntensity::name, 51));
+    // This parameter is only effective for firmware 2.2.1 and below. For firmware 2.3.0 and above,
+    // adjustment of this parameter does not take effect.
     // Set the "Maximum Spot Intensity" parameter to 205
     showError(
         currentUserSet.setIntValue(mmind::eye::profile_extraction::MaxSpotIntensity::name, 205));
@@ -217,7 +214,7 @@ int main()
             mmind::eye::profile_processing::MeanFilterWindowSize::Value::WindowSize_2)));
 
     int dataPoints = 0;
-    // Get the number of data points of each profile
+    // Get the number of data points in each profile
     showError(currentUserSet.getIntValue(mmind::eye::scan_settings::DataPointsPerProfile::name,
                                          dataPoints));
     int captureLineCount = 0;
@@ -257,6 +254,11 @@ int main()
     }
 
     saveMap(profileBatch, profileBatch.height(), profileBatch.width(), "DepthMap.tif");
+
+    // Uncomment the following line to save a virtual device file using the ProfileBatch
+    // profileBatch acquired.
+    // profiler.saveVirtualDeviceFile(profileBatch, "test.mraw");
+
     profileBatch.clear();
 
     // Disconnect from the laser profiler

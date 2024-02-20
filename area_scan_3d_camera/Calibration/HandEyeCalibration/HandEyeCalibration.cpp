@@ -94,7 +94,7 @@ int main()
                 cv::namedWindow("Original 2D Image", 0);
                 cv::resizeWindow("Original 2D Image", frame2D.imageSize().width / 2,
                                  frame2D.imageSize().height / 2);
-                cv::imshow("Original 2D Image", testImg);
+                // cv::imshow("Original 2D Image", testImg);
                 std::cout << "Press any key to close the image." << std::endl;
                 cv::waitKey(0);
                 cv::destroyAllWindows();
@@ -117,7 +117,7 @@ int main()
                 cv::namedWindow("Feature Recognition Result", 0);
                 cv::resizeWindow("Feature Recognition Result", color2DImage.width() / 2,
                                  color2DImage.height() / 2);
-                cv::imshow("Feature Recognition Result", testImg);
+                // cv::imshow("Feature Recognition Result", testImg);
                 std::cout << "Press any key to close the image." << std::endl;
                 cv::waitKey(0);
                 cv::destroyAllWindows();
@@ -142,11 +142,10 @@ int main()
                 std::cout << std::endl;
                 std::cout << "Enter the pose again:" << std::endl;
                 robotPose = enterRobotPose(eulerType);
-                std::cout
-                    << "\nThe current pose index is " << poseIndex
-                    << "\nIf the above pose is correct, enter y; otherwise, press any key to "
-                       "enter the pose again."
-                    << std::endl;
+                std::cout << "\nThe current pose index is " << poseIndex
+                          << "\nIf the above pose is correct, enter y; otherwise, press any key to "
+                             "enter the pose again."
+                          << std::endl;
                 std::cin >> key;
             }
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -161,7 +160,7 @@ int main()
                 cv::namedWindow("Feature Recognition Result", 0);
                 cv::resizeWindow("Feature Recognition Result", color2DImage.width() / 2,
                                  color2DImage.height() / 2);
-                cv::imshow("Feature Recognition Result", testImg);
+                // cv::imshow("Feature Recognition Result", testImg);
                 std::cout << "Press any key to close the image." << std::endl;
                 cv::waitKey(0);
                 cv::destroyAllWindows();

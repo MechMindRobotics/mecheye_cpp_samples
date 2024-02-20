@@ -63,7 +63,7 @@ int main()
     }
     }
 
-    cv::imshow(imageFile, image2D);
+    // cv::imshow(imageFile, image2D);
     cv::imwrite(imageFile, image2D);
     std::cout << "Capture and save the 2D image: " << imageFile << std::endl;
     cv::waitKey(0);
