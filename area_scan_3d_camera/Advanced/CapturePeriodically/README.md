@@ -29,8 +29,8 @@ The following software are required to build this sample. Please download and in
 
 3. Run Cmake and set the source and build paths:
 
-   | Field                       | Path                                  |
-   | :----                       | :----                                 |
+   | Field                       | Path                          |
+   | :----                       | :----                         |
    | Where is the source code    | xxx/CapturePeriodically       |
    | Where to build the binaries | xxx/CapturePeriodically/build |
 
@@ -70,13 +70,13 @@ Ubuntu 18 or above is required.
   * If the system architecture is AMD64, execute the following command:
 
     ```bash
-    sudo dpkg -i 'MechEyeApi_x.x.x_amd64.deb'
+    sudo dpkg -i 'Mech-Eye_API_x.x.x_amd64.deb'
     ```
 
   * If the system architecture is ARM64, execute the following command:
 
     ```bash
-    sudo dpkg -i 'MechEyeApi_x.x.x_arm64.deb'
+    sudo dpkg -i 'Mech-Eye_API_x.x.x_arm64.deb'
     ```
 
 * Install third-party libraries: OpenCV is required.

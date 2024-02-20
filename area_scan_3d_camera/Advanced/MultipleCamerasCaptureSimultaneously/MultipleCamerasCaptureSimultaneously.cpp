@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2023, Mech-Mind Robotics
+ *Copyright (c) 2016-2024, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -49,6 +49,11 @@ int main()
     std::vector<mmind::eye::Camera> cameraList = findAndConnectMultiCamera();
     std::vector<std::future<void>> container;
     std::mutex m;
+
+    if (cameraList.empty()) {
+        std::cout << "No cameras connected." << std::endl;
+        return 0;
+    }
 
     if (!confirmCapture3D()) {
         for (auto& camera : cameraList)
@@ -107,5 +112,6 @@ void captureAsync(mmind::eye::Camera& camera, std::mutex& m)
                                                    : "TexturedPointCloud_" + serialNumber + ".ply";
     showError(
         frame2DAnd3D.saveTexturedPointCloud(mmind::eye::FileFormat::PLY, texturedPointCloudFile));
-    std::cout << "Capture and save the textured point cloud: " << texturedPointCloudFile << std::endl;
+    std::cout << "Capture and save the textured point cloud: " << texturedPointCloudFile
+              << std::endl;
 }
