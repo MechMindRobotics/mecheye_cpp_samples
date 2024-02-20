@@ -1,6 +1,8 @@
-# CaptureDepthMap Sample
+# CaptureStereo2DImages Sample
 
-With this sample, you can obtain and save the depth map.
+With this sample, you can obtain and save the 2D images from both 2D cameras.
+
+> Note: This sample is only applicable to the following models: Deep, Laser L Enhanced, PRO XS, LSR L, LSR S, and DEEP.
 
 If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
 
@@ -29,10 +31,10 @@ The following software are required to build this sample. Please download and in
 
 3. Run Cmake and set the source and build paths:
 
-   | Field                       | Path                      |
-   | :----                       | :----                     |
-   | Where is the source code    | xxx/CaptureDepthMap       |
-   | Where to build the binaries | xxx/CaptureDepthMap/build |
+   | Field                       | Path                            |
+   | :----                       | :----                           |
+   | Where is the source code    | xxx/CaptureStereo2DImages       |
+   | Where to build the binaries | xxx/CaptureStereo2DImages/build |
 
 4. Click the **Configure** button. In the pop-up window, set the generator and platform according to the actual situation, and then click the **Finish** button.
 5. When the log displays **Configuring done**, click the **Generate** button. When the log displays **Generating done**, click the **Open Project** button.
@@ -48,13 +50,13 @@ Ubuntu 18 or above is required.
 #### Prerequisites
 
 * Update the software source list.
-
+  
   ```bash
   sudo apt-get update
   ```
 
 * Install required tools.
-
+  
   ```bash
   sudo apt-get install -y build-essential pkg-config cmake
   ```
@@ -66,7 +68,7 @@ Ubuntu 18 or above is required.
   >```bash
   >sudo dpkg -P MechEyeApi
   >```
-
+  
   * If the system architecture is AMD64, execute the following command:
 
     ```bash
@@ -92,13 +94,13 @@ Ubuntu 18 or above is required.
     cmake --build .
     sudo make install
     ```
-
+  
 #### Instructions
 
 1. Navigate to the directory of the sample.
 
    ```bash
-   cd xxx/area_scan_3d_camera/Basic/CaptureDepthMap/
+   cd xxx/area_scan_3d_camera/Advanced/CaptureStereo2DImages/
    ```
 
 2. Configure and build the sample.
@@ -112,7 +114,7 @@ Ubuntu 18 or above is required.
 3. Run the sample.
 
    ```bash
-   sudo ./CaptureDepthMap
+   sudo ./CaptureStereo2DImages
    ```
 
-4. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to `/CaptureDepthMap/build`.
+4. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to `/CaptureStereo2DImages/build`.
