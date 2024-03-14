@@ -1,10 +1,10 @@
 ﻿cmake_minimum_required (VERSION 3.5)
 
-project (AcquireProfileData)
+project (TriggerWithSoftwareAndFixedRate)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(Files ${PROJECT_SOURCE_DIR}/AcquireProfileData.cpp)
+set(Files ${PROJECT_SOURCE_DIR}/TriggerWithSoftwareAndFixedRate.cpp)
 
 if(CMAKE_HOST_WIN32)
   find_package(MechEyeApi REQUIRED CONFIG PATHS "$ENV{MECHEYE_DIR}/API")

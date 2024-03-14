@@ -1,10 +1,14 @@
-﻿cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required(VERSION 3.5)
 
-project (AcquireProfileDataUsingCallback)
+project(TriggerMultipleProfilersSimultaneously)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(Files ${PROJECT_SOURCE_DIR}/AcquireProfileDataUsingCallback.cpp)
+if(CMAKE_HOST_UNIX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+endif()
+
+set(Files ${PROJECT_SOURCE_DIR}/TriggerMultipleProfilersSimultaneously.cpp)
 
 if(CMAKE_HOST_WIN32)
   find_package(MechEyeApi REQUIRED CONFIG PATHS "$ENV{MECHEYE_DIR}/API")
