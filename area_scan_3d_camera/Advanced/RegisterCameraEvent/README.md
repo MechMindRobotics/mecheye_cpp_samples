@@ -75,7 +75,7 @@ Ubuntu 18 or above is required.
 
 #### Instructions
 
-1. Navigate to the directory of the sample. 
+1. Navigate to the directory of the sample.
 
    ```bash
    cd xxx/area_scan_3d_camera/Advanced/RegisterCameraEvent/

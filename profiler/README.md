@@ -10,12 +10,16 @@ Currently, the following samples are provided.
 
 The samples marked with `(OpenCV)` require [OpenCV](https://opencv.org/releases/) to be installed.  
 
-* [AcquireProfileData](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/AcquireProfileData) `(OpenCV)`  
-  Acquire the profile data, generate the intensity image and depth map, and save the images.
-* [AcquireProfileDataUsingCallback](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/AcquireProfileDataUsingCallback) `(OpenCV)`  
-  Acquire the profile data using a callback function, generate the intensity image and depth map, and save the images.
-* [AcquirePointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/AcquirePointCloud)  
-  Acquire the profile data, generate the point cloud, and save the point cloud in the CSV and PLY formats.
+* [TriggerWithSoftwareAndFixedRate](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerWithSoftwareAndFixedRate) `(OpenCV)`  
+  Trigger data acquisition with signals input from software, trigger line scans at a fixed rate, and then retrieve and save the acquired data.
+* [TriggerWithExternalDeviceAndFixedRate](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerWithExternalDeviceAndFixedRate) `(OpenCV)`  
+  Trigger data acquisition with signals input from the external device, trigger line scans at a fixed rate, and then retrieve and save the acquired data.
+* [TriggerWithSoftwareAndEncoder](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerWithSoftwareAndEncoder) `(OpenCV)`  
+  Trigger data acquisition with signals input from software, trigger line scans with signals input from the encoder, and then retrieve and save the acquired data.
+* [TriggerWithExternalDeviceAndEncoder](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerWithExternalDeviceAndEncoder) `(OpenCV)`  
+  Trigger data acquisition with signals input from the external device, trigger line scans with signals input from the encoder, and then retrieve and save the acquired data.
+* [TriggerMultipleProfilersSimultaneously](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerMultipleProfilersSimultaneously) `(OpenCV)`  
+  Trigger multiple laser profilers to acquire data asynchronously and retrieve the acquired data.
 * [ManageUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/ManageUserSets)  
   Manage parameter groups, such as obtaining the names of all parameter groups, adding a parameter group, switching the parameter group, and saving parameter settings to the parameter group.
 * [RegisterProfilerEvent](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/RegisterProfilerEvent)  
@@ -53,7 +57,7 @@ Optional software: If you need to build the samples dependent on third-party sof
 
    Open the CMakeLists file in `xxx/profiler`, and change **ON** to **OFF** in the line that starts with `option(USE_OPENCV`.
 
-4. Run Cmake and set the source and build paths: 
+4. Run Cmake and set the source and build paths:
 
    | Field                       | Path                 |
    | :----                       | :----                |
