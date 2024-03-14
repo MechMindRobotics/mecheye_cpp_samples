@@ -15,17 +15,22 @@ endif()
 option(USE_OPENCV "Enable samples which depend on OpenCV" ON)
 
 set(SAMPLES
-    AcquireProfileData
-    AcquireProfileDataUsingCallback
-    AcquirePointCloud
     ManageUserSets
     RegisterProfilerEvent
+    TriggerMultipleProfilersSimultaneously
+    TriggerWithExternalDeviceAndEncoder
+    TriggerWithExternalDeviceAndFixedRate
+    TriggerWithSoftwareAndEncoder
+    TriggerWithSoftwareAndFixedRate
     UseVirtualDevice
     )
 
 set(OpenCV_DEPENDING
-    AcquireProfileData
-    AcquireProfileDataUsingCallback
+    TriggerMultipleProfilersSimultaneously
+    TriggerWithExternalDeviceAndEncoder
+    TriggerWithExternalDeviceAndFixedRate
+    TriggerWithSoftwareAndEncoder
+    TriggerWithSoftwareAndFixedRate
     UseVirtualDevice
     )
 
