@@ -89,7 +89,7 @@ int main()
     cv::imwrite(imageFileRight, cvMatRight);
     std::cout << "Capture and save the stereo 2D image: " << imageFileLeft << " and "
               << imageFileRight << std::endl;
-    cv::waitKey(0);
+    // cv::waitKey(0);
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

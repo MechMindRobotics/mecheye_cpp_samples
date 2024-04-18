@@ -31,7 +31,8 @@
  ******************************************************************************/
 
 /*
-With this sample, you can obtain the point cloud data from the camera and convert it to the PCL data structure.
+With this sample, you can obtain the point cloud data from the camera and convert it to the PCL data
+structure.
 */
 
 #include <pcl/point_types.h>
@@ -44,12 +45,25 @@ With this sample, you can obtain the point cloud data from the camera and conver
 
 namespace {
 
+template <typename T,
+          typename = std::enable_if_t<(std::is_same<T, mmind::eye::PointCloud>::value ||
+                                       std::is_same<T, mmind::eye::TexturedPointCloud>::value)>>
+bool containsInvalidPoint(const T& cloud)
+{
+    return std::any_of(
+        cloud.data(), cloud.data() + cloud.width() * cloud.height() - 1, [](const auto& point) {
+            return std::isnan(point.x) || std::isnan(point.y) || std::isnan(point.z) ||
+                   std::isinf(point.x) || std::isinf(point.y) || std::isinf(point.z);
+        });
+}
+
 void convertToPCL(const mmind::eye::PointCloud& cloud,
                   pcl::PointCloud<pcl::PointXYZ>& pclPointCloud)
 {
     // write PointXYZ data
     uint32_t size = cloud.height() * cloud.width();
     pclPointCloud.resize(size);
+    pclPointCloud.is_dense = !containsInvalidPoint<mmind::eye::PointCloud>(cloud);
 
     for (size_t i = 0; i < size; i++) {
         pclPointCloud[i].x = 0.001 * cloud[i].x; // mm to m
@@ -66,6 +80,8 @@ void convertToPCL(const mmind::eye::TexturedPointCloud& texturedCloud,
     // write PointXYZRGB data
     uint32_t size = texturedCloud.height() * texturedCloud.width();
     pclTexturedPointCloud.resize(size);
+    pclTexturedPointCloud.is_dense =
+        !containsInvalidPoint<mmind::eye::TexturedPointCloud>(texturedCloud);
 
     for (size_t i = 0; i < size; i++) {
         pclTexturedPointCloud[i].x = 0.001 * texturedCloud[i].x; // mm to m
@@ -91,8 +107,8 @@ void showPointCloud(const pcl::PointCloud<pcl::PointXYZ>& pointCloud)
     cloudViewer.setBackgroundColor(0, 0, 0);
     cloudViewer.addPointCloud(pointCloud.makeShared());
     cloudViewer.addCoordinateSystem(0.01);
-    cloudViewer.addText("Point cloud size: " + std::to_string(pointCloud.size()), 0, 25, 20, 1, 1, 1,
-                        "cloudSize");
+    cloudViewer.addText("Point cloud size: " + std::to_string(pointCloud.size()), 0, 25, 20, 1, 1,
+                        1, "cloudSize");
     cloudViewer.addText("Press r/R to reset camera view point to center.", 0, 0, 16, 1, 1, 1,
                         "help");
     cloudViewer.initCameraParameters();
@@ -113,8 +129,8 @@ void showPointCloud(const pcl::PointCloud<pcl::PointXYZRGB>& colorPointCloud)
     cloudViewer.setBackgroundColor(0, 0, 0);
     cloudViewer.addPointCloud(colorPointCloud.makeShared());
     cloudViewer.addCoordinateSystem(0.01);
-    cloudViewer.addText("Point cloud size: " + std::to_string(colorPointCloud.size()), 0, 25, 20, 1, 1, 1,
-                        "cloudSize");
+    cloudViewer.addText("Point cloud size: " + std::to_string(colorPointCloud.size()), 0, 25, 20, 1,
+                        1, 1, "cloudSize");
     cloudViewer.addText("Press r/R to reset camera view point to center.", 0, 0, 16, 1, 1, 1,
                         "help");
     cloudViewer.initCameraParameters();
