@@ -66,7 +66,7 @@ The sample marked with `(HALCON)` requires [HALCON](https://www.mvtec.com/downlo
   * [SetPointCloudProcessingParameters](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Util/SetPointCloudProcessingParameters)  
     Set the **Point Cloud Processing** parameters.
   * [ManageUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Util/ManageUserSets)  
-    Manage parameter groups, such as obtaining the names of all parameter groups, adding a parameter group, switching the parameter group, and saveing parameter settings to the parameter group.
+    Manage parameter groups, such as obtaining the names of all parameter groups, adding a parameter group, switching the parameter group, and saving parameter settings to the parameter group.
   * [SaveAndLoadUserSet](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Util/SaveAndLoadUserSet)  
     Import and replace all parameter groups from a JSON file, and save all parameter groups to a JSON file.
 * **Calibration**

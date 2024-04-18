@@ -31,7 +31,8 @@
  ******************************************************************************/
 
 /*
-With this sample, you can obtain the point cloud data with normals from the camera and convert it to the PCL data structure.
+With this sample, you can obtain the point cloud data with normals from the camera and convert it to
+the PCL data structure.
 */
 
 #include <pcl/point_types.h>
@@ -44,12 +45,46 @@ With this sample, you can obtain the point cloud data with normals from the came
 
 namespace {
 
+bool containsInvalidPoint(const mmind::eye::PointCloudWithNormals& cloud)
+{
+    return std::any_of(
+        cloud.data(), cloud.data() + cloud.width() * cloud.height() - 1,
+        [](const auto& pointWithNormals) {
+            return std::isnan(pointWithNormals.point.x) || std::isnan(pointWithNormals.point.y) ||
+                   std::isnan(pointWithNormals.point.z) || std::isnan(pointWithNormals.normal.x) ||
+                   std::isnan(pointWithNormals.normal.y) || std::isnan(pointWithNormals.normal.z) ||
+                   std::isinf(pointWithNormals.point.x) || std::isinf(pointWithNormals.point.y) ||
+                   std::isinf(pointWithNormals.point.z) || std::isinf(pointWithNormals.normal.x) ||
+                   std::isinf(pointWithNormals.normal.y) || std::isinf(pointWithNormals.normal.z);
+        });
+}
+
+bool containsInvalidPoint(const mmind::eye::TexturedPointCloudWithNormals& cloud)
+{
+    return std::any_of(cloud.data(), cloud.data() + cloud.width() * cloud.height() - 1,
+                       [](const auto& pointWithNormals) {
+                           return std::isnan(pointWithNormals.colorPoint.x) ||
+                                  std::isnan(pointWithNormals.colorPoint.y) ||
+                                  std::isnan(pointWithNormals.colorPoint.z) ||
+                                  std::isnan(pointWithNormals.normal.x) ||
+                                  std::isnan(pointWithNormals.normal.y) ||
+                                  std::isnan(pointWithNormals.normal.z) ||
+                                  std::isinf(pointWithNormals.colorPoint.x) ||
+                                  std::isinf(pointWithNormals.colorPoint.y) ||
+                                  std::isinf(pointWithNormals.colorPoint.z) ||
+                                  std::isinf(pointWithNormals.normal.x) ||
+                                  std::isinf(pointWithNormals.normal.y) ||
+                                  std::isinf(pointWithNormals.normal.z);
+                       });
+}
+
 void convertToPCL(const mmind::eye::PointCloudWithNormals& cloud,
                   pcl::PointCloud<pcl::PointNormal>& pclPointCloud)
 {
     // write PointNormal data
     uint32_t size = cloud.height() * cloud.width();
     pclPointCloud.resize(size);
+    pclPointCloud.is_dense = !containsInvalidPoint(cloud);
 
     for (size_t i = 0; i < size; i++) {
         pclPointCloud[i].x = 0.001 * cloud[i].point.x; // mm to m
@@ -69,6 +104,8 @@ void convertToPCL(const mmind::eye::TexturedPointCloudWithNormals& texturedCloud
     // write PointXYZRGBNormal data
     uint32_t size = texturedCloud.height() * texturedCloud.width();
     pclTexturedPointCloud.resize(size);
+    pclTexturedPointCloud.is_dense =
+        !containsInvalidPoint(texturedCloud);
 
     for (size_t i = 0; i < size; i++) {
         pclTexturedPointCloud[i].x = 0.001 * texturedCloud[i].colorPoint.x; // mm to m
@@ -98,8 +135,8 @@ void showPointCloud(const pcl::PointCloud<pcl::PointNormal>& pointCloud)
     cloudViewer.setBackgroundColor(0, 0, 0);
     cloudViewer.addPointCloudNormals<pcl::PointNormal>(pointCloud.makeShared());
     cloudViewer.addCoordinateSystem(0.01);
-    cloudViewer.addText("Point cloud size: " + std::to_string(pointCloud.size()), 0, 25, 20, 1, 1, 1,
-                        "cloudSize");
+    cloudViewer.addText("Point cloud size: " + std::to_string(pointCloud.size()), 0, 25, 20, 1, 1,
+                        1, "cloudSize");
     cloudViewer.addText("Press r/R to reset camera view point to center.", 0, 0, 16, 1, 1, 1,
                         "help");
     cloudViewer.initCameraParameters();
@@ -120,8 +157,8 @@ void showPointCloud(const pcl::PointCloud<pcl::PointXYZRGBNormal>& colorPointClo
     cloudViewer.setBackgroundColor(0, 0, 0);
     cloudViewer.addPointCloudNormals<pcl::PointXYZRGBNormal>(colorPointCloud.makeShared());
     cloudViewer.addCoordinateSystem(0.01);
-    cloudViewer.addText("Point cloud size: " + std::to_string(colorPointCloud.size()), 0, 25, 20, 1, 1, 1,
-                        "cloudSize");
+    cloudViewer.addText("Point cloud size: " + std::to_string(colorPointCloud.size()), 0, 25, 20, 1,
+                        1, 1, "cloudSize");
     cloudViewer.addText("Press r/R to reset camera view point to center.", 0, 0, 16, 1, 1, 1,
                         "help");
     cloudViewer.initCameraParameters();
@@ -159,7 +196,8 @@ int main()
     writer.write(pointCloudFile, pointCloudPCL, true);
     std::cout << "The point cloud has: " << pointCloudPCL.width * pointCloudPCL.height
               << " data points." << std::endl;
-    std::cout << "Save the untextured point cloud with normals to file:" << pointCloudFile << std::endl;
+    std::cout << "Save the untextured point cloud with normals to file:" << pointCloudFile
+              << std::endl;
 
     const mmind::eye::TexturedPointCloudWithNormals texturedPointCloud =
         frame2DAnd3D.getTexturedPointCloudWithNormals();
@@ -174,7 +212,8 @@ int main()
     std::cout << "The point cloud has: "
               << texturedPointCloudPCL.width * texturedPointCloudPCL.height << " data points."
               << std::endl;
-    std::cout << "Save the textured point cloud with normals to file: " << texturedPointCloudFile << std::endl;
+    std::cout << "Save the textured point cloud with normals to file: " << texturedPointCloudFile
+              << std::endl;
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

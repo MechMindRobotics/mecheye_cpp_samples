@@ -91,13 +91,14 @@ int main()
                 colorFile += ".png";
                 cv::Mat testImg = cv::Mat(frame2D.imageSize().height, frame2D.imageSize().width,
                                           CV_8UC3, frame2D.getColorImage().data());
-                cv::namedWindow("Original 2D Image", 0);
-                cv::resizeWindow("Original 2D Image", frame2D.imageSize().width / 2,
-                                 frame2D.imageSize().height / 2);
-                // cv::imshow("Original 2D Image", testImg);
-                std::cout << "Press any key to close the image." << std::endl;
-                cv::waitKey(0);
-                cv::destroyAllWindows();
+                //                cv::namedWindow("Original 2D Image", 0);
+                //                cv::resizeWindow("Original 2D Image", frame2D.imageSize().width /
+                //                2,
+                //                                 frame2D.imageSize().height / 2);
+                //                cv::imshow("Original 2D Image", testImg);
+                //                std::cout << "Press any key to close the image." << std::endl;
+                //                cv::waitKey(0);
+                //                cv::destroyAllWindows();
                 cv::imwrite(colorFile, testImg);
                 std::cout << "Save the image to file " << colorFile << std::endl;
             }
@@ -114,13 +115,14 @@ int main()
                 colorFile += ".png";
                 cv::Mat testImg = cv::Mat(color2DImage.height(), color2DImage.width(), CV_8UC3,
                                           color2DImage.data());
-                cv::namedWindow("Feature Recognition Result", 0);
-                cv::resizeWindow("Feature Recognition Result", color2DImage.width() / 2,
-                                 color2DImage.height() / 2);
-                // cv::imshow("Feature Recognition Result", testImg);
-                std::cout << "Press any key to close the image." << std::endl;
-                cv::waitKey(0);
-                cv::destroyAllWindows();
+                //                cv::namedWindow("Feature Recognition Result", 0);
+                //                cv::resizeWindow("Feature Recognition Result",
+                //                color2DImage.width() / 2,
+                //                                 color2DImage.height() / 2);
+                //                cv::imshow("Feature Recognition Result", testImg);
+                //                std::cout << "Press any key to close the image." << std::endl;
+                //                cv::waitKey(0);
+                //                cv::destroyAllWindows();
                 cv::imwrite(colorFile, testImg);
                 std::cout << "Save the image to file " << colorFile << std::endl;
             }
@@ -157,13 +159,14 @@ int main()
                 colorFile += ".png";
                 cv::Mat testImg = cv::Mat(color2DImage.height(), color2DImage.width(), CV_8UC3,
                                           color2DImage.data());
-                cv::namedWindow("Feature Recognition Result", 0);
-                cv::resizeWindow("Feature Recognition Result", color2DImage.width() / 2,
-                                 color2DImage.height() / 2);
-                // cv::imshow("Feature Recognition Result", testImg);
-                std::cout << "Press any key to close the image." << std::endl;
-                cv::waitKey(0);
-                cv::destroyAllWindows();
+                //                cv::namedWindow("Feature Recognition Result", 0);
+                //                cv::resizeWindow("Feature Recognition Result",
+                //                color2DImage.width() / 2,
+                //                                 color2DImage.height() / 2);
+                //                cv::imshow("Feature Recognition Result", testImg);
+                //                std::cout << "Press any key to close the image." << std::endl;
+                //                cv::waitKey(0);
+                //                cv::destroyAllWindows();
                 cv::imwrite(colorFile, testImg);
                 std::cout << "Save the image to file " << colorFile << std::endl;
                 std::cout << "Successfully added the pose." << std::endl;
