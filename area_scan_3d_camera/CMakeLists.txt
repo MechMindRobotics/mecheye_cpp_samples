@@ -100,7 +100,7 @@ elseif(CMAKE_HOST_UNIX)
 endif()
 
 if(USE_OPENCV)
-  # OpenCV_DIR: set as your OpenCV libraries directory; Uncomment next line to
+  #  OpenCV_DIR: set as your OpenCV libraries directory; Uncomment next line to
   # set OpenCV_DIR manually
 
   # set(OpenCV_DIR  "path to OpenCV directory")
