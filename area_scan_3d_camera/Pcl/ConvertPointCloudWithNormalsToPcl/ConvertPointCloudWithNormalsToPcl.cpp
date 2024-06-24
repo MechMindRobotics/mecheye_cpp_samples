@@ -81,6 +81,7 @@ bool containsInvalidPoint(const mmind::eye::TexturedPointCloudWithNormals& cloud
                        });
 }
 
+<<<<<<< HEAD
 pcl::PCLPointField createPointField(std::string name, uint32_t offset, uint8_t datatype,
                                     uint32_t count)
 {
@@ -101,6 +102,15 @@ void convertToPCL(const mmind::eye::PointCloudWithNormals& cloud,
     pclCloud2.point_step = sizeof(mmind::eye::PointXYZWithNormals);
     pclCloud2.row_step = sizeof(mmind::eye::PointXYZWithNormals) * cloud.width();
     pclCloud2.is_dense = !containsInvalidPoint(cloud);
+=======
+void convertToPCL(const mmind::eye::PointCloudWithNormals& cloud,
+                  pcl::PointCloud<pcl::PointNormal>& pclPointCloud)
+{
+    // write PointNormal data
+    uint32_t size = cloud.height() * cloud.width();
+    pclPointCloud.resize(size);
+    pclPointCloud.is_dense = !containsInvalidPoint(cloud);
+>>>>>>> bd8af32f5562b00c36cf7d083d9db94308a7b831
 
     pclCloud2.fields.reserve(7);
     pclCloud2.fields.push_back(createPointField("x",
@@ -137,12 +147,19 @@ void convertToPCL(const mmind::eye::TexturedPointCloudWithNormals& texturedCloud
                   pcl::PointCloud<pcl::PointXYZRGBNormal>& pclTexturedPointCloud)
 {
     // write PointXYZRGBNormal data
+<<<<<<< HEAD
     pcl::PCLPointCloud2 pclCloud2;
     pclCloud2.height = texturedCloud.height();
     pclCloud2.width = texturedCloud.width();
     pclCloud2.point_step = sizeof(mmind::eye::PointXYZBGRWithNormals);
     pclCloud2.row_step = sizeof(mmind::eye::PointXYZBGRWithNormals) * texturedCloud.width();
     pclCloud2.is_dense = !containsInvalidPoint(texturedCloud);
+=======
+    uint32_t size = texturedCloud.height() * texturedCloud.width();
+    pclTexturedPointCloud.resize(size);
+    pclTexturedPointCloud.is_dense =
+        !containsInvalidPoint(texturedCloud);
+>>>>>>> bd8af32f5562b00c36cf7d083d9db94308a7b831
 
     pclCloud2.fields.reserve(8);
     pclCloud2.fields.push_back(

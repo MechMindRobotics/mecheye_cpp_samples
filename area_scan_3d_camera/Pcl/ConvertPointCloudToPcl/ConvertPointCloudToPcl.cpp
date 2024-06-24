@@ -60,6 +60,7 @@ bool containsInvalidPoint(const T& cloud)
         });
 }
 
+<<<<<<< HEAD
 pcl::PCLPointField createPointField(std::string name, uint32_t offset, uint8_t datatype,
                                     uint32_t count)
 {
@@ -80,6 +81,15 @@ void convertToPCL(const mmind::eye::PointCloud& cloud,
     pclCloud2.point_step = sizeof(mmind::eye::PointXYZ);
     pclCloud2.row_step = sizeof(mmind::eye::PointXYZ) * cloud.width();
     pclCloud2.is_dense = !containsInvalidPoint<mmind::eye::PointCloud>(cloud);
+=======
+void convertToPCL(const mmind::eye::PointCloud& cloud,
+                  pcl::PointCloud<pcl::PointXYZ>& pclPointCloud)
+{
+    // write PointXYZ data
+    uint32_t size = cloud.height() * cloud.width();
+    pclPointCloud.resize(size);
+    pclPointCloud.is_dense = !containsInvalidPoint<mmind::eye::PointCloud>(cloud);
+>>>>>>> bd8af32f5562b00c36cf7d083d9db94308a7b831
 
     pclCloud2.fields.reserve(3);
     pclCloud2.fields.push_back(createPointField("x", offsetof(mmind::eye::PointXYZ, x),
@@ -100,12 +110,20 @@ void convertToPCL(const mmind::eye::PointCloud& cloud,
 void convertToPCL(const mmind::eye::TexturedPointCloud& texturedCloud,
                   pcl::PointCloud<pcl::PointXYZRGB>& pclTexturedPointCloud)
 {
+<<<<<<< HEAD
     pcl::PCLPointCloud2 pclCloud2;
     pclCloud2.height = texturedCloud.height();
     pclCloud2.width = texturedCloud.width();
     pclCloud2.point_step = sizeof(mmind::eye::PointXYZBGR);
     pclCloud2.row_step = sizeof(mmind::eye::PointXYZBGR) * texturedCloud.width();
     pclCloud2.is_dense = !containsInvalidPoint<mmind::eye::TexturedPointCloud>(texturedCloud);
+=======
+    // write PointXYZRGB data
+    uint32_t size = texturedCloud.height() * texturedCloud.width();
+    pclTexturedPointCloud.resize(size);
+    pclTexturedPointCloud.is_dense =
+        !containsInvalidPoint<mmind::eye::TexturedPointCloud>(texturedCloud);
+>>>>>>> bd8af32f5562b00c36cf7d083d9db94308a7b831
 
     pclCloud2.fields.reserve(4);
     pclCloud2.fields.push_back(createPointField("x", offsetof(mmind::eye::PointXYZBGR, x),
