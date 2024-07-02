@@ -413,13 +413,21 @@ void savePointCloud(const mmind::eye::ProfileBatch& batch, const mmind::eye::Use
         return;
 
     // Get the X-axis resolution
-    double xUnit = 0.0;
-    showError(
-        userSet.getFloatValue(mmind::eye::point_cloud_resolutions::XAxisResolution::name, xUnit));
+    double xUnit{};
+    auto status =
+        userSet.getFloatValue(mmind::eye::point_cloud_resolutions::XAxisResolution::name, xUnit);
+    if (!status.isOK()) {
+        showError(status);
+        return;
+    }
 
     // Get the Y resolution
-    double yUnit;
-    showError(userSet.getFloatValue(mmind::eye::point_cloud_resolutions::YResolution::name, yUnit));
+    double yUnit{};
+    status = userSet.getFloatValue(mmind::eye::point_cloud_resolutions::YResolution::name, yUnit);
+    if (!status.isOK()) {
+        showError(status);
+        return;
+    }
     // // Uncomment the following lines for custom Y Unit
     // // Prompt to enter the desired encoder resolution, which is the travel distance corresponding
     // // to
@@ -439,19 +447,33 @@ void savePointCloud(const mmind::eye::ProfileBatch& batch, const mmind::eye::Use
     // }
 
     int lineScanTriggerSource{};
-    showError(userSet.getEnumValue(mmind::eye::trigger_settings::LineScanTriggerSource::name,
-                                   lineScanTriggerSource));
+    status = userSet.getEnumValue(mmind::eye::trigger_settings::LineScanTriggerSource::name,
+                                  lineScanTriggerSource);
+    if (!status.isOK()) {
+        showError(status);
+        return;
+    }
+
     bool useEncoderValues =
         lineScanTriggerSource ==
         static_cast<int>(mmind::eye::trigger_settings::LineScanTriggerSource::Value::Encoder);
+
+    int triggerInterval{};
+    status = userSet.getIntValue(mmind::eye::trigger_settings::EncoderTriggerInterval::name,
+                                 triggerInterval);
+    if (!status.isOK()) {
+        showError(status);
+        return;
+    }
 
     // Shift the encoder values around zero
     std::vector<int> encoderVals;
     encoderVals.reserve(batch.height());
     auto encoder = batch.getEncoderArray();
     for (int r = 0; r < batch.height(); ++r)
-        encoderVals.push_back(useEncoderValues ? shiftEncoderValsAroundZero(encoder[r], encoder[0])
-                                               : r);
+        encoderVals.push_back(
+            useEncoderValues ? shiftEncoderValsAroundZero(encoder[r], encoder[0]) / triggerInterval
+                             : r);
 
     std::cout << "Save the point cloud." << std::endl;
     if (saveCSV)
@@ -511,9 +533,8 @@ int main()
     saveIntensityImage(profileBatch, captureLineCount, dataWidth, "IntensityImage.png");
     savePointCloud(profileBatch, userSet);
 
-    // Uncomment the following line to save a virtual device file using the ProfileBatch profileBatch
-    // acquired.
-    // profiler.saveVirtualDeviceFile(profileBatch, "test.mraw");
+    // Uncomment the following line to save a virtual device file using the ProfileBatch
+    // profileBatch acquired. profiler.saveVirtualDeviceFile(profileBatch, "test.mraw");
 
     // Disconnect from the laser profiler
     profiler.disconnect();

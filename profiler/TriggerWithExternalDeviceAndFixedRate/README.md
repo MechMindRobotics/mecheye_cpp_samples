@@ -6,7 +6,7 @@ If you have any questions or have anything to share, feel free to post on the [M
 
 ## Build the Sample
 
-Prerequisites and instructions for building the sample on Windows are provided.
+Prerequisites and instructions for building the sample on Windows and Ubuntu are provided.
 
 ### Windows
 
