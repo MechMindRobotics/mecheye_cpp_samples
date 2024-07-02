@@ -22,10 +22,12 @@ The samples marked with `(OpenCV)` require [OpenCV](https://opencv.org/releases/
   Trigger multiple laser profilers to acquire data asynchronously and retrieve the acquired data.
 * [ManageUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/ManageUserSets)  
   Manage parameter groups, such as obtaining the names of all parameter groups, adding a parameter group, switching the parameter group, and saving parameter settings to the parameter group.
+* [PrintProfilerStatus](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/PrintProfilerStatus)  
+  Obtain and print the laser profiler's information, such as model, serial number, firmware version, and temperatures.
 * [RegisterProfilerEvent](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/RegisterProfilerEvent)  
-Define and register the callback function for monitoring the laser profiler connection status.
+  Define and register the callback function for monitoring the laser profiler connection status.
 * [UseVirtualDevice](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/UseVirtualDevice) `(OpenCV)`  
-Acquire the profile data stored in a virtual device, generate the intensity image and depth map, and save the images.
+  Acquire the profile data stored in a virtual device, generate the intensity image and depth map, and save the images.
 
 ## Build the Samples
 

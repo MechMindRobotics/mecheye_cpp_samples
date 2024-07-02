@@ -36,10 +36,13 @@ structure.
 */
 
 #include <pcl/point_types.h>
+#include <pcl/PCLPointCloud2.h>
 #include <pcl/io/ply_io.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <vtkOutputWindow.h>
 #include <thread>
+#include <string>
+#include <cstddef>
 #include "area_scan_3d_camera/api_util.h"
 #include "area_scan_3d_camera/Camera.h"
 
@@ -57,42 +60,69 @@ bool containsInvalidPoint(const T& cloud)
         });
 }
 
+pcl::PCLPointField createPointField(std::string name, uint32_t offset, uint8_t datatype,
+                                    uint32_t count)
+{
+    pcl::PCLPointField field;
+    field.name = name;
+    field.offset = offset;
+    field.datatype = datatype;
+    field.count = count;
+    return field;
+}
+
 void convertToPCL(const mmind::eye::PointCloud& cloud,
                   pcl::PointCloud<pcl::PointXYZ>& pclPointCloud)
 {
-    // write PointXYZ data
-    uint32_t size = cloud.height() * cloud.width();
-    pclPointCloud.resize(size);
-    pclPointCloud.is_dense = !containsInvalidPoint<mmind::eye::PointCloud>(cloud);
+    pcl::PCLPointCloud2 pclCloud2;
+    pclCloud2.height = cloud.height();
+    pclCloud2.width = cloud.width();
+    pclCloud2.point_step = sizeof(mmind::eye::PointXYZ);
+    pclCloud2.row_step = sizeof(mmind::eye::PointXYZ) * cloud.width();
+    pclCloud2.is_dense = !containsInvalidPoint<mmind::eye::PointCloud>(cloud);
 
-    for (size_t i = 0; i < size; i++) {
-        pclPointCloud[i].x = 0.001 * cloud[i].x; // mm to m
-        pclPointCloud[i].y = 0.001 * cloud[i].y; // mm to m
-        pclPointCloud[i].z = 0.001 * cloud[i].z; // mm to m
-    }
+    pclCloud2.fields.reserve(3);
+    pclCloud2.fields.push_back(createPointField("x", offsetof(mmind::eye::PointXYZ, x),
+                                                pcl::PCLPointField::PointFieldTypes::FLOAT32, 1));
+    pclCloud2.fields.push_back(createPointField("y", offsetof(mmind::eye::PointXYZ, y),
+                                                pcl::PCLPointField::PointFieldTypes::FLOAT32, 1));
+    pclCloud2.fields.push_back(createPointField("z", offsetof(mmind::eye::PointXYZ, z),
+                                                pcl::PCLPointField::PointFieldTypes::FLOAT32, 1));
 
+    pclCloud2.data.resize(pclCloud2.row_step * cloud.height());
+    memcpy(pclCloud2.data.data(),
+           reinterpret_cast<uint8_t*>(const_cast<mmind::eye::PointXYZ*>(cloud.data())),
+           (pclCloud2.row_step * cloud.height()));
+    pcl::fromPCLPointCloud2(pclCloud2, pclPointCloud);
     return;
 }
 
 void convertToPCL(const mmind::eye::TexturedPointCloud& texturedCloud,
                   pcl::PointCloud<pcl::PointXYZRGB>& pclTexturedPointCloud)
 {
-    // write PointXYZRGB data
-    uint32_t size = texturedCloud.height() * texturedCloud.width();
-    pclTexturedPointCloud.resize(size);
-    pclTexturedPointCloud.is_dense =
-        !containsInvalidPoint<mmind::eye::TexturedPointCloud>(texturedCloud);
+    pcl::PCLPointCloud2 pclCloud2;
+    pclCloud2.height = texturedCloud.height();
+    pclCloud2.width = texturedCloud.width();
+    pclCloud2.point_step = sizeof(mmind::eye::PointXYZBGR);
+    pclCloud2.row_step = sizeof(mmind::eye::PointXYZBGR) * texturedCloud.width();
+    pclCloud2.is_dense = !containsInvalidPoint<mmind::eye::TexturedPointCloud>(texturedCloud);
 
-    for (size_t i = 0; i < size; i++) {
-        pclTexturedPointCloud[i].x = 0.001 * texturedCloud[i].x; // mm to m
-        pclTexturedPointCloud[i].y = 0.001 * texturedCloud[i].y; // mm to m
-        pclTexturedPointCloud[i].z = 0.001 * texturedCloud[i].z; // mm to m
+    pclCloud2.fields.reserve(4);
+    pclCloud2.fields.push_back(createPointField("x", offsetof(mmind::eye::PointXYZBGR, x),
+                                                pcl::PCLPointField::PointFieldTypes::FLOAT32, 1));
+    pclCloud2.fields.push_back(createPointField("y", offsetof(mmind::eye::PointXYZBGR, y),
+                                                pcl::PCLPointField::PointFieldTypes::FLOAT32, 1));
+    pclCloud2.fields.push_back(createPointField("z", offsetof(mmind::eye::PointXYZBGR, z),
+                                                pcl::PCLPointField::PointFieldTypes::FLOAT32, 1));
+    pclCloud2.fields.push_back(createPointField("rgb", offsetof(mmind::eye::PointXYZBGR, rgb),
+                                                pcl::PCLPointField::PointFieldTypes::FLOAT32, 1));
 
-        pclTexturedPointCloud[i].r = texturedCloud[i].r;
-        pclTexturedPointCloud[i].g = texturedCloud[i].g;
-        pclTexturedPointCloud[i].b = texturedCloud[i].b;
-    }
+    pclCloud2.data.resize(pclCloud2.row_step * texturedCloud.height());
+    memcpy(pclCloud2.data.data(),
+           reinterpret_cast<uint8_t*>(const_cast<mmind::eye::PointXYZBGR*>(texturedCloud.data())),
+           (pclCloud2.row_step * texturedCloud.height()));
 
+    pcl::fromPCLPointCloud2(pclCloud2, pclTexturedPointCloud);
     return;
 }
 
@@ -152,6 +182,7 @@ int main()
         camera.disconnect();
         return 0;
     }
+    camera.setPointCloudUnit(mmind::eye::CoordinateUnit::Meter);
     mmind::eye::Frame2DAnd3D frame2DAnd3D;
     showError(camera.capture2DAnd3D(frame2DAnd3D));
 

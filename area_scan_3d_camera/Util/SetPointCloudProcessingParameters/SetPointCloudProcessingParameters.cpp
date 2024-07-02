@@ -68,17 +68,11 @@ int main()
         mmind::eye::pointcloud_processing_setting::EdgePreservation::name,
         static_cast<int>(
             mmind::eye::pointcloud_processing_setting::EdgePreservation::Value::Normal)));
-    showError(currentUserSet.setBoolValue(
-        mmind::eye::pointcloud_processing_setting::EnableDistortionCorrection::name, true));
-    showError(currentUserSet.setIntValue(
-        mmind::eye::pointcloud_processing_setting::DistortionCorrection::name, 3));
 
     int surfaceSmoothing = 0;
     int noiseRemoval = 0;
     int outlierRemoval = 0;
     int edgePreservation = 0;
-    bool distortionCorrectionEnabled = false;
-    int distortionCorrection = 0;
     showError(currentUserSet.getEnumValue(
         mmind::eye::pointcloud_processing_setting::SurfaceSmoothing::name, surfaceSmoothing));
     showError(currentUserSet.getEnumValue(
@@ -87,12 +81,6 @@ int main()
         mmind::eye::pointcloud_processing_setting::OutlierRemoval::name, outlierRemoval));
     showError(currentUserSet.getEnumValue(
         mmind::eye::pointcloud_processing_setting::EdgePreservation::name, edgePreservation));
-    showError(currentUserSet.getBoolValue(
-        mmind::eye::pointcloud_processing_setting::EnableDistortionCorrection::name,
-        distortionCorrectionEnabled));
-    showError(currentUserSet.getIntValue(
-        mmind::eye::pointcloud_processing_setting::DistortionCorrection::name,
-        distortionCorrection));
 
     std::cout << "Point Cloud Surface Smoothing: " << surfaceSmoothing
               << " (0: Off, 1: Weak, 2: Normal, 3: Strong)" << std::endl;
@@ -102,8 +90,6 @@ int main()
               << " (0: Off, 1: Weak, 2: Normal, 3: Strong)" << std::endl;
     std::cout << "Point Cloud Edge Preservation: " << edgePreservation
               << " (0: Sharp, 1: Normal, 2: Smooth)" << std::endl;
-    std::cout << "Distortion Correction Enabled ? " << distortionCorrectionEnabled << std::endl;
-    std::cout << "Distortion Correction: " << distortionCorrection << std::endl;
 
     // Save all the parameter settings to the currently selected user set.
     showError(currentUserSet.saveAllParametersToDevice());

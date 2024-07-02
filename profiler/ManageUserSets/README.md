@@ -6,9 +6,11 @@ If you have any questions or have anything to share, feel free to post on the [M
 
 ## Build the Sample
 
-Prerequisites and instructions for building the sample on Windows are provided.
+Prerequisites and instructions for building the sample on Windows and Ubuntu are provided.
 
-### Prerequisites
+### Windows
+
+#### Prerequisites
 
 The following software are required to build this sample. Please download and install these software.
 
@@ -16,7 +18,7 @@ The following software are required to build this sample. Please download and in
 * [Visual Studio (version 2017 or above)](https://visualstudio.microsoft.com/vs/community/)
 * [CMake (version 3.2 or above)](https://cmake.org/download/)
 
-### Instructions
+#### Instructions
 
 1. Make sure that the sample is stored in a location with read and write permissions.
 2. Run Cmake and set the source and build paths:
