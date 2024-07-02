@@ -55,7 +55,9 @@ int main()
 
     // Set the exposure times for acquiring depth information.
     showError(currentUserSet.setFloatArrayValue(
-        mmind::eye::scanning3d_setting::ExposureSequence::name, std::vector<double>{5, 10}));
+        mmind::eye::scanning3d_setting::ExposureSequence::name, std::vector<double>{5}));
+    //    showError(currentUserSet.setFloatArrayValue(
+    //        mmind::eye::scanning3d_setting::ExposureSequence::name, std::vector<double>{5, 10}));
 
     // Obtain the current exposure times for acquiring depth information to check if the setting was
     // successful.

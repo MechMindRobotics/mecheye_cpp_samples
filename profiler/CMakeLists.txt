@@ -23,6 +23,7 @@ set(SAMPLES
     TriggerWithSoftwareAndEncoder
     TriggerWithSoftwareAndFixedRate
     UseVirtualDevice
+    PrintProfilerStatus
     )
 
 set(OpenCV_DEPENDING
