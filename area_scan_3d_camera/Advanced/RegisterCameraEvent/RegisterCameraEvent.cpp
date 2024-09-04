@@ -31,11 +31,13 @@
  ******************************************************************************/
 
 /*
-With this sample, you can define and register the callback function for monitoring the camera connection status.
+With this sample, you can define and register the callback function for monitoring camera events.
 */
 
-#include <thread>
 #include <chrono>
+#include <iomanip>
+#include <sstream>
+#include <thread>
 #include "area_scan_3d_camera/CameraEvent.h"
 #include "area_scan_3d_camera/Camera.h"
 #include "area_scan_3d_camera/api_util.h"
@@ -46,21 +48,83 @@ int main()
     if (!findAndConnect(camera))
         return -1;
 
-    // Define the callback function of event
-    mmind::eye::CameraEvent::EventCallback callback = [](mmind::eye::CameraEvent::Event event,
-                                                         void* pUser) {
-        std::cout << "A camera event has occurred. The event ID is " << event << "." << std::endl;
+    // Define the callback function for camera events
+    auto callbackWithPUser = [](const mmind::eye::EventData* eventDataPtr, const void* extraPayload,
+                                void* pUser) {
+        const auto occurMs = static_cast<std::chrono::milliseconds>(eventDataPtr->timestamp);
+        std::time_t time_occur = static_cast<std::time_t>(
+            std::chrono::duration_cast<std::chrono::seconds>(occurMs).count());
+        std::tm* tm_occur = std::localtime(&time_occur);
+        std::stringstream stream;
+        stream << std::put_time(tm_occur, "%Y-%m-%d %X");
+
+        std::cout << "A camera event has occurred." << std::endl
+                  << "\tEvent ID:  " << eventDataPtr->eventId << std::endl
+                  << "\tFrame ID:  " << eventDataPtr->frameId << std::endl
+                  << "\tTimestamp: " << stream.str() << "." << eventDataPtr->timestamp % 1000
+                  << std::endl;
     };
 
-    // Set the heartbeat interval to 2 seconds
-    camera.setHeartbeatInterval(2000);
-    std::cout << "Register the callback function for camera disconnection events." << std::endl;
-    // Register the callback function, and the type of event is CAMERA_EVENT_DISCONNECTED
+    const auto callback =
+        std::bind(callbackWithPUser, std::placeholders::_1, std::placeholders::_2, nullptr);
+
+    std::cout << "Register the callback function for the following event:"
+              << static_cast<int>(mmind::eye::CameraEvent::Event::CAMERA_EVENT_DISCONNECTED)
+              << std::endl;
+    // Register the callback function for the CAMERA_EVENT_DISCONNECTED event
     showError(mmind::eye::CameraEvent::registerCameraEventCallback(
-        camera, callback, nullptr, mmind::eye::CameraEvent::CAMERA_EVENT_DISCONNECTED));
-    // Let the program sleep for 20 seconds. During this period, if the camera is disconnected, the
-    // callback function will detect and report the disconnection.
+        camera, mmind::eye::CameraEvent::CAMERA_EVENT_DISCONNECTED, callback));
+
+    // Let the program sleep for 20 seconds. During this period, if the camera disconnects, the
+    // callback function will detect and report the disconnection. To test the event mechanism, you
+    // can disconnect the camera Ethernet cable during this period.
+    std::cout << "Wait for 20 seconds for disconnect event." << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(20000));
+
+    std::cout << "Register the callback function for the following event:"
+              << static_cast<int>(mmind::eye::CameraEvent::Event::CAMERA_EVENT_EXPOSURE_END)
+              << std::endl;
+    showError(mmind::eye::CameraEvent::registerCameraEventCallback(
+        camera, mmind::eye::CameraEvent::Event::CAMERA_EVENT_EXPOSURE_END, callback));
+
+    if (!confirmCapture3D()) {
+        camera.disconnect();
+        return 0;
+    }
+
+    // If the 3D data has been acquired successfully, the callback function will detect the
+    // CAMERA_EVENT_EXPOSURE_END event.
+    // Note: This event is sent after the structured-light projection has been completed. To ensure
+    // both 2D and 3D data have been acquired before the event is sent, check the following
+    // recommendations: If the flash exposure mode is used for acquiring the 2D data, and the
+    // mmind::eye::scanning2d_setting::FlashAcquisitionMode parameter is set to "Fast", call
+    // mmind::eye::Camera::capture3D() before calling mmind::eye::Camera::capture2D(). Otherwise,
+    // call capture2D() before calling capture3D(). Alternatively, you can call
+    // mmind::eye::Camera::capture2Dand3D() instead to avoid the timing issue.
+    unsigned row = 0;
+    unsigned col = 0;
+
+    mmind::eye::Frame3D frame3D;
+    showError(camera.capture3D(frame3D));
+    mmind::eye::DepthMap depthMap = frame3D.getDepthMap();
+    std::cout << "The size of the depth map is: " << depthMap.width() << " (width) * "
+              << depthMap.height() << " (height)." << std::endl;
+    try {
+        mmind::eye::PointZ depthElem = depthMap.at(row, col);
+        std::cout << "The depth value of the pixel at (" << row << ", " << col << ") is "
+                  << depthElem.z << " mm." << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "Exception: " << e.what() << std::endl;
+        camera.disconnect();
+        return 0;
+    }
+    // Unregister the callback function.
+    // The callback functions are automatically unregistered when the program is terminated.
+    std::cout << "Unregister the callback function for the following event: "
+              << static_cast<int>(mmind::eye::CameraEvent::Event::CAMERA_EVENT_EXPOSURE_END)
+              << std::endl;
+    showError(mmind::eye::CameraEvent::unregisterCameraEventCallback(
+        camera, mmind::eye::CameraEvent::Event::CAMERA_EVENT_EXPOSURE_END));
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

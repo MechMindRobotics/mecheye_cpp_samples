@@ -1,6 +1,6 @@
 # RegisterCameraEvent Sample
 
-With this sample, you can define and register the callback function for monitoring the camera connection status.
+With this sample, you can define and register the callback function for monitoring camera events.
 
 If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
 
@@ -46,24 +46,6 @@ Ubuntu 18 or above is required.
   ```bash
   sudo apt-get update
   ```
-
-* Check your gcc and g++ version
-
-   ```bash
-   gcc --version
-   g++ --version
-   ```
-
-* If your gcc or g++ version is below 9.4.0, please upgrade them to 9.4.0 or above
-
-   ```bash
-   sudo apt-get install -y software-properties-common
-   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-   sudo apt-get update
-   sudo apt-get install -y gcc-9 g++-9
-   sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 60
-   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60
-   ```
 
 * Install required tools.
   

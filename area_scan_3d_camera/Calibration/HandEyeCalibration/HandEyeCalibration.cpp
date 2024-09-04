@@ -107,22 +107,30 @@ int main()
         case CommandType::GetPatternImg: // Obtain the 2D image with feature point recognition
                                          // results.
         {
+            //mmind::eye::Frame3D frame3D;
+            //showError(camera.capture3D(frame3D));
+            //mmind::eye::DepthMap depthMap = frame3D.getDepthMap();
+            //cv::Mat depth32F =
+            //    cv::Mat(depthMap.height(), depthMap.width(), CV_32FC1, depthMap.data());
+            //cv::namedWindow("Depth", 0);
+            //cv::resizeWindow("Depth", depthMap.width() / 2, depthMap.height() / 2);
+            //cv::imshow("Depth", depth32F);
+            //std::cout << "Press any key to close the image." << std::endl;
+            //cv::waitKey(0);
+            //cv::destroyAllWindows();
             mmind::eye::Color2DImage color2DImage;
             showError(calibration.testRecognition(camera, color2DImage));
             if (!color2DImage.isEmpty()) {
                 std::string colorFile =
                     "FeatureRecognitionResultForTest_" + std::to_string(poseIndex);
                 colorFile += ".png";
-                cv::Mat testImg = cv::Mat(color2DImage.height(), color2DImage.width(), CV_8UC3,
-                                          color2DImage.data());
-                //                cv::namedWindow("Feature Recognition Result", 0);
-                //                cv::resizeWindow("Feature Recognition Result",
-                //                color2DImage.width() / 2,
-                //                                 color2DImage.height() / 2);
-                //                cv::imshow("Feature Recognition Result", testImg);
-                //                std::cout << "Press any key to close the image." << std::endl;
-                //                cv::waitKey(0);
-                //                cv::destroyAllWindows();
+                cv::Mat testImg = cv::Mat(color2DImage.height(), color2DImage.width(), CV_8UC3, color2DImage.data());
+                //cv::namedWindow("Feature Recognition Result", 0);
+                //cv::resizeWindow("Feature Recognition Result",color2DImage.width() / 2,color2DImage.height() / 2);
+                //cv::imshow("Feature Recognition Result", testImg);
+                //std::cout << "Press any key to close the image." << std::endl;
+                //cv::waitKey(0);
+                //cv::destroyAllWindows();
                 cv::imwrite(colorFile, testImg);
                 std::cout << "Save the image to file " << colorFile << std::endl;
             }

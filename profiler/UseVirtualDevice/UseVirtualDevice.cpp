@@ -71,9 +71,9 @@ void saveIntensity(const mmind::eye::ProfileBatch& batch, int lineCount, int wid
                    const std::string& path)
 {
     if (batch.isEmpty()) {
-        std::cout
-            << "The intensity cannot be saved because the batch does not contain any profile data."
-            << std::endl;
+        std::cout << "The intensity image cannot be saved because the batch does not contain any "
+                     "profile data."
+                  << std::endl;
         return;
     }
     cv::imwrite(path, cv::Mat(lineCount, width, CV_8UC1, batch.getIntensityImage().data()));

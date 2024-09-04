@@ -81,7 +81,7 @@ int main()
               << ", topLeftY: " << curRoi.upperLeftY << ", width: " << curRoi.width
               << ", height: " << curRoi.height << std::endl;
 
-    // Set the exposure mode and exposure time for capturing the 2D image, and then obtain the
+    // Set the exposure mode and exposure time for acquring the 2D image, and then obtain the
     // parameter values to check if the setting was successful.
     showError(currentUserSet.setEnumValue(
         mmind::eye::scanning2d_setting::ExposureMode::name,
@@ -89,6 +89,51 @@ int main()
 
     showError(
         currentUserSet.setFloatValue(mmind::eye::scanning2d_setting::ExposureTime::name, 100));
+
+    // The DEEP and LSR series also provide a "Scan2DPatternRoleExposureMode" parameter for
+    // adjusting the exposure mode for acquring the 2D images (depth source). Uncomment the
+    // following lines to set this parameter to "Timed".
+    // showError(currentUserSet.setEnumValue(
+    //     mmind::eye::scanning2d_setting::ExposureMode::name,
+    //     static_cast<int>(mmind::eye::scanning2d_setting::DepthSourceExposureMode::Value::Timed)));
+
+    // You can also use the projector for supplemental light when acquiring the 2D image / 2D images
+    // (depth source).
+    // Models other than the DEEP and LSR series: Uncomment the following lines to set the exposure
+    // mode to "Flash" for supplemental light.
+    //     showError(currentUserSet.setEnumValue(
+    //         mmind::eye::scanning2d_setting::ExposureMode::name,
+    //         static_cast<int>(mmind::eye::scanning2d_setting::ExposureMode::Value::Flash)));
+    // DEEP and LSR series: Uncomment the following lines to set the exposure mode to "Flash" for
+    // supplemental light.
+    // showError(currentUserSet.setEnumValue(
+    //     mmind::eye::scanning2d_setting::ExposureMode::name,
+    //     static_cast<int>(mmind::eye::scanning2d_setting::DepthSourceExposureMode::Value::Flash)));
+
+    // The following models also provide a "FlashAcquisitionMode" when using the flash exposure
+    // mode: DEEP, LSR S/L/XL, PRO XS/S/M, NANO, NANO ULTRA. Uncomment the following lines to set
+    // the "FlashAcquisitionMode" parameter to "Responsive".
+    //  showError(currentUserSet.setEnumValue(
+    //      mmind::eye::scanning2d_setting::FlashAcquisitionMode::name,
+    //      static_cast<int>(mmind::eye::scanning2d_setting::FlashAcquisitionMode::Value::Responsive)));
+
+    // When using the responsive acquisition mode, you can adjust the exposure time for the flash
+    // exposure mode. Uncomment the following lines to set the exposure time to 20 ms.
+    //  showError(
+    //     currentUserSet.setFloatValue(mmind::eye::scanning2d_setting::FlashExposureTime::name,
+    //     20));
+
+    // Uncomment the following lines to check the values of the "FlashAcquisitionMode" and "FlashExposureTime" parameters.
+    // int flashAcquisitionMode = 0;
+    // showError(currentUserSet.getEnumValue(
+    //     mmind::eye::scanning2d_setting::FlashAcquisitionMode::name, flashAcquisitionMode));
+
+    // double flashExposureTime = 0;
+    // showError(currentUserSet.getFloatValue(mmind::eye::scanning2d_setting::FlashExposureTime::name,
+    //                                        flashExposureTime));
+
+    // std::cout << "2D scanning flash acquisition mode: " << flashAcquisitionMode
+    //           << ", flash exposure time: " << flashExposureTime << " ms." << std::endl;
 
     int exposureMode2D = 0;
     showError(currentUserSet.getEnumValue(mmind::eye::scanning2d_setting::ExposureMode::name,

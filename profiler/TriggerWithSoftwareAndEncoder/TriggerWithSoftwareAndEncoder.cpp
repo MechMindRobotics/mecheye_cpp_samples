@@ -37,9 +37,7 @@ save the intensity image, depth map, and point cloud.
 
 #include <opencv2/imgcodecs.hpp>
 #include <iostream>
-#include <fstream>
 #include <thread>
-#include <regex>
 #include <cstdio>
 #include <cmath>
 #include <chrono>
@@ -53,8 +51,6 @@ save the intensity image, depth map, and point cloud.
 
 namespace {
 std::mutex kMutex;
-constexpr double kPitch = 1e-3;
-constexpr long long kInitEncoderValue = 0x0FFFFFFF;
 
 void setTimedExposure(mmind::eye::UserSet& userSet, int exposureTime)
 {
@@ -266,7 +262,7 @@ bool acquireProfileDataUsingCallback(mmind::eye::Profiler& profiler,
 {
     profileBatch.clear();
 
-    // Set a large CallbackRetrievalTimeout
+    // Set a large value for CallbackRetrievalTimeout
     showError(profiler.currentUserSet().setIntValue(
         mmind::eye::scan_settings::CallbackRetrievalTimeout::name, 60000));
 
@@ -277,7 +273,7 @@ bool acquireProfileDataUsingCallback(mmind::eye::Profiler& profiler,
         return false;
     }
 
-    // Call the startAcquisition to take the laser profiler into the acquisition ready status
+    // Call startAcquisition() to enter the laser profiler into the acquisition ready status
     std::cout << "Start data acquisition." << std::endl;
     status = profiler.startAcquisition();
     if (!status.isOK()) {
@@ -285,7 +281,7 @@ bool acquireProfileDataUsingCallback(mmind::eye::Profiler& profiler,
         return false;
     }
 
-    // Call the triggerSoftware() to start the data acquisition
+    // Call triggerSoftware() to start the data acquisition
     if (isSoftwareTrigger) {
         status = profiler.triggerSoftware();
         if (!status.isOK()) {
@@ -326,162 +322,12 @@ void saveIntensityImage(const mmind::eye::ProfileBatch& batch, int lineCount, in
                         const std::string& path)
 {
     if (batch.isEmpty()) {
-        std::cout
-            << "The intensity cannot be saved because the batch does not contain any profile data."
-            << std::endl;
+        std::cout << "The intensity image cannot be saved because the batch does not contain any "
+                     "profile data."
+                  << std::endl;
         return;
     }
     cv::imwrite(path, cv::Mat(lineCount, width, CV_8UC1, batch.getIntensityImage().data()));
-}
-
-int shiftEncoderValsAroundZero(unsigned int oriVal, long long initValue = kInitEncoderValue)
-{
-    return static_cast<int>(oriVal - initValue);
-}
-
-bool saveDataToPly(float* data, int* yValues, int captureLineCount, int dataWidth, float xUnit,
-                   float yUnit, const std::string& fileName, bool isOrganized)
-{
-    FILE* fp = fopen(fileName.c_str(), "w");
-
-    if (!fp)
-        return false;
-
-    unsigned validPointCount{0};
-    if (!isOrganized) {
-        for (int y = 0; y < captureLineCount; ++y) {
-            for (int x = 0; x < dataWidth; ++x) {
-                if (!std::isnan(data[y * dataWidth + x]))
-                    validPointCount++;
-            }
-        }
-    }
-
-    fprintf(fp, "ply\n");
-    fprintf(fp, "format ascii 1.0\n");
-    fprintf(fp, "comment File generated\n");
-    fprintf(fp, "comment x y z data unit in mm\n");
-    fprintf(fp, "element vertex %u\n",
-            isOrganized ? static_cast<unsigned>(captureLineCount * dataWidth) : validPointCount);
-    fprintf(fp, "property float x\n");
-    fprintf(fp, "property float y\n");
-    fprintf(fp, "property float z\n");
-    fprintf(fp, "end_header\n");
-
-    for (int y = 0; y < captureLineCount; ++y) {
-        for (int x = 0; x < dataWidth; ++x) {
-            if (!std::isnan(data[y * dataWidth + x]))
-                fprintf(fp, "%f %f %f\n", static_cast<float>(x * xUnit * kPitch),
-                        static_cast<float>(yValues[y] * yUnit * kPitch), data[y * dataWidth + x]);
-            else if (isOrganized)
-                fprintf(fp, "nan nan nan\n");
-        }
-    }
-
-    fclose(fp);
-    return true;
-}
-
-bool saveDataToCsv(float* data, int* yValues, int captureLineCount, int dataWidth, float xUnit,
-                   float yUnit, const std::string& fileName, bool isOrganized)
-{
-    FILE* fp = fopen(fileName.c_str(), "w");
-
-    if (!fp)
-        return false;
-
-    fprintf(fp, "X,Y,Z\n");
-
-    for (int y = 0; y < captureLineCount; ++y) {
-        for (int x = 0; x < dataWidth; ++x) {
-            if (!std::isnan(data[y * dataWidth + x]))
-                fprintf(fp, "%f,%f,%f\n", static_cast<float>(x * xUnit * kPitch),
-                        static_cast<float>(yValues[y] * yUnit * kPitch), data[y * dataWidth + x]);
-            else if (isOrganized)
-                fprintf(fp, "nan,nan,nan\n");
-        }
-    }
-
-    fclose(fp);
-    return true;
-}
-
-void savePointCloud(const mmind::eye::ProfileBatch& batch, const mmind::eye::UserSet& userSet,
-                    bool savePLY = true, bool saveCSV = true, bool isOrganized = true)
-{
-    if (batch.isEmpty())
-        return;
-
-    // Get the X-axis resolution
-    double xUnit{};
-    auto status =
-        userSet.getFloatValue(mmind::eye::point_cloud_resolutions::XAxisResolution::name, xUnit);
-    if (!status.isOK()) {
-        showError(status);
-        return;
-    }
-
-    // Get the Y resolution
-    double yUnit{};
-    status = userSet.getFloatValue(mmind::eye::point_cloud_resolutions::YResolution::name, yUnit);
-    if (!status.isOK()) {
-        showError(status);
-        return;
-    }
-    // // Uncomment the following lines for custom Y Unit
-    // // Prompt to enter the desired encoder resolution, which is the travel distance corresponding
-    // // to
-    // // one quadrature signal.
-    // std::cout << "Please enter the desired encoder resolution (integer, unit: μm, min: "
-    //  "1, max: 65535): ";
-    // while (true) {
-    //     std::string str;
-    //     std::cin >> str;
-    //     if (std::regex_match(str.begin(), str.end(), std::regex{"[0-9]+"})) {
-    //         yUnit = atoi(str.c_str());
-    //         break;
-    //     }
-    //     std::cout << "Input invalid! Please enter the desired encoder resolution (integer, unit:
-    //     "
-    //                  "μm, min: 1, max: 65535): ";
-    // }
-
-    int lineScanTriggerSource{};
-    status = userSet.getEnumValue(mmind::eye::trigger_settings::LineScanTriggerSource::name,
-                                  lineScanTriggerSource);
-    if (!status.isOK()) {
-        showError(status);
-        return;
-    }
-
-    bool useEncoderValues =
-        lineScanTriggerSource ==
-        static_cast<int>(mmind::eye::trigger_settings::LineScanTriggerSource::Value::Encoder);
-
-    int triggerInterval{};
-    status = userSet.getIntValue(mmind::eye::trigger_settings::EncoderTriggerInterval::name,
-                                 triggerInterval);
-    if (!status.isOK()) {
-        showError(status);
-        return;
-    }
-
-    // Shift the encoder values around zero
-    std::vector<int> encoderVals;
-    encoderVals.reserve(batch.height());
-    auto encoder = batch.getEncoderArray();
-    for (int r = 0; r < batch.height(); ++r)
-        encoderVals.push_back(
-            useEncoderValues ? shiftEncoderValsAroundZero(encoder[r], encoder[0]) / triggerInterval
-                             : r);
-
-    std::cout << "Save the point cloud." << std::endl;
-    if (saveCSV)
-        saveDataToCsv(batch.getDepthMap().data(), encoderVals.data(), batch.height(), batch.width(),
-                      xUnit, yUnit, "PointCloud.csv", isOrganized);
-    if (savePLY)
-        saveDataToPly(batch.getDepthMap().data(), encoderVals.data(), batch.height(), batch.width(),
-                      xUnit, yUnit, "PointCloud.ply", isOrganized);
 }
 } // namespace
 
@@ -524,9 +370,13 @@ int main()
     if (!acquireProfileData(profiler, profileBatch, captureLineCount, dataWidth, isSoftwareTrigger))
         return -1;
 
-    // // Acquire profile data using callback
+    // // Acquire the profile data using the callback function
     // if (!acquireProfileDataUsingCallback(profiler, profileBatch, isSoftwareTrigger))
     // return -1;
+
+    if (profileBatch.checkFlag(mmind::eye::ProfileBatch::BatchFlag::Incomplete))
+        std::cout << "Part of the batch's data is lost, the number of valid profiles is: "
+                  << profileBatch.validHeight() << "." << std::endl;
 
     std::cout << "Save the depth map and intensity image." << std::endl;
     saveDepthMap(profileBatch, captureLineCount, dataWidth, "DepthMap.tiff");
@@ -534,7 +384,8 @@ int main()
     savePointCloud(profileBatch, userSet);
 
     // Uncomment the following line to save a virtual device file using the ProfileBatch
-    // profileBatch acquired. profiler.saveVirtualDeviceFile(profileBatch, "test.mraw");
+    // profileBatch acquired.
+    // profiler.saveVirtualDeviceFile(profileBatch, "test.mraw");
 
     // Disconnect from the laser profiler
     profiler.disconnect();

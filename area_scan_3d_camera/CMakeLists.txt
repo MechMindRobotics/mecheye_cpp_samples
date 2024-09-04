@@ -30,6 +30,7 @@ set(SAMPLES
     Basic/CapturePointCloud
     Basic/CapturePointCloudWithNormals
     Advanced/CaptureStereo2DImages
+    Advanced/RenderDepthMap
     Advanced/ConvertDepthMapToPointCloud
     Advanced/MultipleCamerasCaptureSequentially
     Advanced/MultipleCamerasCaptureSimultaneously
@@ -38,6 +39,7 @@ set(SAMPLES
     Advanced/RegisterCameraEvent
     Advanced/SetParametersOfLaserCameras
     Advanced/SetParametersOfUHPCameras
+    Advanced/TransformPointCloud
     Util/GetCameraIntrinsics
     Util/PrintCameraInfo
     Util/SetPointCloudProcessingParameters
@@ -59,6 +61,7 @@ set(PCL_DEPENDING
 set(OpenCV_DEPENDING
     Capture2DImage
     CaptureDepthMap
+    RenderDepthMap
     CaptureStereo2DImages
     MultipleCamerasCaptureSequentially
     MultipleCamerasCaptureSimultaneously

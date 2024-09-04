@@ -42,7 +42,7 @@ periodically for the specified duration from a camera.
 #include "area_scan_3d_camera/api_util.h"
 
 namespace {
-void capture(mmind::eye::Camera& camera, std::string suffix)
+void capture(mmind::eye::Camera& camera, const std::string& suffix)
 {
     const std::string colorFile = suffix.empty() ? "2DImage.png" : "2DImage_" + suffix + ".png";
     const std::string depthFile = suffix.empty() ? "DepthMap.tiff" : "DepthMap_" + suffix + ".tiff";
