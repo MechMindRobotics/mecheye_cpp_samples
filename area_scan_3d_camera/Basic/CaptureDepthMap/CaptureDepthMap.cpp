@@ -55,7 +55,7 @@ int main()
     cv::Mat depth32F = cv::Mat(depthMap.height(), depthMap.width(), CV_32FC1, depthMap.data());
     const std::string depthImgFile = "DepthMap.tiff";
     cv::imwrite(depthImgFile, depth32F);
-    std::cout << "Capture and save depth map: " << depthImgFile << std::endl;
+    std::cout << "Capture and save the depth map: " << depthImgFile << std::endl;
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

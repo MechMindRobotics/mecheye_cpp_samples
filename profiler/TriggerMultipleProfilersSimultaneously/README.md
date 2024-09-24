@@ -39,7 +39,7 @@ The following software are required to build this sample. Please download and in
 6. In Visual Studio toolbar, change the solution configuration from **Debug** to **Release**.
 7. In the **Solution Explorer** panel, right-click the sample, and select **Set as Startup Project**.
 8. Click the **Local Windows Debugger** button in the toolbar to run the sample.
-9. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to the `build` folder.
+9. Enter the index of the laser profiler to which you want to connect, and press the Enter key. The obtained files are saved to the `build` folder.
 
 ### Ubuntu
 
@@ -52,24 +52,6 @@ Ubuntu 18 or above is required.
   ```bash
   sudo apt-get update
   ```
-
-* Check your gcc and g++ version
-
-   ```bash
-   gcc --version
-   g++ --version
-   ```
-
-* If your gcc or g++ version is below 9.4.0, please upgrade them to 9.4.0 or above
-
-   ```bash
-   sudo apt-get install -y software-properties-common
-   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-   sudo apt-get update
-   sudo apt-get install -y gcc-9 g++-9
-   sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 60
-   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60
-   ```
 
 * Install required tools.
 
@@ -133,4 +115,4 @@ Ubuntu 18 or above is required.
    sudo ./TriggerMultipleProfilersSimultaneously
    ```
 
-4. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to `/TriggerMultipleProfilersSimultaneously/build`.
+4. Enter the index of the laser profiler to which you want to connect, and press the Enter key. The obtained files are saved to `/TriggerMultipleProfilersSimultaneously/build`.

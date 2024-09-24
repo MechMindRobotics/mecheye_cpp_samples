@@ -309,7 +309,7 @@ mmind::eye::HandEyeCalibration::Transformation enterRobotPose(int eulerType)
 }
 
 // Save extrinsic parameters to a TXT file named "ExtrinsicParameters (+time stamp)".
-void saveExtrinsicParameters(std::string ExtrinsicParameters)
+void saveExtrinsicParameters(const std::string& ExtrinsicParameters)
 {
     char pStrPath1[1024];
     time_t currTime;

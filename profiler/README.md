@@ -20,12 +20,22 @@ The samples marked with `(OpenCV)` require [OpenCV](https://opencv.org/releases/
   Trigger data acquisition with signals input from the external device, trigger line scans with signals input from the encoder, and then retrieve and save the acquired data.
 * [TriggerMultipleProfilersSimultaneously](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerMultipleProfilersSimultaneously) `(OpenCV)`  
   Trigger multiple laser profilers to acquire data asynchronously and retrieve the acquired data.
+* [BlindSpotFiltering](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/BlindSpotFiltering) `(OpenCV)`  
+  Detect and remove the false data caused by blind spots and obtain the filtered profile data.
+* [NoiseRemoval](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/NoiseRemoval) `(OpenCV)`  
+  Remove the noise in the depth data and obtain the filtered profile data.
+* [ProfileAlignment](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/ProfileAlignment) `(OpenCV)`  
+  Correct the X-axis and Z-axis vibrations in the profiles (aligning the profiles) and obtain the corrected profile data.
+* [RenderDepthMap](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/RenderDepthMap) `(OpenCV)`  
+  Obtain and save the depth map rendered with the jet color scheme.
+* [TransformPointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TransformPointCloud)  
+  Obtain and save the point clouds in the custom reference frame.
 * [ManageUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/ManageUserSets)  
   Manage parameter groups, such as obtaining the names of all parameter groups, adding a parameter group, switching the parameter group, and saving parameter settings to the parameter group.
 * [PrintProfilerStatus](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/PrintProfilerStatus)  
   Obtain and print the laser profiler's information, such as model, serial number, firmware version, and temperatures.
 * [RegisterProfilerEvent](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/RegisterProfilerEvent)  
-  Define and register the callback function for monitoring the laser profiler connection status.
+  Define and register the callback function for monitoring laser profiler events.
 * [UseVirtualDevice](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/UseVirtualDevice) `(OpenCV)`  
   Acquire the profile data stored in a virtual device, generate the intensity image and depth map, and save the images.
 
@@ -72,7 +82,7 @@ Optional software: If you need to build the samples dependent on third-party sof
 8. In the menu bar, select **Build** > **Build Solution**. An EXE format executable file is generated for each sample. The executable files are saved to the `Release` folder, located in the **Where to build the binaries** directory.
 9. In the **Solution Explorer** panel, right-click a sample, and select **Set as Startup Project**.
 10. Click the **Local Windows Debugger** button in the toolbar to run the sample.
-11. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to the `Release` folder.
+11. Enter the index of the laser profiler to which you want to connect, and press the Enter key. The obtained files are saved to the `Release` folder.
 
 ### Ubuntu
 
@@ -85,24 +95,6 @@ Ubuntu 18 or above is required.
   ```bash
   sudo apt-get update
   ```
-
-* Check your gcc and g++ version
-
-   ```bash
-   gcc --version
-   g++ --version
-   ```
-
-* If your gcc or g++ version is below 9.4.0, please upgrade them to 9.4.0 or above
-
-   ```bash
-   sudo apt-get install -y software-properties-common
-   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-   sudo apt-get update
-   sudo apt-get install -y gcc-9 g++-9
-   sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 60
-   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60
-   ```
 
 * Install required tools.
   
@@ -170,7 +162,7 @@ Ubuntu 18 or above is required.
    sudo ./SampleName
    ```
 
-5. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to `xxx/profiler/build`.
+5. Enter the index of the laser profiler to which you want to connect, and press the Enter key. The obtained files are saved to `xxx/profiler/build`.
 
 ## License
 

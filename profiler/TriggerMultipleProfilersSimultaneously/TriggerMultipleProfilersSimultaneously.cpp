@@ -49,8 +49,6 @@ profilers.
 #include "profiler/parameters/ScanParameters.h"
 
 namespace {
-constexpr double kPitch = 1e-3;
-constexpr long long kInitEncoderValue = 0x0FFFFFFF;
 
 void setTimedExposure(mmind::eye::UserSet& userSet, int exposureTime)
 {
@@ -277,9 +275,9 @@ void saveIntensityImage(const mmind::eye::ProfileBatch& batch, int lineCount, in
                         const std::string& path)
 {
     if (batch.isEmpty()) {
-        std::cout
-            << "The intensity cannot be saved because the batch does not contain any profile data."
-            << std::endl;
+        std::cout << "The intensity image cannot be saved because the batch does not contain any "
+                     "profile data."
+                  << std::endl;
         return;
     }
     cv::imwrite(path, cv::Mat(lineCount, width, CV_8UC1, batch.getIntensityImage().data()));
@@ -351,6 +349,10 @@ void captureAsync(mmind::eye::Profiler& profiler, std::mutex& m)
     // Acquire profile data without using callback
     if (!acquireProfileData(profiler, profileBatch, captureLineCount, dataWidth, isSoftwareTrigger))
         return;
+
+    if (profileBatch.checkFlag(mmind::eye::ProfileBatch::BatchFlag::Incomplete))
+        std::cout << "Part of the batch's data is lost, the number of valid profiles is: "
+                  << profileBatch.validHeight() << "." << std::endl;
 
     std::unique_lock<std::mutex> lock(m);
 

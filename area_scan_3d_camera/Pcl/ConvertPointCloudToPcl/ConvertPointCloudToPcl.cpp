@@ -60,7 +60,7 @@ bool containsInvalidPoint(const T& cloud)
         });
 }
 
-pcl::PCLPointField createPointField(std::string name, uint32_t offset, uint8_t datatype,
+pcl::PCLPointField createPointField(const std::string& name, uint32_t offset, uint8_t datatype,
                                     uint32_t count)
 {
     pcl::PCLPointField field;

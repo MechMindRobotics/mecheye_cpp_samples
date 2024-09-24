@@ -49,8 +49,6 @@ generate and save the intensity image and depth map.
 
 namespace {
 std::mutex kMutex;
-constexpr double kPitch = 1e-3;
-constexpr long long kInitEncoderValue = 0x0FFFFFFF;
 
 void setTimedExposure(mmind::eye::UserSet& userSet, int exposureTime)
 {
@@ -262,7 +260,7 @@ bool acquireProfileDataUsingCallback(mmind::eye::Profiler& profiler,
 {
     profileBatch.clear();
 
-    // Set a large CallbackRetrievalTimeout
+    // Set a large value for CallbackRetrievalTimeout
     showError(profiler.currentUserSet().setIntValue(
         mmind::eye::scan_settings::CallbackRetrievalTimeout::name, 60000));
 
@@ -273,7 +271,7 @@ bool acquireProfileDataUsingCallback(mmind::eye::Profiler& profiler,
         return false;
     }
 
-    // Call the startAcquisition to take the laser profiler into the acquisition ready status
+    // Call startAcquisition() to enter the laser profiler into the acquisition ready status
     std::cout << "Start data acquisition." << std::endl;
     status = profiler.startAcquisition();
     if (!status.isOK()) {
@@ -281,7 +279,7 @@ bool acquireProfileDataUsingCallback(mmind::eye::Profiler& profiler,
         return false;
     }
 
-    // Call the triggerSoftware() to start the data acquisition
+    // Call triggerSoftware() to start the data acquisition
     if (isSoftwareTrigger) {
         status = profiler.triggerSoftware();
         if (!status.isOK()) {
@@ -322,9 +320,9 @@ void saveIntensityImage(const mmind::eye::ProfileBatch& batch, int lineCount, in
                         const std::string& path)
 {
     if (batch.isEmpty()) {
-        std::cout
-            << "The intensity cannot be saved because the batch does not contain any profile data."
-            << std::endl;
+        std::cout << "The intensity image cannot be saved because the batch does not contain any "
+                     "profile data."
+                  << std::endl;
         return;
     }
     cv::imwrite(path, cv::Mat(lineCount, width, CV_8UC1, batch.getIntensityImage().data()));
@@ -370,9 +368,13 @@ int main()
     // if (!acquireProfileData(profiler, profileBatch, captureLineCount, dataWidth,
     // isSoftwareTrigger)) return -1;
 
-    // Acquire profile data using callback
+    // Acquire the profile data using the callback function
     if (!acquireProfileDataUsingCallback(profiler, profileBatch, isSoftwareTrigger))
         return -1;
+
+    if (profileBatch.checkFlag(mmind::eye::ProfileBatch::BatchFlag::Incomplete))
+        std::cout << "Part of the batch's data is lost, the number of valid profiles is: "
+                  << profileBatch.validHeight() << "." << std::endl;
 
     std::cout << "Save the depth map and intensity image." << std::endl;
     saveDepthMap(profileBatch, captureLineCount, dataWidth, "DepthMap.tiff");

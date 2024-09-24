@@ -55,11 +55,13 @@ int main()
     {
         mmind::eye::GrayScale2DImage grayImage = frame2D.getGrayScaleImage();
         image2D = cv::Mat(grayImage.height(), grayImage.width(), CV_8UC1, grayImage.data());
+        break;
     }
     case mmind::eye::ColorTypeOf2DCamera::Color:
     {
         mmind::eye::Color2DImage colorImage = frame2D.getColorImage();
         image2D = cv::Mat(colorImage.height(), colorImage.width(), CV_8UC3, colorImage.data());
+        break;
     }
     }
 
