@@ -46,10 +46,10 @@ int main()
 
     mmind::eye::UserSet& currentUserSet = camera.currentUserSet();
 
-    auto* paramter = currentUserSet.getParameter(mmind::eye::scanning3d_setting::DepthRange::name);
-    if (!paramter)
+    auto* parameter = currentUserSet.getParameter(mmind::eye::scanning3d_setting::DepthRange::name);
+    if (!parameter)
         return -1;
-    auto* depthRange = dynamic_cast<mmind::eye::RangeParameter*>(paramter);
+    auto* depthRange = dynamic_cast<mmind::eye::RangeParameter*>(parameter);
     if (!depthRange)
         return -1;
 

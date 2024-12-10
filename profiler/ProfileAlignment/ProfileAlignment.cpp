@@ -165,10 +165,10 @@ int main()
     showError(userSet.getEnumValue(mmind::eye::trigger_settings::DataAcquisitionTriggerSource::name,
                                    dataAcquisitionTriggerSource));
 
-    // Enbale the Z-axis profile alignment function
+    // Enable the Z-axis profile alignment function
     showError(
         userSet.setBoolValue(mmind::eye::profile_alignment::EnableZAxisAlignment::name, true));
-    // Enbale the X-axis profile alignment function
+    // Enable the X-axis profile alignment function
     showError(
         userSet.setBoolValue(mmind::eye::profile_alignment::EnableXAxisAlignment::name, true));
 

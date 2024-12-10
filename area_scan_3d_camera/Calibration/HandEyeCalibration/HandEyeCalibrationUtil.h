@@ -45,7 +45,7 @@ T getInputNumber()
 }
 
 // Convert Euler angles to quaternions. The unit of Euler angles is degree.
-mmind::eye::HandEyeCalibration::Transformation eulerToquad(int eulerType, double x, double y,
+mmind::eye::HandEyeCalibration::Transformation eulerToQuad(int eulerType, double x, double y,
                                                            double z, double R1, double R2,
                                                            double R3)
 {
@@ -100,16 +100,16 @@ mmind::eye::HandEyeCalibration::Transformation eulerToquad(int eulerType, double
         break;
     }
     std::string split = ",";
-    std::string quadresult = std::to_string(x) + split + std::to_string(y) + split +
+    std::string quadResult = std::to_string(x) + split + std::to_string(y) + split +
                              std::to_string(z) + split + std::to_string(quadW) + split +
                              std::to_string(quadX) + split + std::to_string(quadY) + split +
                              std::to_string(quadZ);
-    std::string eulerresult = std::to_string(x) + split + std::to_string(y) + split +
+    std::string eulerResult = std::to_string(x) + split + std::to_string(y) + split +
                               std::to_string(z) + split + std::to_string(R1) + split +
                               std::to_string(R2) + split + std::to_string(R3);
-    std::cout << "\nThe entered pose is: \n" << eulerresult << std::endl;
+    std::cout << "\nThe entered pose is: \n" << eulerResult << std::endl;
     std::cout << "The converted pose (Euler angles --> quaternions) is: \n"
-              << quadresult << std::endl;
+              << quadResult << std::endl;
     return mmind::eye::HandEyeCalibration::Transformation(x, y, z, quadW, quadX, quadY, quadZ);
 }
 
@@ -305,7 +305,7 @@ mmind::eye::HandEyeCalibration::Transformation enterRobotPose(int eulerType)
     if (std::cin.rdbuf()->in_avail() != 0) {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
-    return eulerToquad(eulerType, poseX, poseY, poseZ, poseR1, poseR2, poseR3);
+    return eulerToQuad(eulerType, poseX, poseY, poseZ, poseR1, poseR2, poseR3);
 }
 
 // Save extrinsic parameters to a TXT file named "ExtrinsicParameters (+time stamp)".
