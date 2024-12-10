@@ -164,7 +164,7 @@ int main()
     showError(userSet.getEnumValue(mmind::eye::trigger_settings::DataAcquisitionTriggerSource::name,
                                    dataAcquisitionTriggerSource));
 
-    // Enbale the noise removal function
+    // Enable the noise removal function
     showError(userSet.setBoolValue(mmind::eye::filters::EnableNoiseRemoval::name, true));
 
     showError(userSet.setEnumValue(

@@ -165,7 +165,7 @@ int main()
     showError(userSet.getEnumValue(mmind::eye::trigger_settings::DataAcquisitionTriggerSource::name,
                                    dataAcquisitionTriggerSource));
 
-    // Enbale the blind spot filtering function
+    // Enable the blind spot filtering function
     showError(userSet.setBoolValue(mmind::eye::filters::EnableBlindSpotFiltering::name, true));
 
     bool isSoftwareTrigger =

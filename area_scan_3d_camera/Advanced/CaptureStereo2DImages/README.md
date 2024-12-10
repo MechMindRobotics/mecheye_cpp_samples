@@ -2,7 +2,7 @@
 
 With this sample, you can obtain and save the 2D images from both 2D cameras.
 
-> Note: This sample is only applicable to the following models: Deep, Laser L Enhanced, PRO XS, LSR L, LSR S, and DEEP.
+> Note: This sample is only applicable to the following models: Deep, Laser L Enhanced, PRO XS, PRO XS-GL, LSR L, LSR L-GL, LSR S, LSR S-GL, DEEP, and DEEP-GL.
 
 If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
 

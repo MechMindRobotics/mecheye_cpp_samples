@@ -57,7 +57,7 @@ The sample marked with `(HALCON)` requires [HALCON](https://www.mvtec.com/downlo
     Define and register the callback function for monitoring camera events.
   * [CaptureStereo2DImages](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Advanced/CaptureStereo2DImages) `(OpenCV)`  
     Obtain and save the 2D images from both 2D cameras.
-    > Note: This sample is only applicable to the following models: Deep, Laser L Enhanced, PRO XS, LSR L, LSR S, and DEEP.
+    > Note: This sample is only applicable to the following models: Deep, Laser L Enhanced, PRO XS, PRO XS-GL, LSR L, LSR L-GL, LSR S, LSR S-GL, DEEP, and DEEP-GL.
 * **Util**
   * [GetCameraIntrinsics](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/area_scan_3d_camera/Util/GetCameraIntrinsics)  
     Obtain and print the camera intrinsic parameters.

@@ -54,20 +54,20 @@ int main()
     /*
      * Obtain the rigid body transformation from the camera reference frame to the custom reference
      * frame.
-     * The custom reference frame can be adjusted using the "Custom Reference Frame" tool in Mech-Eye
-     * Viewer. The rigid body transformations are automatically calculated.
-     * Alternatively, you can avoid using the current interface and instead use the rotation and
-     * translation methods of FrameTransformation to construct a transformation matrix manually.
-     * However, this method is not recommended because it is less intuitive.
+     * The custom reference frame can be adjusted using the "Custom Reference Frame" tool in
+     * Mech-Eye Viewer. The rigid body transformations are automatically calculated. Alternatively,
+     * you can avoid using the current interface and instead use the rotation and translation
+     * methods of FrameTransformation to construct a transformation matrix manually. However, this
+     * method is not recommended because it is less intuitive.
      */
     mmind::eye::FrameTransformation transformation = getTransformationParams(camera);
-   if (!transformation.isValid()) {
+    if (!transformation.isValid()) {
         std::cout << "Transformation parameters are not set. Please configure the transformation "
                      "parameters using the custom coordinate system tool in the client."
                   << std::endl;
     }
 
-   //Get the untextured point cloud
+    // Get the untextured point cloud
     mmind::eye::Frame3D frame3D;
     showError(camera.capture3D(frame3D));
     if (frame3D.isEmpty()) {
@@ -87,12 +87,12 @@ int main()
     mmind::eye::PointCloudWithNormals transformedPointCloudWithNormals =
         mmind::eye::transformPointCloudWithNormals(transformation,
                                                    frame3D.getUntexturedPointCloud());
-    const std::string pointCloudWithNoramlsFile = "PointCloudWithNormals.ply";
+    const std::string pointCloudWithNormalsFile = "PointCloudWithNormals.ply";
     showError(frame3D.savePointCloudWithNormals(
-        transformedPointCloudWithNormals, mmind::eye::FileFormat::PLY, pointCloudWithNoramlsFile));
-    std::cout << "Save the point cloud with normals:" << pointCloudWithNoramlsFile << std::endl;
+        transformedPointCloudWithNormals, mmind::eye::FileFormat::PLY, pointCloudWithNormalsFile));
+    std::cout << "Save the point cloud with normals:" << pointCloudWithNormalsFile << std::endl;
 
-   //Get the textured point cloud
+    // Get the textured point cloud
     mmind::eye::Frame2DAnd3D frame2DAnd3D;
     showError(camera.capture2DAnd3D(frame2DAnd3D));
     if (frame2DAnd3D.frame2D().isEmpty() || frame2DAnd3D.frame3D().isEmpty()) {
@@ -112,13 +112,14 @@ int main()
               << std::endl;
 
     mmind::eye::TexturedPointCloudWithNormals transformedTexturedPointCloudWithNormals =
-        mmind::eye::transformTexturedPointCloudWithNormals(transformation, frame2DAnd3D.getTexturedPointCloud());
-    const std::string texturedPointCloudWithNoramlsFile = "TexturedPointCloudWithNormals.ply";
+        mmind::eye::transformTexturedPointCloudWithNormals(transformation,
+                                                           frame2DAnd3D.getTexturedPointCloud());
+    const std::string texturedPointCloudWithNormalsFile = "TexturedPointCloudWithNormals.ply";
     showError(frame2DAnd3D.savePointCloudWithNormals(transformedTexturedPointCloudWithNormals,
                                                      mmind::eye::FileFormat::PLY,
-                                                     texturedPointCloudWithNoramlsFile));
+                                                     texturedPointCloudWithNormalsFile));
     std::cout << "Capture and save the textured point cloud with normals:"
-              << texturedPointCloudWithNoramlsFile << std::endl;
+              << texturedPointCloudWithNormalsFile << std::endl;
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;
