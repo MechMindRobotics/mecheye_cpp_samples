@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -71,8 +71,8 @@ int main()
     }
 
     mmind::eye::Camera camera;
-    showError(camera.connect(cameraInfoList[inputIndex]));
-    std::cout << "Connected to the camera successfully." << std::endl;
+    const std::string successMessage = "Connected to the camera successfully.";
+    showError(camera.connect(cameraInfoList[inputIndex]), successMessage);
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

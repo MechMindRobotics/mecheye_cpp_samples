@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -120,6 +120,16 @@ void setParameters(mmind::eye::UserSet& userSet)
     // // second exposure phase is completed.
     // setHDRExposure(userSet, 100, 40, 80, 10, 60);
 
+    // // Enable outlier removal and adjust the outlier removal intensity.
+    // // Set the "EnableOutlierRemoval" parameter to true
+    // showError(
+    //    userSet.setBoolValue(mmind::eye::profile_processing::EnableOutlierRemoval::name, true));
+    // // Set the "OutlierRemovalIntensity" parameter to "VeryLow"
+    // showError(userSet.setEnumValue(
+    //    mmind::eye::profile_processing::OutlierRemovalIntensity::name,
+    //    static_cast<int>(
+    //        mmind::eye::profile_processing::OutlierRemovalIntensity::Value::VeryLow)));
+
     // Set the "Data Acquisition Trigger Source" parameter to "Software"
     showError(userSet.setEnumValue(
         mmind::eye::trigger_settings::DataAcquisitionTriggerSource::name,
@@ -230,6 +240,10 @@ bool acquireProfileData(mmind::eye::Profiler& profiler, mmind::eye::ProfileBatch
 void callbackFunc(const mmind::eye::ProfileBatch& batch, void* pUser)
 {
     std::unique_lock<std::mutex> lock(kMutex);
+    if (!batch.getErrorStatus().isOK()) {
+        std::cout << "Error occurred during data acquisition." << std::endl;
+        showError(batch.getErrorStatus());
+    }
     auto* outPutBatch = static_cast<mmind::eye::ProfileBatch*>(pUser);
     outPutBatch->append(batch);
 }

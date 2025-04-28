@@ -31,28 +31,29 @@
  ******************************************************************************/
 
 /*
-With this sample, you can obtain and print the laser profiler's information, such as model, serial number, firmware version, and temperatures.
+With this sample, you can save the virtual device file.
+Note: The virtual device file can be opened with Mech-Eye Viewer.
 */
 
-#include "profiler/Profiler.h"
-#include "profiler/api_util.h"
-#include "profiler/ProfilerInfo.h"
+#include "area_scan_3d_camera/Camera.h"
+#include "area_scan_3d_camera/api_util.h"
 
 int main()
 {
-    mmind::eye::Profiler profiler;
-    if (!findAndConnect(profiler))
+    mmind::eye::Camera camera;
+    if (!findAndConnect(camera))
         return -1;
 
-    mmind::eye::ProfilerInfo profilerInfo;
-    showError(profiler.getProfilerInfo(profilerInfo));
-    printProfilerInfo(profilerInfo);
+    std::cout << "Start saving the virtual device file. This may take up to a few minutes."
+              << std::endl;
+    // Enter the name for the virtual device file. Please ensure that the file name is encoded in UTF-8 format. 
+    // You can add a path before the name to specify the path for saving the file.
+    const std::string virtualFile = "Camera.mraw";
+    const std::string successMessage = "The virtual device file has been saved.";
+    showError(camera.saveVirtualDeviceFile(virtualFile), successMessage);
 
-    mmind::eye::ProfilerStatus profilerStatus;
-    showError(profiler.getProfilerStatus(profilerStatus));
-    printProfilerStatus(profilerStatus);
+    camera.disconnect();
+    std::cout << "Disconnected from the camera successfully." << std::endl;
 
-    profiler.disconnect();
-    std::cout << "Disconnected from the profiler successfully." << std::endl;
     return 0;
 }

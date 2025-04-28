@@ -18,7 +18,7 @@ std::string getInputCommand()
     std::cin.clear();
     std::getline(std::cin, command);
     if (std::cin.rdbuf()->in_avail() != 0) {
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
     }
     return command;
 }
@@ -27,7 +27,7 @@ template <typename T>
 T getInputNumber()
 {
     if (std::cin.rdbuf()->in_avail() != 0) {
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
     }
     T input;
     std::string inputStr;
@@ -303,7 +303,7 @@ mmind::eye::HandEyeCalibration::Transformation enterRobotPose(int eulerType)
         break;
     }
     if (std::cin.rdbuf()->in_avail() != 0) {
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
     }
     return eulerToQuad(eulerType, poseX, poseY, poseZ, poseR1, poseR2, poseR3);
 }

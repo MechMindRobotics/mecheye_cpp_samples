@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -109,88 +109,28 @@ void setParameters(mmind::eye::UserSet& userSet)
     showError(userSet.setIntValue(mmind::eye::scan_settings::ScanLineCount::name, 1600));
 }
 
-
-/*
- * Calculate the initial coordinates of each point, apply the rigid body transformations to the
- * initial coordinates, and then write the transformed coordinates to the PLY file.
- */
-bool transformAndSaveToPLY(float* data, int* yValues, int captureLineCount, int dataWidth, float xUnit,
-                   float yUnit, const std::string& fileName, bool isOrganized,
-                   const mmind::eye::FrameTransformation& coordTransformation)
-{
-    FILE* fp = fopen(fileName.c_str(), "w");
-
-    if (!fp)
-        return false;
-
-    unsigned validPointCount{0};
-    if (!isOrganized) {
-        for (int y = 0; y < captureLineCount; ++y) {
-            for (int x = 0; x < dataWidth; ++x) {
-                if (!std::isnan(data[y * dataWidth + x]))
-                    validPointCount++;
-            }
-        }
-    }
-
-    fprintf(fp, "ply\n");
-    fprintf(fp, "format ascii 1.0\n");
-    fprintf(fp, "comment File generated\n");
-    fprintf(fp, "comment x y z data unit in mm\n");
-    fprintf(fp, "element vertex %u\n",
-            isOrganized ? static_cast<unsigned>(captureLineCount * dataWidth) : validPointCount);
-    fprintf(fp, "property float x\n");
-    fprintf(fp, "property float y\n");
-    fprintf(fp, "property float z\n");
-    fprintf(fp, "end_header\n");
-
-    const auto& rot = coordTransformation.rotation;
-    const auto& trans = coordTransformation.translation;
-    for (int y = 0; y < captureLineCount; ++y) {
-        for (int x = 0; x < dataWidth; ++x) {
-            if (!std::isnan(data[y * dataWidth + x])) {
-                // Calculate the initial coordinates of each point from the original profile data.
-                const auto xPos = x * xUnit * kPitch;
-                const auto yPos = yValues[y] * yUnit * kPitch;
-                const auto zPos = data[y * dataWidth + x];
-                // Apply the rigid body transformations to the initial coordinates to obtain the
-                // coordinates in the custom reference frame.
-                const auto transformedX =
-                    xPos * rot[0][0] + yPos * rot[0][1] + zPos * rot[0][2] + trans[0];
-                const auto transformedY =
-                    xPos * rot[1][0] + yPos * rot[1][1] + zPos * rot[1][2] + trans[1];
-                const auto transformedZ =
-                    xPos * rot[2][0] + yPos * rot[2][1] + zPos * rot[2][2] + trans[2];
-                fprintf(fp, "%f %f %f\n", static_cast<float>(transformedX),
-                        static_cast<float>(transformedY), static_cast<float>(transformedZ));
-            } else if (isOrganized)
-                fprintf(fp, "nan nan nan\n");
-        }
-    }
-
-    fclose(fp);
-    return true;
-}
 // Convert the profile data to an untextured point cloud in the custom reference frame and save it
 // to a PLY file.
-void convertBatchToPointCloudWithTransformation(mmind::eye::ProfileBatch& batch, const mmind::eye::UserSet& userSet,
-                               const mmind::eye::FrameTransformation& coordinateTransformation)
+void convertBatchToPointCloudWithTransformation(
+    mmind::eye::ProfileBatch& batch, const mmind::eye::UserSet& userSet,
+    const mmind::eye::FrameTransformation& coordinateTransformation)
 {
     if (batch.isEmpty())
         return;
 
     // Get the X-axis resolution
-    double xUnit{};
-    auto status =
-        userSet.getFloatValue(mmind::eye::point_cloud_resolutions::XAxisResolution::name, xUnit);
+    double xResolution{};
+    auto status = userSet.getFloatValue(mmind::eye::point_cloud_resolutions::XAxisResolution::name,
+                                        xResolution);
     if (!status.isOK()) {
         showError(status);
         return;
     }
 
     // Get the Y resolution
-    double yUnit{};
-    status = userSet.getFloatValue(mmind::eye::point_cloud_resolutions::YResolution::name, yUnit);
+    double yResolution{};
+    status =
+        userSet.getFloatValue(mmind::eye::point_cloud_resolutions::YResolution::name, yResolution);
     if (!status.isOK()) {
         showError(status);
         return;
@@ -205,7 +145,7 @@ void convertBatchToPointCloudWithTransformation(mmind::eye::ProfileBatch& batch,
     //     std::string str;
     //     std::cin >> str;
     //     if (std::regex_match(str.begin(), str.end(), std::regex{"[0-9]+"})) {
-    //         yUnit = atoi(str.c_str());
+    //         yResolution = atoi(str.c_str());
     //         break;
     //     }
     //     std::cout << "Input invalid! Please enter the desired encoder resolution (integer, unit:
@@ -233,18 +173,12 @@ void convertBatchToPointCloudWithTransformation(mmind::eye::ProfileBatch& batch,
         return;
     }
 
-    // Shift the encoder values around zero
-    std::vector<int> encoderVals;
-    encoderVals.reserve(batch.height());
-    auto encoder = batch.getEncoderArray();
-    for (int r = 0; r < batch.height(); ++r)
-        encoderVals.push_back(
-            useEncoderValues ? shiftEncoderValsAroundZero(encoder[r], encoder[0]) / triggerInterval
-                             : r);
-
     std::cout << "Save the transformed point cloud." << std::endl;
-    transformAndSaveToPLY(batch.getDepthMap().data(), encoderVals.data(), batch.height(), batch.width(),
-                  xUnit, yUnit, "PointCloud.ply", true, coordinateTransformation);
+    showError(mmind::eye::ProfileBatch::saveUntexturedPointCloud(
+        transformPointCloud(coordinateTransformation,
+                            batch.getUntexturedPointCloud(xResolution, yResolution,
+                                                          useEncoderValues, triggerInterval)),
+        mmind::eye::FileFormat::PLY, "PointCloud.ply"));
 }
 } // namespace
 
@@ -294,16 +228,17 @@ int main()
     /*
      * Obtain the rigid body transformation from the camera reference frame to the custom reference
      * frame.
-     * The custom reference frame can be adjusted using the "Custom Reference Frame" tool in Mech-Eye
-     * Viewer. The rigid body transformations are automatically calculated.
-     * Alternatively, you can avoid using the current interface and instead use the rotation and
-     * translation methods of FrameTransformation to construct a transformation matrix manually.
-     * However, this method is not recommended because it is less intuitive.
+     * The custom reference frame can be adjusted using the "Custom Reference Frame" tool in
+     * Mech-Eye Viewer. The rigid body transformations are automatically calculated. Alternatively,
+     * you can avoid using the current interface and instead use the rotation and translation
+     * methods of FrameTransformation to construct a transformation matrix manually. However, this
+     * method is not recommended because it is less intuitive.
      */
     const auto transformation = getTransformationParams(profiler);
     if (!transformation.isValid()) {
         std::cout << "Transformation parameters are not set. Please configure the transformation "
-                     "parameters using the custom coordinate system tool in the client." << std::endl;
+                     "parameters using the custom coordinate system tool in the client."
+                  << std::endl;
     }
     // Transform the reference frame, generate the untextured point cloud, and save the point cloud
     convertBatchToPointCloudWithTransformation(profileBatch, userSet, transformation);

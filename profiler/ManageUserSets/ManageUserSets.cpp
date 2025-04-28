@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -31,8 +31,8 @@
  ******************************************************************************/
 
 /*
-With this sample, you can manage user sets, such as obtaining the names of all parameter
-groups, adding a user set, switching the user set, and saving parameter settings to
+With this sample, you can manage user sets, such as obtaining the names of all user
+sets, adding a user set, switching the user set, and saving parameter settings to
 the user set.
 */
 
@@ -66,15 +66,15 @@ int main()
 
     // Add a user set.
     const std::string newSetting{"NewSettings"};
-    showError(userSetManager.addUserSet(newSetting));
-    std::cout << "Add a new user set with the name of \"" << newSetting << "\"." << std::endl;
+    std::string successMessage = "Add a new user set with the name of \"" + newSetting + "\".";
+    showError(userSetManager.addUserSet(newSetting), successMessage);
 
     // Select a user set by its name.
-    showError(userSetManager.selectUserSet(newSetting));
-    std::cout << "Select the \"" << newSetting << "\" user set." << std::endl;
+    successMessage = "Select the \"" + newSetting + "\" user set.";
+    showError(userSetManager.selectUserSet(newSetting), successMessage);
 
-    showError(curSettings.saveAllParametersToDevice());
-    std::cout << "Save all parameters to the current user set." << std::endl;
+    successMessage = "Save all parameters to the current user set.";
+    showError(curSettings.saveAllParametersToDevice(), successMessage);
 
     profiler.disconnect();
     std::cout << "Disconnected from the laser profiler successfully." << std::endl;

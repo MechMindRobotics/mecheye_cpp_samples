@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -81,12 +81,13 @@ int main()
     std::string pointCloudFile = "PointCloud.ply";
     mmind::eye::PointCloud pointCloud;
     convertDepthToPointCloud(depth, cameraIntrinsics, pointCloud);
-    mmind::eye::Frame3D::savePointCloud(pointCloud, mmind::eye::FileFormat::PLY, pointCloudFile);
+    std::cout << "The point cloud contains: " << pointCloud.width() * pointCloud.height()
+              << " data points." << std::endl;
 
-    std::cout << "The point cloud contains: " << pointCloud.width() * pointCloud.height() << " data points."
-              << std::endl;
-    std::cout << "Save the point cloud to file: " << pointCloudFile << std::endl;
-
+    std::string successMessage = "Save the point cloud to file: " + pointCloudFile;
+    showError(mmind::eye::Frame3D::savePointCloud(pointCloud, mmind::eye::FileFormat::PLY,
+                                                  pointCloudFile),
+              successMessage);
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;
     return 0;

@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -66,13 +66,15 @@ void capture(mmind::eye::Camera& camera, const std::string& suffix)
     cv::imwrite(depthFile, depth32F);
     std::cout << "Capture and save the depth map: " << depthFile << std::endl;
 
+    std::string successMessage = "Capture and save the untextured point cloud: " + pointCloudFile;
     showError(frame2DAnd3D.frame3D().saveUntexturedPointCloud(mmind::eye::FileFormat::PLY,
-                                                              pointCloudFile));
-    std::cout << "Capture and save the untextured point cloud: " << pointCloudFile << std::endl;
+                                                              pointCloudFile),
+              successMessage);
 
+    successMessage = "Capture and save the textured point cloud: " + texturedPointCloudFile;
     showError(
-        frame2DAnd3D.saveTexturedPointCloud(mmind::eye::FileFormat::PLY, texturedPointCloudFile));
-    std::cout << "Capture and save the textured point cloud: " << texturedPointCloudFile << std::endl;
+        frame2DAnd3D.saveTexturedPointCloud(mmind::eye::FileFormat::PLY, texturedPointCloudFile),
+        successMessage);
 }
 } // namespace
 
@@ -115,8 +117,8 @@ int main()
         if (timeUsed < capturePeriod)
             std::this_thread::sleep_for(capturePeriod - timeUsed);
         else {
-            std::cout << "The actual capture time is longer than the set capture interval. Please increase "
-                         "the capture interval."
+            std::cout << "The actual capture time is longer than the set capture interval. Please "
+                         "increase the capture interval."
                       << std::endl;
         }
 
