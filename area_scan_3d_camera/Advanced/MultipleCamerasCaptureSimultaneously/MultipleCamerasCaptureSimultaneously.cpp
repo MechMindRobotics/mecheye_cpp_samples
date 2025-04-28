@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -103,15 +103,17 @@ void captureAsync(mmind::eye::Camera& camera, std::mutex& m)
 
     const std::string pointCloudFile =
         serialNumber.empty() ? "PointCloud.ply" : "PointCloud_" + serialNumber + ".ply";
+
+    std::string successMessage = "Capture and save the untextured point cloud: " + pointCloudFile;
     showError(frame2DAnd3D.frame3D().saveUntexturedPointCloud(mmind::eye::FileFormat::PLY,
-                                                              pointCloudFile));
-    std::cout << "Capture and save the untextured point cloud: " << pointCloudFile << std::endl;
+                                                              pointCloudFile),
+              successMessage);
 
     const std::string texturedPointCloudFile = serialNumber.empty()
                                                    ? "TexturedPointCloud.ply"
                                                    : "TexturedPointCloud_" + serialNumber + ".ply";
+    successMessage = "Capture and save the textured point cloud: " + texturedPointCloudFile;
     showError(
-        frame2DAnd3D.saveTexturedPointCloud(mmind::eye::FileFormat::PLY, texturedPointCloudFile));
-    std::cout << "Capture and save the textured point cloud: " << texturedPointCloudFile
-              << std::endl;
+        frame2DAnd3D.saveTexturedPointCloud(mmind::eye::FileFormat::PLY, texturedPointCloudFile),
+        successMessage);
 }

@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,8 @@
  ******************************************************************************/
 
 /*
-With this sample, you can generate untextured and textured point clouds from a masked 2D image and a depth map.
+With this sample, you can generate untextured and textured point clouds from a masked 2D image and a
+depth map.
 */
 
 #include "area_scan_3d_camera/Camera.h"
@@ -115,18 +116,20 @@ int main()
         mmind::eye::getPointCloudAfterMapping(depthMap, validMask, cameraIntrinsics, pointCloud));
 
     std::string pointCloudFile = "UntexturedPointCloud.ply";
+    std::string successMessage = "Save the untextured point cloud to file: " + pointCloudFile;
     showError(mmind::eye::Frame3D::savePointCloud(pointCloud, mmind::eye::FileFormat::PLY,
-                                                  pointCloudFile));
-    std::cout << "Save the untextured point cloud to file: " << pointCloudFile << std::endl;
+                                                  pointCloudFile),
+              successMessage);
 
     mmind::eye::TexturedPointCloud texturedPointCloud;
     showError(mmind::eye::getPointCloudAfterMapping(depthMap, validMask, color2DImage,
                                                     cameraIntrinsics, texturedPointCloud));
 
     std::string texturedPointCloudFile = "TexturedPointCloud.ply";
+    successMessage = "Save the textured point cloud to file: " + texturedPointCloudFile;
     showError(mmind::eye::Frame2DAnd3D::savePointCloud(
-        texturedPointCloud, mmind::eye::FileFormat::PLY, texturedPointCloudFile));
-    std::cout << "Save the textured point cloud to file: " << texturedPointCloudFile << std::endl;
+                  texturedPointCloud, mmind::eye::FileFormat::PLY, texturedPointCloudFile),
+              successMessage);
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

@@ -20,6 +20,8 @@ The samples marked with `(OpenCV)` require [OpenCV](https://opencv.org/releases/
   Trigger data acquisition with signals input from the external device, trigger line scans with signals input from the encoder, and then retrieve and save the acquired data.
 * [TriggerMultipleProfilersSimultaneously](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerMultipleProfilersSimultaneously) `(OpenCV)`  
   Trigger multiple laser profilers to acquire data asynchronously and retrieve the acquired data.
+* [TriggerNonStopAcquisition](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerNonStopAcquisition) `(OpenCV)`  
+  Trigger non-stop acquisition, and then retrieve and save the acquired data.
 * [BlindSpotFiltering](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/BlindSpotFiltering) `(OpenCV)`  
   Detect and remove the false data caused by blind spots and obtain the filtered profile data.
 * [NoiseRemoval](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/NoiseRemoval) `(OpenCV)`  
@@ -71,10 +73,10 @@ Optional software: If you need to build the samples dependent on third-party sof
 
 4. Run Cmake and set the source and build paths:
 
-   | Field                       | Path                 |
-   | :----                       | :----                |
-   | Where is the source code    | xxx/profiler         |
-   | Where to build the binaries | xxx/profiler/build   |
+   | Field                       | Path               |
+   | :-------------------------- | :----------------- |
+   | Where is the source code    | xxx/profiler       |
+   | Where to build the binaries | xxx/profiler/build |
 
 5. Click the **Configure** button. In the pop-up window, set the generator and platform according to the actual situation, and then click the **Finish** button.
 6. When the log displays **Configuring done**, click the **Generate** button. When the log displays **Generating done**, click the **Open Project** button.

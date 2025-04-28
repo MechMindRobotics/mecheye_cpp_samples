@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -76,21 +76,25 @@ int main()
     }
 
     // Transform the reference frame of the untextured point cloud and untextured point cloud with
-    // normals, and save the point clouds
+    // normals, and save the point cloud
     mmind::eye::PointCloud transformedPointCloud =
         mmind::eye::transformPointCloud(transformation, frame3D.getUntexturedPointCloud());
     const std::string pointCloudFile = "PointCloud.ply";
+
+    std::string successMessage = "Save the point cloud:" + pointCloudFile;
     showError(
-        frame3D.savePointCloud(transformedPointCloud, mmind::eye::FileFormat::PLY, pointCloudFile));
-    std::cout << "Save the point cloud:" << pointCloudFile << std::endl;
+        frame3D.savePointCloud(transformedPointCloud, mmind::eye::FileFormat::PLY, pointCloudFile),
+        successMessage);
 
     mmind::eye::PointCloudWithNormals transformedPointCloudWithNormals =
         mmind::eye::transformPointCloudWithNormals(transformation,
                                                    frame3D.getUntexturedPointCloud());
     const std::string pointCloudWithNormalsFile = "PointCloudWithNormals.ply";
-    showError(frame3D.savePointCloudWithNormals(
-        transformedPointCloudWithNormals, mmind::eye::FileFormat::PLY, pointCloudWithNormalsFile));
-    std::cout << "Save the point cloud with normals:" << pointCloudWithNormalsFile << std::endl;
+    successMessage = "Save the point cloud with normals:" + pointCloudWithNormalsFile;
+    showError(
+        frame3D.savePointCloudWithNormals(transformedPointCloudWithNormals,
+                                          mmind::eye::FileFormat::PLY, pointCloudWithNormalsFile),
+        successMessage);
 
     // Get the textured point cloud
     mmind::eye::Frame2DAnd3D frame2DAnd3D;
@@ -101,25 +105,26 @@ int main()
     }
 
     // Transform the reference frame of the textured point cloud and textured point cloud with
-    // normals, and save the point clouds
+    // normals, and save the point cloud
     mmind::eye::TexturedPointCloud transformedTexturedPointCloud =
         mmind::eye::transformTexturedPointCloud(transformation,
                                                 frame2DAnd3D.getTexturedPointCloud());
     const std::string texturedPointCloudFile = "TexturedPointCloud.ply";
+    successMessage = "Capture and save the textured point cloud:" + texturedPointCloudFile;
     showError(frame2DAnd3D.savePointCloud(transformedTexturedPointCloud,
-                                          mmind::eye::FileFormat::PLY, texturedPointCloudFile));
-    std::cout << "Capture and save the textured point cloud:" << texturedPointCloudFile
-              << std::endl;
+                                          mmind::eye::FileFormat::PLY, texturedPointCloudFile),
+              successMessage);
 
     mmind::eye::TexturedPointCloudWithNormals transformedTexturedPointCloudWithNormals =
         mmind::eye::transformTexturedPointCloudWithNormals(transformation,
                                                            frame2DAnd3D.getTexturedPointCloud());
     const std::string texturedPointCloudWithNormalsFile = "TexturedPointCloudWithNormals.ply";
+    successMessage = "Capture and save the textured point cloud with normals:" +
+                     texturedPointCloudWithNormalsFile;
     showError(frame2DAnd3D.savePointCloudWithNormals(transformedTexturedPointCloudWithNormals,
                                                      mmind::eye::FileFormat::PLY,
-                                                     texturedPointCloudWithNormalsFile));
-    std::cout << "Capture and save the textured point cloud with normals:"
-              << texturedPointCloudWithNormalsFile << std::endl;
+                                                     texturedPointCloudWithNormalsFile),
+              successMessage);
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -136,6 +136,22 @@ int main()
     // std::cout << "2D scanning flash acquisition mode: " << flashAcquisitionMode
     //           << ", flash exposure time: " << flashExposureTime << " ms." << std::endl;
 
+    // Uncomment the following line to set the camera gain when capturing 2D images.
+
+    // For DEEP and LSR series cameras, the camera gain for capturing 2D images (texture) can be
+    // adjusted by setting the "Scan2DGain" parameter.
+
+    // For other camera series, the camera gain for capturing 2D images can be adjusted by
+    // setting the "Scan2DGain" parameter when the exposure mode is set to fixed exposure, auto
+    // exposure, HDR, or flash mode, and the flash acquisition mode is set to
+    // responsive.
+
+    // showError(currentUserSet.setFloatValue(mmind::eye::scanning2d_setting::Gain::name, 2.0));
+
+    // double scan2dGain{};
+    // showError(currentUserSet.getFloatValue(mmind::eye::scanning2d_setting::Gain::name,
+    // scan2dGain)); std::cout << "2D image gain: " << scan2dGain << " dB." << std::endl;
+
     int exposureMode2D = 0;
     showError(currentUserSet.getEnumValue(mmind::eye::scanning2d_setting::ExposureMode::name,
                                           exposureMode2D));
@@ -146,8 +162,8 @@ int main()
               << ", exposure time: " << scan2DExposureTime << " ms." << std::endl;
 
     // Save all the parameter settings to the currently selected user sets.
-    showError(currentUserSet.saveAllParametersToDevice());
-    std::cout << "Save all parameters to the current user set." << std::endl;
+    std::string successMessage = "Save all parameters to the current user set.";
+    showError(currentUserSet.saveAllParametersToDevice(), successMessage);
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

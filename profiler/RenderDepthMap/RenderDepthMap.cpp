@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -56,6 +56,10 @@ std::mutex kMutex;
 void callbackFunc(const mmind::eye::ProfileBatch& batch, void* pUser)
 {
     std::unique_lock<std::mutex> lock(kMutex);
+    if (!batch.getErrorStatus().isOK()) {
+        std::cout << "Error occurred during data acquisition." << std::endl;
+        showError(batch.getErrorStatus());
+    }
     auto* outPutBatch = static_cast<mmind::eye::ProfileBatch*>(pUser);
     outPutBatch->append(batch);
 }

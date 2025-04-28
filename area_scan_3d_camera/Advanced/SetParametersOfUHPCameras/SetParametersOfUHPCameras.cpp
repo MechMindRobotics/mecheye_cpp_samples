@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -48,8 +48,8 @@ int main()
 
     // Set the capture mode to "Merge".
     const int captureMode = static_cast<int>(mmind::eye::uhp_setting::CaptureMode::Value::Merge);
-    showError(currentUserSet.setEnumValue(mmind::eye::uhp_setting::CaptureMode::name, captureMode));
     std::cout << "Set the UHP capture mode to \"Merge\"." << std::endl;
+    showError(currentUserSet.setEnumValue(mmind::eye::uhp_setting::CaptureMode::name, captureMode));
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

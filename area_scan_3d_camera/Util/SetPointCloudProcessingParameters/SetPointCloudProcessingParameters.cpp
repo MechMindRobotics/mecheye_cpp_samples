@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -92,8 +92,8 @@ int main()
               << " (0: Sharp, 1: Normal, 2: Smooth)" << std::endl;
 
     // Save all the parameter settings to the currently selected user set.
-    showError(currentUserSet.saveAllParametersToDevice());
-    std::cout << "Save all parameters to the current user set." << std::endl;
+    std::string successMessage = "Save all parameters to the current user set.";
+    showError(currentUserSet.saveAllParametersToDevice(), successMessage);
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

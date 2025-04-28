@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -59,33 +59,68 @@ int main()
         stream << std::put_time(tm_occur, "%Y-%m-%d %X");
 
         std::cout << "A camera event has occurred." << std::endl
-                  << "\tEvent ID:  " << eventDataPtr->eventId << std::endl
-                  << "\tFrame ID:  " << eventDataPtr->frameId << std::endl
+                  << "\tEvent ID:  " << eventDataPtr->eventId << std::endl;
+        if (!eventDataPtr->eventName.empty())
+            std::cout << "\tEvent Name: " << eventDataPtr->eventName << std::endl;
+        std::cout << "\tFrame ID:  " << eventDataPtr->frameId << std::endl
                   << "\tTimestamp: " << stream.str() << "." << eventDataPtr->timestamp % 1000
                   << std::endl;
+
+        if (!extraPayload)
+            return;
+        const auto& payload =
+            *reinterpret_cast<const mmind::eye::CameraEvent::Payload*>(extraPayload);
+        for (const auto& member : payload) {
+            std::cout << "\t" << member.name << ": ";
+            switch (member.type) {
+            case mmind::eye::CameraEvent::PayloadMember::Type::_UInt32:
+                std::cout << member.value.uint32Value;
+                break;
+            case mmind::eye::CameraEvent::PayloadMember::Type::_Int32:
+                std::cout << member.value.int32Value;
+                break;
+            case mmind::eye::CameraEvent::PayloadMember::Type::_Int64:
+                std::cout << member.value.int64Value;
+                break;
+            case mmind::eye::CameraEvent::PayloadMember::Type::_Float:
+                std::cout << member.value.floatValue;
+                break;
+            case mmind::eye::CameraEvent::PayloadMember::Type::_Double:
+                std::cout << member.value.doubleValue;
+                break;
+            case mmind::eye::CameraEvent::PayloadMember::Type::_Bool:
+                std::cout << member.value.boolValue;
+                break;
+            case mmind::eye::CameraEvent::PayloadMember::Type::_String:
+                std::cout << member.value.stringValue;
+                break;
+            }
+            std::cout << std::endl;
+        }
     };
 
     const auto callback =
         std::bind(callbackWithPUser, std::placeholders::_1, std::placeholders::_2, nullptr);
 
-    std::cout << "Register the callback function for the following event:"
-              << static_cast<int>(mmind::eye::CameraEvent::Event::CAMERA_EVENT_DISCONNECTED)
-              << std::endl;
-    // Register the callback function for the CAMERA_EVENT_DISCONNECTED event
-    showError(mmind::eye::CameraEvent::registerCameraEventCallback(
-        camera, mmind::eye::CameraEvent::CAMERA_EVENT_DISCONNECTED, callback));
+    // Set the heartbeat interval to 2 seconds
+    camera.setHeartbeatInterval(2000);
+
+    std::vector<mmind::eye::CameraEvent::EventInfo> supportedEvents;
+    showError(mmind::eye::CameraEvent::getSupportedEvents(camera, supportedEvents));
+    std::cout << "\nEvents supported by this camera\n";
+    for (const auto& event : supportedEvents) {
+        std::cout << "\n" << event.eventName << ": " << event.eventId << "\n";
+        std::cout << "Register the callback function for the event " << event.eventName << ":\n";
+        showError(
+            mmind::eye::CameraEvent::registerCameraEventCallback(camera, event.eventId, callback));
+    }
+    std::cout << std::endl;
 
     // Let the program sleep for 20 seconds. During this period, if the camera disconnects, the
     // callback function will detect and report the disconnection. To test the event mechanism, you
     // can disconnect the camera Ethernet cable during this period.
     std::cout << "Wait for 20 seconds for disconnect event." << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(20000));
-
-    std::cout << "Register the callback function for the following event:"
-              << static_cast<int>(mmind::eye::CameraEvent::Event::CAMERA_EVENT_EXPOSURE_END)
-              << std::endl;
-    showError(mmind::eye::CameraEvent::registerCameraEventCallback(
-        camera, mmind::eye::CameraEvent::Event::CAMERA_EVENT_EXPOSURE_END, callback));
 
     if (!confirmCapture3D()) {
         camera.disconnect();
@@ -121,10 +156,9 @@ int main()
     // Unregister the callback function.
     // The callback functions are automatically unregistered when the program is terminated.
     std::cout << "Unregister the callback function for the following event: "
-              << static_cast<int>(mmind::eye::CameraEvent::Event::CAMERA_EVENT_EXPOSURE_END)
-              << std::endl;
+              << supportedEvents.front().eventName << std::endl;
     showError(mmind::eye::CameraEvent::unregisterCameraEventCallback(
-        camera, mmind::eye::CameraEvent::Event::CAMERA_EVENT_EXPOSURE_END));
+        camera, supportedEvents.front().eventId));
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;

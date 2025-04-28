@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2024, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -57,8 +57,9 @@ int main()
     showError(camera.capture3D(frame3D));
 
     const std::string pointCloudFile = "PointCloud.ply";
-    showError(frame3D.saveUntexturedPointCloud(mmind::eye::FileFormat::PLY, pointCloudFile));
-    std::cout << "Capture and save the point cloud: " << pointCloudFile << std::endl;
+    const std::string successMessage = "Capture and save the point cloud: " + pointCloudFile;
+    showError(frame3D.saveUntexturedPointCloud(mmind::eye::FileFormat::PLY, pointCloudFile),
+              successMessage);
 
     camera.disconnect();
     std::cout << "Disconnected from the camera successfully." << std::endl;
