@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2025, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics Technologies Co., Ltd.
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,8 @@
  ******************************************************************************/
 
 /*
-With this sample, you can calculate normals and save the point cloud with normals. The normals can be calculated on the camera or the computer.
+With this sample, you can calculate normals and save the point cloud with normals. The normals can
+be calculated on the camera or the computer.
 */
 
 #include <iostream>
@@ -49,7 +50,8 @@ int main()
         return 0;
     }
 
-    // Calculate the normals of the points on the camera and save the point cloud with normals to file
+    // Calculate the normals of the points on the camera and save the point cloud with normals to
+    // file
     mmind::eye::Frame3D frame3D;
     if (camera.capture3DWithNormal(frame3D).isOK()) {
         showError(frame3D.saveUntexturedPointCloudWithNormals(mmind::eye::FileFormat::PLY,
@@ -60,7 +62,8 @@ int main()
         return -1;
     }
 
-    // Calculate the normals of the points on the computer and save the point cloud with normals to file
+    // Calculate the normals of the points on the computer and save the point cloud with normals to
+    // file
     if (camera.capture3D(frame3D).isOK()) {
         showError(frame3D.saveUntexturedPointCloudWithNormals(mmind::eye::FileFormat::PLY,
                                                               "PointCloud_2.ply"));

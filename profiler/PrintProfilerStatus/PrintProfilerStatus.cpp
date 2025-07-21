@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2025, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics Technologies Co., Ltd.
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,8 @@
  ******************************************************************************/
 
 /*
-With this sample, you can obtain and print the laser profiler's information, such as model, serial number, firmware version, and temperatures.
+With this sample, you can obtain and print the laser profiler's information, such as model, serial
+number, firmware version, and temperatures.
 */
 
 #include "profiler/Profiler.h"

@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2025, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics Technologies Co., Ltd.
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -46,8 +46,8 @@ int main()
 
     mmind::eye::UserSet& currentUserSet = camera.currentUserSet();
 
-    // Set the "Laser Power" parameter, which is the output power of the projector as a percentage of the maximum output power. This affects the
-    // intensity of the projected structured light.
+    // Set the "Laser Power" parameter, which is the output power of the projector as a percentage
+    // of the maximum output power. This affects the intensity of the projected structured light.
 
     const int laserPowerLevel = 80;
     std::cout << "Set the output power of the laser projector to: " << laserPowerLevel
@@ -55,8 +55,9 @@ int main()
     showError(
         currentUserSet.setIntValue(mmind::eye::laser_setting::PowerLevel::name, laserPowerLevel));
 
-    // Set the "Fringe Coding Mode" parameter, which controls the pattern of the structured light. The "Fast" mode enhances the 
-    // capture speed but provides lower depth data accuracy. The "Accurate" mode provides better depth data accuracy but reduces the capture speed.
+    // Set the "Fringe Coding Mode" parameter, which controls the pattern of the structured light.
+    // The "Fast" mode enhances the capture speed but provides lower depth data accuracy. The
+    // "Accurate" mode provides better depth data accuracy but reduces the capture speed.
 
     std::cout << "Set the fringe coding mode of the projector to \"Accurate\"." << std::endl;
     const mmind::eye::laser_setting::FringeCodingMode::Value laserFringeCodingMode =
@@ -72,9 +73,9 @@ int main()
     showError(
         currentUserSet.setRangeValue(mmind::eye::laser_setting::FrameRange::name, laserFrameRange));
 
-    // Set the laser scan partition count. If the set value is greater than 1, the scan of the entire FOV 
-    // will be partitioned into multiple parts. It is recommended to use multiple parts for
-    // extremely dark objects.
+    // Set the laser scan partition count. If the set value is greater than 1, the scan of the
+    // entire FOV will be partitioned into multiple parts. It is recommended to use multiple parts
+    // for extremely dark objects.
     const int laserFramePartitionCount = 2;
     std::cout << "Set the laser scan partition count to " << laserFramePartitionCount << "."
               << std::endl;
