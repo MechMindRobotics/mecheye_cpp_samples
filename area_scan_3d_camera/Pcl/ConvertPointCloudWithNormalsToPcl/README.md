@@ -1,6 +1,6 @@
 # ConvertPointCloudWithNormalsToPcl Sample
 
-With this sample, you can set the parameters specific to the UHP series.
+With this sample, you can obtain the point cloud data with normals from the camera and convert it to the PCL data structure.
 
 If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
 
@@ -20,7 +20,7 @@ The following software are required to build this sample. Please download and in
 * [PCL (version 1.8.1 or above)](https://github.com/PointCloudLibrary/pcl/releases): Refer to the following table and determine the version of PCL to install based on the version of Visual Studio. Download the EXE installer from the **Assets** section of the version that you want to install.
 
    | Visual Studio version | Supported PCL versions |
-   | :----                 | :----                  |
+   | :-------------------- | :--------------------- |
    | 2017                  | 1.8.1–1.9.1            |
    | 2019                  | 1.8.1–1.12.1           |
    | 2022                  | 1.8.1 and above        |
@@ -37,7 +37,7 @@ The following software are required to build this sample. Please download and in
 3. Run Cmake and set the source and build paths:
   
    | Field                       | Path                                        |
-   | :----                       | :----                                       |
+   | :-------------------------- | :------------------------------------------ |
    | Where is the source code    | xxx/ConvertPointCloudWithNormalsToPcl       |
    | Where to build the binaries | xxx/ConvertPointCloudWithNormalsToPcl/build |
 
@@ -101,7 +101,7 @@ Ubuntu 18 or above is required.
 1. Navigate to the directory of the sample.
 
    ```bash
-   cd xxx/area_scan_3d_camera/Advanced/ConvertPointCloudWithNormalsToPcl/
+   cd xxx/area_scan_3d_camera/Pcl/ConvertPointCloudWithNormalsToPcl/
    ```
 
 2. Configure and build the sample.

@@ -1,7 +1,7 @@
 /*******************************************************************************
  *BSD 3-Clause License
  *
- *Copyright (c) 2016-2025, Mech-Mind Robotics
+ *Copyright (c) 2016-2025, Mech-Mind Robotics Technologies Co., Ltd.
  *All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,8 @@
  ******************************************************************************/
 
 /*
-With this sample, you can connect to a camera and obtain the 2D image, depth map, and point cloud data.
+With this sample, you can connect to a camera and obtain the 2D image, depth map, and point cloud
+data.
 */
 
 #include "area_scan_3d_camera/Camera.h"
@@ -54,8 +55,8 @@ int main()
     unsigned row = 0;
     unsigned col = 0;
     showError(camera.capture2D(frame2D));
-    std::cout << "The size of the 2D image is: " << frame2D.imageSize().width
-              << " (width) * " << frame2D.imageSize().height << " (height)." << std::endl;
+    std::cout << "The size of the 2D image is: " << frame2D.imageSize().width << " (width) * "
+              << frame2D.imageSize().height << " (height)." << std::endl;
     try {
         mmind::eye::ColorBGR colorBGR = frame2D.getColorImage().at(row, col);
         std::cout << "The RGB values of the pixel at (" << row << ", " << col
@@ -77,12 +78,12 @@ int main()
     showError(camera.capture3D(frame3D));
     mmind::eye::DepthMap depthMap = frame3D.getDepthMap();
 
-    std::cout << "The size of the depth map is: " << depthMap.width() << " (width) * " << depthMap.height()
-              << " (height)." << std::endl;
+    std::cout << "The size of the depth map is: " << depthMap.width() << " (width) * "
+              << depthMap.height() << " (height)." << std::endl;
     try {
         mmind::eye::PointZ depthElem = depthMap.at(row, col);
-        std::cout << "The depth value of the pixel at (" << row << ", " << col << ") is " << depthElem.z
-                  << " mm." << std::endl;
+        std::cout << "The depth value of the pixel at (" << row << ", " << col << ") is "
+                  << depthElem.z << " mm." << std::endl;
     } catch (const std::exception& e) {
         std::cout << "Exception: " << e.what() << std::endl;
         camera.disconnect();
@@ -91,12 +92,12 @@ int main()
 
     // Obtain the point cloud.
     mmind::eye::PointCloud pointCloud = frame3D.getUntexturedPointCloud();
-    std::cout << "The size of the point cloud is" << pointCloud.width()
-              << " (width) * " << pointCloud.height() << " (height)." << std::endl;
+    std::cout << "The size of the point cloud is" << pointCloud.width() << " (width) * "
+              << pointCloud.height() << " (height)." << std::endl;
     try {
         mmind::eye::PointXYZ pointCloudElem = pointCloud.at(row, col);
-        std::cout << "The coordinates of the point corresponding to the pixel at (" << row << ", " << col
-                  << ") is X: " << pointCloudElem.x << " mm; Y: " << pointCloudElem.y
+        std::cout << "The coordinates of the point corresponding to the pixel at (" << row << ", "
+                  << col << ") is X: " << pointCloudElem.x << " mm; Y: " << pointCloudElem.y
                   << " mm; Z:" << pointCloudElem.z << " mm." << std::endl;
     } catch (const std::exception& e) {
         std::cout << "Exception: " << e.what() << std::endl;
