@@ -52,7 +52,10 @@ void capture(mmind::eye::Camera& camera, const std::string& suffix)
         suffix.empty() ? "TexturedPointCloud.ply" : "TexturedPointCloud_" + suffix + ".ply";
 
     mmind::eye::Frame2DAnd3D frame2DAnd3D;
-    showError(camera.capture2DAnd3D(frame2DAnd3D));
+    const auto status = camera.capture2DAnd3D(frame2DAnd3D);
+    showError(status);
+    if (!status.isOK())
+        return;
 
     // Save the obtained data with the set filenames.
     mmind::eye::Color2DImage colorImage = frame2DAnd3D.frame2D().getColorImage();

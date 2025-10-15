@@ -1,6 +1,6 @@
-# ConvertPointCloudWithNormalsToPcl Sample
+# ConvertPointCloudToPcl Sample
 
-With this sample, you can obtain the point cloud data with normals from the camera and convert it to the PCL data structure.
+With this sample, you can obtain the point cloud data from the profiler and convert it to the PCL data structure.
 
 If you have any questions or have anything to share, feel free to post on the [Mech-Mind Online Community](https://community.mech-mind.com/). The community also contains a [specific category for development with Mech-Eye SDK](https://community.mech-mind.com/c/mech-eye-sdk-development/19).
 
@@ -36,17 +36,17 @@ The following software are required to build this sample. Please download and in
 
 3. Run Cmake and set the source and build paths:
   
-   | Field                       | Path                                        |
-   | :-------------------------- | :------------------------------------------ |
-   | Where is the source code    | xxx/ConvertPointCloudWithNormalsToPcl       |
-   | Where to build the binaries | xxx/ConvertPointCloudWithNormalsToPcl/build |
+   | Field                       | Path                             |
+   | :-------------------------- | :------------------------------- |
+   | Where is the source code    | xxx/ConvertPointCloudToPcl       |
+   | Where to build the binaries | xxx/ConvertPointCloudToPcl/build |
 
 4. Click the **Configure** button. In the pop-up window, set the generator and platform according to the actual situation, and then click the **Finish** button.
 5. When the log displays **Configuring done**, click the **Generate** button. When the log displays **Generating done**, click the **Open Project** button.
 6. In Visual Studio toolbar, change the solution configuration from **Debug** to **Release**.
 7. In the **Solution Explorer** panel, right-click the sample, and select **Set as Startup Project**.
 8. Click the **Local Windows Debugger** button in the toolbar to run the sample.
-9. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to the `build` folder.
+9. Enter the index of the profiler to which you want to connect, and press the Enter key. The obtained files are saved to the `build` folder.
 
 ### Ubuntu
 
@@ -101,7 +101,7 @@ Ubuntu 18 or above is required.
 1. Navigate to the directory of the sample.
 
    ```bash
-   cd xxx/area_scan_3d_camera/Pcl/ConvertPointCloudWithNormalsToPcl/
+   cd xxx/profiler/Pcl/ConvertPointCloudToPcl/
    ```
 
 2. Configure and build the sample.
@@ -115,7 +115,7 @@ Ubuntu 18 or above is required.
 3. Run the sample.
 
    ```bash
-   sudo ./ConvertPointCloudWithNormalsToPcl
+   sudo ./ConvertPointCloudToPcl
    ```
 
-4. Enter the index of the camera to which you want to connect, and press the Enter key. The obtained files are saved to `/ConvertPointCloudWithNormalsToPcl/build`.
+4. Enter the index of the profiler to which you want to connect, and press the Enter key. The obtained files are saved to `/ConvertPointCloudToPcl/build`.

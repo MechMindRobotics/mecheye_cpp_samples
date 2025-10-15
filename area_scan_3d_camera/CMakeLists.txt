@@ -39,6 +39,7 @@ set(SAMPLES
     Advanced/SetParametersOfLaserCameras
     Advanced/SetParametersOfUHPCameras
     Advanced/TransformPointCloud
+    Advanced/WarmUp
     Util/GetCameraIntrinsics
     Util/PrintCameraInfo
     Util/SetPointCloudProcessingParameters

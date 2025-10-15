@@ -6,40 +6,60 @@ If you have any questions or have anything to share, feel free to post on the [M
 
 ## Sample List
 
-Currently, the following samples are provided.
+Samples are divided into the following categories: **Basic**, **Advanced**, **Util**, **Calibration**, and **Pcl**.
+
+* **Basic** samples: Connect to the profiler and acquire data.
+* **Advanced** samples: Acquire data in more complicated manners and set model-specific parameters.
+* **Util** samples: Obtain profiler information and set common parameters.
+* **Calibration** samples: perform multi profiler calibration.
+* **Pcl** samples: Use the PCL library to convert data structure.
 
 The samples marked with `(OpenCV)` require [OpenCV](https://opencv.org/releases/) to be installed.  
+The samples marked with `(PCL)` require [PCL](https://github.com/PointCloudLibrary/pcl/releases) to be installed.  
 
-* [TriggerWithSoftwareAndFixedRate](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerWithSoftwareAndFixedRate) `(OpenCV)`  
-  Trigger data acquisition with signals input from software, trigger line scans at a fixed rate, and then retrieve and save the acquired data.
-* [TriggerWithExternalDeviceAndFixedRate](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerWithExternalDeviceAndFixedRate) `(OpenCV)`  
-  Trigger data acquisition with signals input from the external device, trigger line scans at a fixed rate, and then retrieve and save the acquired data.
-* [TriggerWithSoftwareAndEncoder](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerWithSoftwareAndEncoder) `(OpenCV)`  
-  Trigger data acquisition with signals input from software, trigger line scans with signals input from the encoder, and then retrieve and save the acquired data.
-* [TriggerWithExternalDeviceAndEncoder](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerWithExternalDeviceAndEncoder) `(OpenCV)`  
-  Trigger data acquisition with signals input from the external device, trigger line scans with signals input from the encoder, and then retrieve and save the acquired data.
-* [TriggerMultipleProfilersSimultaneously](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerMultipleProfilersSimultaneously) `(OpenCV)`  
-  Trigger multiple laser profilers to acquire data asynchronously and retrieve the acquired data.
-* [TriggerNonStopAcquisition](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TriggerNonStopAcquisition) `(OpenCV)`  
-  Trigger non-stop acquisition, and then retrieve and save the acquired data.
-* [BlindSpotFiltering](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/BlindSpotFiltering) `(OpenCV)`  
-  Detect and remove the false data caused by blind spots and obtain the filtered profile data.
-* [NoiseRemoval](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/NoiseRemoval) `(OpenCV)`  
-  Remove the noise in the depth data and obtain the filtered profile data.
-* [ProfileAlignment](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/ProfileAlignment) `(OpenCV)`  
-  Correct the X-axis and Z-axis vibrations in the profiles (aligning the profiles) and obtain the corrected profile data.
-* [RenderDepthMap](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/RenderDepthMap) `(OpenCV)`  
-  Obtain and save the depth map rendered with the jet color scheme.
-* [TransformPointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/TransformPointCloud)  
-  Obtain and save the point clouds in the custom reference frame.
-* [ManageUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/ManageUserSets)  
-  Manage parameter groups, such as obtaining the names of all parameter groups, adding a parameter group, switching the parameter group, and saving parameter settings to the parameter group.
-* [PrintProfilerStatus](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/PrintProfilerStatus)  
-  Obtain and print the laser profiler's information, such as model, serial number, firmware version, and temperatures.
-* [RegisterProfilerEvent](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/RegisterProfilerEvent)  
-  Define and register the callback function for monitoring laser profiler events.
-* [UseVirtualDevice](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/UseVirtualDevice) `(OpenCV)`  
-  Acquire the profile data stored in a virtual device, generate the intensity image and depth map, and save the images.
+* **Basic**
+  * [TriggerWithSoftwareAndFixedRate](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Basic/TriggerWithSoftwareAndFixedRate) `(OpenCV)`  
+    Trigger data acquisition with signals input from software, trigger line scans at a fixed rate, and then retrieve and save the acquired data.
+  * [TriggerWithExternalDeviceAndFixedRate](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Basic/TriggerWithExternalDeviceAndFixedRate) `(OpenCV)`  
+    Trigger data acquisition with signals input from the external device, trigger line scans at a fixed rate, and then retrieve and save the acquired data.
+  * [TriggerWithSoftwareAndEncoder](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Basic/TriggerWithSoftwareAndEncoder) `(OpenCV)`  
+    Trigger data acquisition with signals input from software, trigger line scans with signals input from the encoder, and then retrieve and save the acquired data.
+  * [TriggerWithExternalDeviceAndEncoder](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Basdic/TriggerWithExternalDeviceAndEncoder) `(OpenCV)`  
+    Trigger data acquisition with signals input from the external device, trigger line scans with signals input from the encoder, and then retrieve and save the acquired data.
+  * [TriggerNonStopAcquisition](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Basic/TriggerNonStopAcquisition) `(OpenCV)`  
+    Trigger non-stop acquisition, and then retrieve and save the acquired data.
+* **Advanced**
+  * [TriggerMultipleProfilersSimultaneously](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Advanced/TriggerMultipleProfilersSimultaneously) `(OpenCV)`  
+    Trigger multiple laser profilers to acquire data asynchronously and retrieve the acquired data.
+  * [BlindSpotFiltering](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Advanced/BlindSpotFiltering) `(OpenCV)`  
+    Detect and remove the false data caused by blind spots and obtain the filtered profile data.
+  * [NoiseRemoval](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Advanced/NoiseRemoval) `(OpenCV)`  
+    Remove the noise in the depth data and obtain the filtered profile data.
+  * [ProfileAlignment](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Advanced/ProfileAlignment) `(OpenCV)`  
+    Correct the X-axis and Z-axis vibrations in the profiles (aligning the profiles) and obtain the corrected profile data.
+  * [RegisterProfilerEvent](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Advanced/RegisterProfilerEvent)  
+    Define and register the callback function for monitoring laser profiler events.
+  * [TransformPointCloud](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Advanced/TransformPointCloud)  
+    Obtain and save the point clouds in the custom reference frame.
+  * [UseVirtualDevice](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Advanced/UseVirtualDevice) `(OpenCV)`  
+    Acquire the profile data stored in a virtual device, generate the intensity image and depth map, and save the images.
+  * [WarmUp](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Advanced/WarmUp) `(OpenCV)`  
+    Periodically trigger data acquisition for stabilization.
+* **Util**
+  * [RenderDepthMap](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Util/RenderDepthMap) `(OpenCV)`  
+    Obtain and save the depth map rendered with the jet color scheme.
+  * [ManageUserSets](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Util/ManageUserSets)  
+    Manage parameter groups, such as obtaining the names of all parameter groups, adding a parameter group, switching the parameter group, and saving parameter settings to the parameter group.
+  * [PrintProfilerStatus](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Util/PrintProfilerStatus)  
+    Obtain and print the laser profiler's information, such as model, serial number, firmware version, and temperatures.
+  * [HandleNanAndNegativeInDepth](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Util/HandleNanAndNegativeInDepth) `(OpenCV)`  
+    Trigger data acquisition and handle NaN and negative values in depth data.
+* **Calibration**
+  * [MultipleProfilersCalibration](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Calibration/MultipleProfilersCalibration) `(OpenCV)`  
+    Calibrate multiple profilers that simultaneously scan the same target object, and output the calibration results and errors, stitching results, the stitched depth map, and the stitched point cloud.
+* **Pcl**
+  * [ConvertPointCloudToPcl](https://github.com/MechMindRobotics/mecheye_cpp_samples/tree/master/profiler/Pcl/ConvertPointCloudToPCL) `(PCL)`  
+    Obtain the point cloud data from the profiler and convert it to the PCL data structure.
 
 ## Build the Samples
 
