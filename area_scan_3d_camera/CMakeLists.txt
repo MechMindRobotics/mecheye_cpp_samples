@@ -12,6 +12,9 @@ endif()
 
 option(USE_OPENCV "Enable samples which depend on OpenCV" ON)
 option(USE_PCL "Enable samples which depend on Point Cloud Library (PCL)" ON)
+if(CMAKE_HOST_WIN32)
+  add_definitions(-DNOMINMAX)
+endif()
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
   set(USE_HALCON FALSE)
   add_compile_options(-mno-outline-atomics)
@@ -28,6 +31,7 @@ set(SAMPLES
     Basic/CapturePointCloud
     Basic/CapturePointCloudWithNormals
     Basic/SaveVirtualDevice
+    Advanced/CaptureDepthSource2DImage
     Advanced/CaptureStereo2DImages
     Advanced/RenderDepthMap
     Advanced/ConvertDepthMapToPointCloud
@@ -60,6 +64,7 @@ set(PCL_DEPENDING
 
 set(OpenCV_DEPENDING
     Capture2DImage
+  CaptureDepthSource2DImage
     CaptureDepthMap
     RenderDepthMap
     CaptureStereo2DImages

@@ -168,6 +168,9 @@ void setParameters(mmind::eye::UserSet& userSet)
 
     // Set the "Scan Line Count" parameter (the number of lines to be scanned) to 1600
     showError(userSet.setIntValue(mmind::eye::scan_settings::ScanLineCount::name, 1600));
+    // Set the "Travel Speed" parameter to 100 mm/s. This value is used to calculate the
+    // Y-axis resolution and scan distance when line scan is triggered at a fixed rate.
+    showError(userSet.setFloatValue(mmind::eye::trigger_settings::TravelSpeed::name, 100.0));
 
     // Set the "Laser Power" parameter to 100
     showError(userSet.setIntValue(mmind::eye::brightness_settings::LaserPower::name, 100));
@@ -238,13 +241,39 @@ bool acquireProfileData(mmind::eye::Profiler& profiler, mmind::eye::ProfileBatch
 
     totalBatch.clear();
     totalBatch.reserve(captureLineCount);
+    const int kMaxEmptyRetrievalCount = 15; // About 3 s with 200 ms sleep
+    int emptyRetrievalCount = 0;
     while (totalBatch.height() < captureLineCount) {
         // Retrieve the profile data
         mmind::eye::ProfileBatch batch(dataWidth);
         status = profiler.retrieveBatchData(batch);
         if (status.isOK()) {
-            if (!totalBatch.append(batch))
+            if (batch.isEmpty()) {
+                ++emptyRetrievalCount;
+                if (emptyRetrievalCount >= kMaxEmptyRetrievalCount) {
+                    std::cout << "No new data received for " << emptyRetrievalCount
+                              << " consecutive retrievals. Stop waiting for data." << std::endl;
+                    break;
+                }
+            } else {
+                emptyRetrievalCount = 0;
+                if (!totalBatch.append(batch))
+                    break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        } else if (!isSoftwareTrigger &&
+                   status.errorCode ==
+                       mmind::eye::ErrorStatus::MMIND_STATUS_TIMEOUT_ERROR) {
+            // In external trigger mode, a retrieval timeout is expected when the trigger
+            // signal stops. Treat it the same as an empty retrieval instead of failing
+            // immediately. Other errors (e.g., device disconnect) should still cause
+            // failure.
+            ++emptyRetrievalCount;
+            if (emptyRetrievalCount >= kMaxEmptyRetrievalCount) {
+                std::cout << "No new data received for " << emptyRetrievalCount
+                          << " consecutive retrievals. Stop waiting for data." << std::endl;
                 break;
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
         } else {
             showError(status);

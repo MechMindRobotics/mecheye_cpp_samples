@@ -294,8 +294,8 @@ mmind::eye::DeviceInfo getDeviceInfo(mmind::eye::Profiler& profiler)
 
     std::cout << "Please confirm the following device settings:" << std::endl;
     std::cout << "--------------------------------------------" << std::endl;
-    std::cout << "1. X-Axis Resolution (um): " << float(xResolution / 1000) << std::endl;
-    std::cout << "2. Y-Axis Resolution (um): " << float(yResolution / 1000) << std::endl;
+    std::cout << "1. X-Axis Resolution (mm): " << float(xResolution / 1000) << std::endl;
+    std::cout << "2. Y-Axis Resolution (mm): " << float(yResolution / 1000) << std::endl;
     std::cout << "3. Downsampling Factor (X): " << downsampleX << std::endl;
     std::cout << "4. Downsampling Factor (Y): " << downsampleY << std::endl;
     std::cout << "5. Motion Direction Sign: " << directionPositive << std::endl;

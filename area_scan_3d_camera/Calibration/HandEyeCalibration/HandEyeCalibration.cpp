@@ -39,6 +39,7 @@ complete hand-eye calibration.
 #include "area_scan_3d_camera/Camera.h"
 #include "area_scan_3d_camera/api_util.h"
 #include "HandEyeCalibrationUtil.h"
+#include <iomanip>
 #include <opencv2/highgui/highgui.hpp>
 
 int main()
@@ -194,6 +195,19 @@ int main()
                 std::cout << "The extrinsic parameters are:" << std::endl;
                 std::cout << cameraToBase.toString() << std::endl;
                 saveExtrinsicParameters(cameraToBase.toString());
+            }
+            break;
+        }
+        case CommandType::GetCurrentImageFirstCorner:
+        {
+            mmind::eye::PointXYZ corner;
+            mmind::eye::ErrorStatus status =
+                calibration.extractCurrentImageFirstCorner(camera, corner);
+            showError(status);
+            if (status.isOK()) {
+                std::cout << "The first corner is: " << std::fixed << std::setprecision(3)
+                          << corner.x << ", " << corner.y << ", " << corner.z
+                          << std::endl;
             }
             break;
         }

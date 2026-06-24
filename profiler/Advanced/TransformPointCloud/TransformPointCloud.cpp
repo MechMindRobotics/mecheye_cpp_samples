@@ -107,6 +107,9 @@ void setParameters(mmind::eye::UserSet& userSet)
 
     // Set the "Scan Line Count" parameter (the number of lines to be scanned) to 1600
     showError(userSet.setIntValue(mmind::eye::scan_settings::ScanLineCount::name, 1600));
+    // Set the "Travel Speed" parameter to 100 mm/s. This value is used to calculate the
+    // Y-axis resolution and scan distance when line scan is triggered at a fixed rate.
+    showError(userSet.setFloatValue(mmind::eye::trigger_settings::TravelSpeed::name, 100.0));
 }
 
 // Convert the profile data to an untextured point cloud in the custom reference frame and save it
@@ -135,6 +138,16 @@ void convertBatchToPointCloudWithTransformation(
         showError(status);
         return;
     }
+
+    double scanDistance{};
+    status = userSet.getFloatValue(mmind::eye::scan_settings::ScanDistance::name, scanDistance);
+    if (!status.isOK()) {
+        showError(status);
+        return;
+    }
+    std::cout << "Current Y-axis resolution: " << yResolution
+              << " um, scan distance: " << scanDistance << " um." << std::endl;
+
     // // Uncomment the following lines for custom Y Unit
     // // Prompt to enter the desired encoder resolution, which is the travel distance corresponding
     // // to

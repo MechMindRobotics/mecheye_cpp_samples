@@ -61,6 +61,29 @@ int main()
         mmind::eye::pointcloud_processing_setting::NoiseRemoval::name,
         static_cast<int>(mmind::eye::pointcloud_processing_setting::NoiseRemoval::Value::Normal)));
     showError(currentUserSet.setEnumValue(
+        mmind::eye::pointcloud_processing_setting::DepthSmooth::name,
+        static_cast<int>(mmind::eye::pointcloud_processing_setting::DepthSmooth::Value::Normal)));
+    showError(currentUserSet.setEnumValue(
+        mmind::eye::pointcloud_processing_setting::DepthHoleFilling::name,
+        static_cast<int>(
+            mmind::eye::pointcloud_processing_setting::DepthHoleFilling::Value::Normal)));
+    showError(currentUserSet.setEnumValue(
+        mmind::eye::pointcloud_processing_setting::DepthSurfaceNoiseRemoval::name,
+        static_cast<int>(
+            mmind::eye::pointcloud_processing_setting::DepthSurfaceNoiseRemoval::Value::Normal)));
+    showError(currentUserSet.setEnumValue(
+        mmind::eye::pointcloud_processing_setting::PhaseClusterOutlierRemoval::name,
+        static_cast<int>(
+            mmind::eye::pointcloud_processing_setting::PhaseClusterOutlierRemoval::Value::L5)));
+    showError(currentUserSet.setEnumValue(
+        mmind::eye::pointcloud_processing_setting::SpuriousPhaseRemoval::name,
+        static_cast<int>(
+            mmind::eye::pointcloud_processing_setting::SpuriousPhaseRemoval::Value::Normal)));
+    showError(currentUserSet.setEnumValue(
+        mmind::eye::pointcloud_processing_setting::LargeGradNoiseRemoval::name,
+        static_cast<int>(
+            mmind::eye::pointcloud_processing_setting::LargeGradNoiseRemoval::Value::Normal)));
+    showError(currentUserSet.setEnumValue(
         mmind::eye::pointcloud_processing_setting::OutlierRemoval::name,
         static_cast<int>(
             mmind::eye::pointcloud_processing_setting::OutlierRemoval::Value::Normal)));
@@ -71,12 +94,34 @@ int main()
 
     int surfaceSmoothing = 0;
     int noiseRemoval = 0;
+    int depthSmooth = 0;
+    int depthHoleFilling = 0;
+    int depthSurfaceNoiseRemoval = 0;
+    int phaseClusterOutlierRemoval = 0;
+    int spuriousPhaseRemoval = 0;
+    int largeGradNoiseRemoval = 0;
     int outlierRemoval = 0;
     int edgePreservation = 0;
     showError(currentUserSet.getEnumValue(
         mmind::eye::pointcloud_processing_setting::SurfaceSmoothing::name, surfaceSmoothing));
     showError(currentUserSet.getEnumValue(
         mmind::eye::pointcloud_processing_setting::NoiseRemoval::name, noiseRemoval));
+    showError(currentUserSet.getEnumValue(
+        mmind::eye::pointcloud_processing_setting::DepthSmooth::name, depthSmooth));
+    showError(currentUserSet.getEnumValue(
+        mmind::eye::pointcloud_processing_setting::DepthHoleFilling::name, depthHoleFilling));
+    showError(currentUserSet.getEnumValue(
+        mmind::eye::pointcloud_processing_setting::DepthSurfaceNoiseRemoval::name,
+        depthSurfaceNoiseRemoval));
+    showError(currentUserSet.getEnumValue(
+        mmind::eye::pointcloud_processing_setting::PhaseClusterOutlierRemoval::name,
+        phaseClusterOutlierRemoval));
+    showError(currentUserSet.getEnumValue(
+        mmind::eye::pointcloud_processing_setting::SpuriousPhaseRemoval::name,
+        spuriousPhaseRemoval));
+    showError(currentUserSet.getEnumValue(
+        mmind::eye::pointcloud_processing_setting::LargeGradNoiseRemoval::name,
+        largeGradNoiseRemoval));
     showError(currentUserSet.getEnumValue(
         mmind::eye::pointcloud_processing_setting::OutlierRemoval::name, outlierRemoval));
     showError(currentUserSet.getEnumValue(
@@ -85,6 +130,20 @@ int main()
     std::cout << "Point Cloud Surface Smoothing: " << surfaceSmoothing
               << " (0: Off, 1: Weak, 2: Normal, 3: Strong)" << std::endl;
     std::cout << "Point Cloud Noise Removal: " << noiseRemoval
+              << " (0: Off, 1: Weak, 2: Normal, 3: Strong)" << std::endl;
+    std::cout << "Depth Smooth: " << depthSmooth << " (0: Off, 1: Weak, 2: Normal, 3: Strong)"
+              << std::endl;
+    std::cout << "Depth Hole Filling: " << depthHoleFilling
+              << " (0: Off, 1: Weak, 2: Normal, 3: Strong)" << std::endl;
+    std::cout << "Depth Surface Noise Removal: " << depthSurfaceNoiseRemoval
+              << " (0: Off, 1: Weak, 2: Normal, 3: Strong)" << std::endl;
+    std::cout << "Phase Cluster Outlier Removal: " << phaseClusterOutlierRemoval
+              << " (0: Off, 1: L1, 2: L2, 3: L3, 4: L4, 5: L5, 6: L6, 7: L7, 8: L8, 9: L9, 10: "
+                 "L10)"
+              << std::endl;
+    std::cout << "Spurious Phase Removal: " << spuriousPhaseRemoval
+              << " (0: Off, 1: Weak, 2: Normal, 3: Strong)" << std::endl;
+    std::cout << "Large Gradient Noise Removal: " << largeGradNoiseRemoval
               << " (0: Off, 1: Weak, 2: Normal, 3: Strong)" << std::endl;
     std::cout << "Point Cloud Outlier Removal: " << outlierRemoval
               << " (0: Off, 1: Weak, 2: Normal, 3: Strong)" << std::endl;

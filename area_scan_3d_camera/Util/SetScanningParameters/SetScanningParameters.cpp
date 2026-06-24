@@ -34,6 +34,7 @@
 With this sample, you can set the parameters in the "3D Parameters", "2D Parameters", and "ROI"
 categories.
 */
+#include <algorithm>
 #include "area_scan_3d_camera/Camera.h"
 #include "area_scan_3d_camera/api_util.h"
 #include "area_scan_3d_camera/parameters/Scanning3D.h"
@@ -52,23 +53,90 @@ int main()
     printCameraInfo(cameraInfo);
 
     mmind::eye::UserSet& currentUserSet = camera.currentUserSet();
+    std::vector<std::string> availableParams;
+    showError(currentUserSet.getAvailableParameterNames(availableParams));
+    auto hasParam = [&availableParams](const std::string& name) {
+        return std::find(availableParams.begin(), availableParams.end(), name) !=
+               availableParams.end();
+    };
 
     // Set the exposure times for acquiring depth information.
-    showError(currentUserSet.setFloatArrayValue(
-        mmind::eye::scanning3d_setting::ExposureSequence::name, std::vector<double>{5}));
-    //    showError(currentUserSet.setFloatArrayValue(
-    //        mmind::eye::scanning3d_setting::ExposureSequence::name, std::vector<double>{5, 10}));
+    if (hasParam(mmind::eye::scanning3d_setting::ExposureCount::name)) {
+        showError(
+            currentUserSet.setIntValue(mmind::eye::scanning3d_setting::ExposureCount::name, 2));
+        int exposureCount = 1;
+        showError(currentUserSet.getIntValue(mmind::eye::scanning3d_setting::ExposureCount::name,
+                                             exposureCount));
+        std::cout << "3D scanning exposure count: " << exposureCount << "." << std::endl;
+    }
 
-    // Obtain the current exposure times for acquiring depth information to check if the setting was
-    // successful.
-    std::vector<double> exposureSequence;
-    showError(currentUserSet.getFloatArrayValue(
-        mmind::eye::scanning3d_setting::ExposureSequence::name, exposureSequence));
-    std::cout << "3D scanning exposure multiplier : " << exposureSequence.size() << "."
-              << std::endl;
-    for (size_t i = 0; i < exposureSequence.size(); i++) {
-        std::cout << "3D scanning exposure time " << i + 1 << ": " << exposureSequence[i] << " ms."
+    // Some models provide exposure group parameters. Use "GroupExposureSelector" to select the
+    // target group, and then set the group exposure time, gain, and power level.
+    // If HDR parameters can be set through the "GroupExposureSelector" method,
+    // then you will not be able to set the 3D exposure time through the "ExposureSequence."
+    if (hasParam(mmind::eye::scanning3d_setting::GroupExposureSelector::name) &&
+        hasParam(mmind::eye::scanning3d_setting::GroupExposureTime::name) &&
+        hasParam(mmind::eye::scanning3d_setting::GroupGain::name) &&
+        hasParam(mmind::eye::scanning3d_setting::GroupDlpPowerLevel::name)) {
+        showError(currentUserSet.setEnumValue(
+            mmind::eye::scanning3d_setting::GroupExposureSelector::name,
+            static_cast<int>(
+                mmind::eye::scanning3d_setting::GroupExposureSelector::Value::Exposure1)));
+        showError(currentUserSet.setFloatValue(
+            mmind::eye::scanning3d_setting::GroupExposureTime::name, 10));
+        showError(
+            currentUserSet.setFloatValue(mmind::eye::scanning3d_setting::GroupGain::name, 2.0));
+        showError(currentUserSet.setIntValue(
+            mmind::eye::scanning3d_setting::GroupDlpPowerLevel::name, 80));
+
+        double groupExposureTime = 0.0;
+        double groupGain = 0.0;
+        int groupDlpPowerLevel = 0;
+        showError(currentUserSet.getFloatValue(
+            mmind::eye::scanning3d_setting::GroupExposureTime::name, groupExposureTime));
+        showError(currentUserSet.getFloatValue(mmind::eye::scanning3d_setting::GroupGain::name,
+                                               groupGain));
+        showError(currentUserSet.getIntValue(
+            mmind::eye::scanning3d_setting::GroupDlpPowerLevel::name, groupDlpPowerLevel));
+        std::cout << "Group Exposure1: exposure time " << groupExposureTime << " ms, gain "
+                  << groupGain << " dB, DLP power level " << groupDlpPowerLevel << "." << std::endl;
+
+        showError(currentUserSet.setEnumValue(
+            mmind::eye::scanning3d_setting::GroupExposureSelector::name,
+            static_cast<int>(
+                mmind::eye::scanning3d_setting::GroupExposureSelector::Value::Exposure2)));
+        showError(currentUserSet.setFloatValue(
+            mmind::eye::scanning3d_setting::GroupExposureTime::name, 5));
+        showError(
+            currentUserSet.setFloatValue(mmind::eye::scanning3d_setting::GroupGain::name, 0.0));
+        showError(currentUserSet.setIntValue(
+            mmind::eye::scanning3d_setting::GroupDlpPowerLevel::name, 60));
+
+        showError(currentUserSet.getFloatValue(
+            mmind::eye::scanning3d_setting::GroupExposureTime::name, groupExposureTime));
+        showError(currentUserSet.getFloatValue(mmind::eye::scanning3d_setting::GroupGain::name,
+                                               groupGain));
+        showError(currentUserSet.getIntValue(
+            mmind::eye::scanning3d_setting::GroupDlpPowerLevel::name, groupDlpPowerLevel));
+        std::cout << "Group Exposure2: exposure time " << groupExposureTime << " ms, gain "
+                  << groupGain << " dB, DLP power level " << groupDlpPowerLevel << "." << std::endl;
+    } else if (hasParam(mmind::eye::scanning3d_setting::ExposureSequence::name)) {
+        showError(currentUserSet.setFloatArrayValue(
+            mmind::eye::scanning3d_setting::ExposureSequence::name, std::vector<double>{5}));
+        showError(currentUserSet.setFloatArrayValue(
+            mmind::eye::scanning3d_setting::ExposureSequence::name, std::vector<double>{5, 10}));
+
+        // Obtain the current exposure times for acquiring depth information to check if the setting
+        // was successful.
+        std::vector<double> exposureSequence;
+        showError(currentUserSet.getFloatArrayValue(
+            mmind::eye::scanning3d_setting::ExposureSequence::name, exposureSequence));
+        std::cout << "3D scanning exposure multiplier : " << exposureSequence.size() << "."
                   << std::endl;
+        for (size_t i = 0; i < exposureSequence.size(); i++) {
+            std::cout << "3D scanning exposure time " << i + 1 << ": " << exposureSequence[i]
+                      << "ms." << std::endl;
+        }
     }
 
     // Set the ROI for the depth map and point cloud, and then obtain the parameter value to check
@@ -94,7 +162,7 @@ int main()
     // adjusting the exposure mode for acquiring the 2D images (depth source). Uncomment the
     // following lines to set this parameter to "Timed".
     // showError(currentUserSet.setEnumValue(
-    //     mmind::eye::scanning2d_setting::ExposureMode::name,
+    //     mmind::eye::scanning2d_setting::DepthSourceExposureMode::name,
     //     static_cast<int>(mmind::eye::scanning2d_setting::DepthSourceExposureMode::Value::Timed)));
 
     // You can also use the projector for supplemental light when acquiring the 2D image / 2D images
@@ -107,7 +175,7 @@ int main()
     // DEEP and LSR series: Uncomment the following lines to set the exposure mode to "Flash" for
     // supplemental light.
     // showError(currentUserSet.setEnumValue(
-    //     mmind::eye::scanning2d_setting::ExposureMode::name,
+    //     mmind::eye::scanning2d_setting::DepthSourceExposureMode::name,
     //     static_cast<int>(mmind::eye::scanning2d_setting::DepthSourceExposureMode::Value::Flash)));
 
     // The following models also provide a "FlashAcquisitionMode" when using the flash exposure
@@ -125,7 +193,8 @@ int main()
     //     20));
 
     // Uncomment the following lines to check the values of the "FlashAcquisitionMode" and
-    // "FlashExposureTime" parameters. int flashAcquisitionMode = 0;
+    // "FlashExposureTime" parameters.
+    // int flashAcquisitionMode = 0;
     // showError(currentUserSet.getEnumValue(
     //     mmind::eye::scanning2d_setting::FlashAcquisitionMode::name, flashAcquisitionMode));
 
@@ -150,7 +219,27 @@ int main()
 
     // double scan2dGain{};
     // showError(currentUserSet.getFloatValue(mmind::eye::scanning2d_setting::Gain::name,
-    // scan2dGain)); std::cout << "2D image gain: " << scan2dGain << " dB." << std::endl;
+    //                                        scan2dGain));
+    // std::cout << "2D image gain: " << scan2dGain << " dB." << std::endl;
+
+    showError(
+        currentUserSet.setFloatValue(mmind::eye::scanning2d_setting::PatternRoleGain::name, 2.0));
+    showError(currentUserSet.setFloatValue(mmind::eye::scanning2d_setting::FlashGain::name, 3.0));
+    showError(
+        currentUserSet.setIntValue(mmind::eye::scanning2d_setting::FlashPowerLevel::name, 75));
+
+    double patternRoleGain{};
+    showError(currentUserSet.getFloatValue(mmind::eye::scanning2d_setting::PatternRoleGain::name,
+                                           patternRoleGain));
+    double flashGain{};
+    showError(
+        currentUserSet.getFloatValue(mmind::eye::scanning2d_setting::FlashGain::name, flashGain));
+    int flashPowerLevel{};
+    showError(currentUserSet.getIntValue(mmind::eye::scanning2d_setting::FlashPowerLevel::name,
+                                         flashPowerLevel));
+    std::cout << "2D scanning pattern role gain: " << patternRoleGain
+              << "dB, flash gain: " << flashGain << " dB, flash power level:" << flashPowerLevel
+              << "%. " << std::endl;
 
     int exposureMode2D = 0;
     showError(currentUserSet.getEnumValue(mmind::eye::scanning2d_setting::ExposureMode::name,

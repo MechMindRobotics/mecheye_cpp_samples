@@ -143,6 +143,9 @@ void setParameters(mmind::eye::UserSet& userSet)
 
     // Set the "Scan Line Count" parameter (the number of lines to be scanned) to 1600
     showError(userSet.setIntValue(mmind::eye::scan_settings::ScanLineCount::name, 1600));
+    // Set the "Travel Speed" parameter to 100 mm/s. This value is used to calculate the
+    // Y-axis resolution and scan distance when line scan is triggered at a fixed rate.
+    showError(userSet.setFloatValue(mmind::eye::trigger_settings::TravelSpeed::name, 100.0));
 
     // Set the "Laser Power" parameter to 100
     showError(userSet.setIntValue(mmind::eye::brightness_settings::LaserPower::name, 100));

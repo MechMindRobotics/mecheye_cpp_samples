@@ -10,7 +10,14 @@
 
 #define PI 3.14159265
 namespace {
-enum class CommandType { AddPose, Calibrate, GetPatternImg, GetOriginImg, Unknown };
+enum class CommandType {
+    AddPose,
+    Calibrate,
+    GetPatternImg,
+    GetOriginImg,
+    GetCurrentImageFirstCorner,
+    Unknown
+};
 // Obtain keyboard input.
 std::string getInputCommand()
 {
@@ -121,6 +128,7 @@ CommandType enterCommand()
     std::cout << "T: obtain the 2D image with feature recognition result" << std::endl;
     std::cout << "A: enter the current robot pose" << std::endl;
     std::cout << "C: calculate extrinsic parameters" << std::endl;
+    std::cout << "F: obtain the first corner of current image" << std::endl;
     const auto command = getInputCommand();
     if (command == "P" || command == "p") {
         return CommandType::GetOriginImg;
@@ -133,6 +141,9 @@ CommandType enterCommand()
     }
     if (command == "C" || command == "c") {
         return CommandType::Calibrate;
+    }
+    if (command == "F" || command == "f") {
+        return CommandType::GetCurrentImageFirstCorner;
     }
     return CommandType::Unknown;
 }

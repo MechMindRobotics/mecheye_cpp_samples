@@ -12,6 +12,9 @@ endif()
 
 option(USE_OPENCV "Enable samples which depend on OpenCV" ON)
 option(USE_PCL "Enable samples which depend on Point Cloud Library (PCL)" ON)
+if(CMAKE_HOST_WIN32)
+    add_definitions(-DNOMINMAX)
+endif()
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
     add_compile_options(-mno-outline-atomics)
 endif()
@@ -31,6 +34,8 @@ set(SAMPLES
     Basic/TriggerWithSoftwareAndEncoder
     Basic/TriggerWithSoftwareAndFixedRate
     Calibration/MultipleProfilersCalibration
+    Calibration/MoveDirVecCalibration
+    Calibration/WidthExpansionCalibration
     Util/ManageUserSets
     Util/PrintProfilerStatus
     Util/RenderDepthMap
@@ -55,6 +60,8 @@ set(OpenCV_DEPENDING
     RenderDepthMap
     NoiseRemoval
     MultipleProfilersCalibration
+    MoveDirVecCalibration
+    WidthExpansionCalibration
     HandleNanAndNegativeInDepth
 )
 

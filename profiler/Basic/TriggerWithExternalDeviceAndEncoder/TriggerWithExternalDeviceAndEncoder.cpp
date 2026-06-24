@@ -99,7 +99,7 @@ void setEncoderTrigger(
     mmind::eye::UserSet& userSet,
     mmind::eye::trigger_settings::EncoderTriggerDirection::Value triggerDirection,
     mmind::eye::trigger_settings::EncoderTriggerSignalCountingMode::Value triggerSignalCountingMode,
-    int triggerInterval)
+    int triggerInterval, double encoderResolution)
 {
     // Set the "Line Scan Trigger Source" parameter to "Encoder"
     showError(userSet.setEnumValue(
@@ -115,6 +115,10 @@ void setEncoderTrigger(
     // Set the (encoder) "Trigger Interval" parameter to 10
     showError(userSet.setIntValue(mmind::eye::trigger_settings::EncoderTriggerInterval::name,
                                   triggerInterval));
+    // Set the "Encoder Resolution" parameter (unit: μm). This is the travel distance
+    // corresponding to one quadrature signal.
+    showError(userSet.setFloatValue(mmind::eye::trigger_settings::EncoderResolution::name,
+                                    encoderResolution));
 }
 
 void setParameters(mmind::eye::UserSet& userSet)
@@ -160,9 +164,10 @@ void setParameters(mmind::eye::UserSet& userSet)
     // Set the (encoder) "Trigger Direction" parameter to "Both"
     // Set the (encoder) "Trigger Signal Counting Mode" parameter to "1×"
     // Set the (encoder) "Trigger Interval" parameter to 10
+    // Set the "Encoder Resolution" parameter to 5 μm
     setEncoderTrigger(
         userSet, mmind::eye::trigger_settings::EncoderTriggerDirection::Value::Both,
-        mmind::eye::trigger_settings::EncoderTriggerSignalCountingMode::Value::Multiple_1, 10);
+        mmind::eye::trigger_settings::EncoderTriggerSignalCountingMode::Value::Multiple_1, 10, 5);
 
     // Set the "Scan Line Count" parameter (the number of lines to be scanned) to 1600
     showError(userSet.setIntValue(mmind::eye::scan_settings::ScanLineCount::name, 1600));

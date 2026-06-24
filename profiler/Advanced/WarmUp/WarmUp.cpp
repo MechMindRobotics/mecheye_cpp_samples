@@ -1,4 +1,4 @@
-﻿/*******************************************************************************
+/*******************************************************************************
  *BSD 3-Clause License
  *
  *Copyright (c) 2016-2025, Mech-Mind Robotics Technologies Co., Ltd.
@@ -59,22 +59,19 @@ for stabilization and not saved.
 
 namespace {
 std::atomic<bool> kStopWarmup{false};
-const int kMinScanLineNum = 1;
-const int kMaxScanLineNum = 20000;
+constexpr int kMinScanLineNum = 1;
+constexpr int kMaxScanLineNum = 20000;
 constexpr int kDefaultWarmupMinutes = 30;
 constexpr int kDefaultIntervalSeconds = 5;
 constexpr int kMinWarmupMinutes = 30;
 constexpr int kMaxWarmupMinutes = 90;
 constexpr int kMinIntervalSeconds = 3;
 constexpr int kMaxIntervalSeconds = 30;
-std::condition_variable* g_captureCvPtr = nullptr;
 
 void handleInterrupt(int)
 {
-    std::cout << "\n[Interrupt] Ctrl+C received. Preparing to stop warmup..." << std::endl;
+    std::cout << "\n[Interrupt] Ctrl+C received. Prepare to stop warmup..." << std::endl;
     kStopWarmup.store(true);
-    if (g_captureCvPtr)
-        g_captureCvPtr->notify_all();
 }
 } // namespace
 
@@ -135,7 +132,6 @@ public:
         }
         std::cout << "LNX Profiler warmup finished." << std::endl;
     }
-    std::condition_variable& getConditionVariable() { return _captureCv; }
     ~WarmUp() { cleanup(); }
 
 private:
@@ -191,7 +187,7 @@ private:
                     break;
                 } else {
                     std::cout << "[Error] Scan line count must be in range " << kMinScanLineNum
-                              << "–" << kMaxScanLineNum << "." << std::endl;
+                              << "-" << kMaxScanLineNum << "." << std::endl;
                 }
             } catch (...) {
                 std::cout << "[Error] Invalid input. Please enter a valid integer." << std::endl;
@@ -216,7 +212,7 @@ private:
                     break;
                 } else {
                     std::cout << "[Error] Software trigger rate must be in range "
-                              << _minSoftwareTriggerRate << "–" << _maxSoftwareTriggerRate << "."
+                              << _minSoftwareTriggerRate << "-" << _maxSoftwareTriggerRate << "."
                               << std::endl;
                 }
             } catch (...) {
@@ -295,7 +291,11 @@ private:
         const int totalWaitMs = _intervalSeconds * 1000;
 
         while (!kStopWarmup.load() && waitedMs < totalWaitMs) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(pollIntervalMs));
+            std::unique_lock<std::mutex> lock(_waitMutex);
+            if (_captureCv.wait_for(lock, std::chrono::milliseconds(pollIntervalMs),
+                                    [this] { return kStopWarmup.load(); })) {
+                return true;
+            }
             waitedMs += pollIntervalMs;
         }
         return kStopWarmup.load();
@@ -309,8 +309,10 @@ private:
 
     void finishCaptureSuccessfully()
     {
-        std::lock_guard<std::mutex> lock(_captureMutex);
-        _isCapturing = false;
+        {
+            std::lock_guard<std::mutex> lock(_captureMutex);
+            _isCapturing = false;
+        }
         _captureCv.notify_one();
     }
 
@@ -477,6 +479,7 @@ private:
     mmind::eye::Profiler _profiler;
     std::atomic<bool> _isCapturing{false};
     std::mutex _captureMutex;
+    std::mutex _waitMutex;
     std::condition_variable _captureCv;
     std::string _originalUserSet;
     std::string _warmupUserSet;
@@ -558,10 +561,12 @@ int main(int argc, char** argv)
 {
     CommandLineArgs args = parseArguments(argc, argv);
     std::signal(SIGINT, handleInterrupt);
+
     WarmUp warmup(args.warmupTimeMinutes, args.sampleIntervalSeconds);
-    g_captureCvPtr = &(warmup.getConditionVariable());
+
     if (!warmup.init())
         return -1;
+
     warmup.run();
     return 0;
 }
